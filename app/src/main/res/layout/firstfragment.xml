@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:text="签到"
+        android:textColor="#0f0"
+        android:textSize="30dp"
+
+        />
+
+   <Button
+       android:id="@+id/sleep"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="睡觉"
+       android:textSize="20dp"
+       android:layout_gravity="center"
+       android:gravity="center"
+       android:textColor="@color/sleep"
+       android:background="@android:color/transparent"
+    />
+    <Button
+        android:id="@+id/getup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="起床"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/sleep"
+        android:background="@android:color/transparent"
+        />
+
+
+
+</LinearLayout>

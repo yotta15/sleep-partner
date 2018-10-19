@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/from"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/login"
+        android:hint="输入用户名" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_toLeftOf="@+id/logout"
+        android:text="登录"
+        android:textSize="8pt" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dp"
+        android:enabled="false"
+        android:text="注销"
+        android:textSize="8pt" />
+
+    <TextView
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/login"
+        android:background="@color/space" />
+
+    <EditText
+        android:id="@+id/to"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line1"
+        android:hint="收件人"
+        android:inputType="textEmailAddress" />
+
+    <Spinner
+        android:id="@+id/receiverlist"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line1"
+
+
+        android:layout_marginTop="10dp"
+
+        android:layout_toLeftOf="@+id/shoujian"
+        android:entries="@array/receiverList">
+
+    </Spinner>
+
+    <Button
+        android:id="@+id/shoujian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/line1"
+        android:text="收件人"
+        android:textSize="15dp" />
+
+    <EditText
+        android:id="@+id/subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/to"
+        android:hint="发件人" />
+
+    <EditText
+        android:id="@+id/theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subject"
+        android:hint="主题" />
+
+    <EditText
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_below="@id/theme"
+        android:layout_gravity="center_horizontal"
+
+        android:gravity="top"
+        android:hint="@string/nchu" />
+
+    <TextView
+        android:id="@+id/show"
+        android:layout_width="300dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/message"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/colorStatus" />
+
+    <Button
+
+        android:id="@+id/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/message"
+        android:layout_gravity="right"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/show"
+        android:enabled="false"
+        android:text="发送" />
+    <!--<include layout="@layout/tabbar"></include>-->
+</RelativeLayout>
