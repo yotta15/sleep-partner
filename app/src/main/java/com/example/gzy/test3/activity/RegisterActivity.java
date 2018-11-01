@@ -1,4 +1,4 @@
-package com.example.gzy.test3;
+package com.example.gzy.test3.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,8 +12,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
+
+import com.example.gzy.test3.R;
 
 import org.json.JSONObject;
 

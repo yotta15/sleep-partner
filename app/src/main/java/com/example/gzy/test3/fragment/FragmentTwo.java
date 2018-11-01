@@ -1,4 +1,4 @@
-package com.example.gzy.test3;
+package com.example.gzy.test3.fragment;
 
 import android.media.AudioAttributes;
 import android.media.SoundPool;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+
+
+import com.example.gzy.test3.R;
 
 import java.util.HashMap;
 

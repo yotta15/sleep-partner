@@ -1,10 +1,9 @@
-package com.example.gzy.test3;
+package com.example.gzy.test3.activity;
 
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -17,6 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.os.Bundle;
+
+import com.example.gzy.test3.R;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText username, password;

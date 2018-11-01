@@ -1,4 +1,4 @@
-package com.example.gzy.test3;
+package com.example.gzy.test3.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.example.gzy.test3.R;
+import com.example.gzy.test3.fragment.FragmentOne;
+import com.example.gzy.test3.fragment.FragmentThree;
+import com.example.gzy.test3.fragment.FragmentTwo;
 
 /**
  * Created by gzy on 2018/3/17.
