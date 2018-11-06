@@ -17,7 +17,6 @@ import com.example.gzy.test3.R;
 import java.util.HashMap;
 
 public class FragmentTwo extends Fragment implements View.OnClickListener {
-    private static final String TAG = "MainActivity";
     private GridLayout mGridLayout;
     private int columnCount; //列数
     private int screenWidth; //屏幕宽度
