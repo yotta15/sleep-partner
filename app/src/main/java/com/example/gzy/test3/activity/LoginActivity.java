@@ -19,6 +19,9 @@ import android.os.Bundle;
 import com.example.gzy.test3.R;
 import com.example.gzy.test3.presenter.LoginPresenterImpl;
 
+import cn.bmob.v3.Bmob;
+
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ILoginView {
 
     private EditText username, password;
@@ -37,6 +40,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //第一：默认初始化
+        Bmob.initialize(this, "5a5dcb5264e14c4fa9886e8511707ac0");
         username = (EditText) findViewById(R.id.username);
         username.addTextChangedListener(new TextWatcher() {
             @Override
@@ -113,26 +118,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.login:
                 loginPresenter.doLogin(username.getText().toString().trim(), password.getText().toString().trim());
-//                if (username.getText().toString().trim().equals(account)
-//                        && password.getText().toString().trim().equals(pwd)) {
-//
-//                    Intent intent = new Intent(LoginActivity.this, ThirdActivity.class);
-//                    startActivity(intent);
-//
-//                } else {//用户名huo密码错误
-//
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-//                    builder.setTitle("提示");
-//                    builder.setMessage("用户名或密码错误");
-//                    builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            dialogInterface.dismiss();
-//
-//                        }
-//                    });
-//                    builder.create().show();
-//                }
                 break;
             case R.id.register:
 // 注册按钮
@@ -177,9 +162,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (result) {
             Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, ThirdActivity.class));
-        } else
-            Toast.makeText(this, "Login Fail, code = " + code, Toast.LENGTH_SHORT).show();
+        } else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+            builder.setTitle("提示");
+            builder.setMessage("用户名或密码错误");
+            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+//            Toast.makeText(this, "Login Fail, code = " + code, Toast.LENGTH_SHORT).show();
+            });
+        }
 
-    }
-
+}
 }

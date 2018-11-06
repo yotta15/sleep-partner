@@ -9,6 +9,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //兼容6.0以上
+        useLibrary 'org.apache.http.legacy'
     }
     buildTypes {
         release {
@@ -29,6 +31,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
   //  androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //3.5.5：请务必查看下面注释[1]
+    compile 'cn.bmob.android:bmob-sdk:3.6.3'
+
     implementation 'com.ashokvarma.android:bottom-navigation-bar:1.3.1'
     implementation files('libs/MobCommons-2016.1012.1447.jar')
     implementation(name: 'SMSSDK-2.1.2', ext: 'aar')

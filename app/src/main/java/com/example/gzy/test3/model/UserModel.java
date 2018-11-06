@@ -1,6 +1,8 @@
 package com.example.gzy.test3.model;
 
-public class UserModel {
+import cn.bmob.v3.BmobObject;
+
+public class UserModel  extends BmobObject{
     private String name;
     private String passwd;
     private String sex;
