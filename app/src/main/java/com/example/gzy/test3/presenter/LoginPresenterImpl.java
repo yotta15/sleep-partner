@@ -30,15 +30,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
         user = new UserModel("mvp","mvp");
     }
 
-    @Override
-    public void changePwdOpenOrClose(boolean flag) {
-
-    }
-
-    @Override
-    public void clearText() {
-
-    }
 
     @Override
     public void doLogin(String name, String passwd) {
