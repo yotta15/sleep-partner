@@ -4,4 +4,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+
+    <dimen name="top_tab_height">30dp</dimen>
+    <dimen name="main_top_tab_text_size">20sp</dimen> <!--48px-->
+    <dimen name="main_line_height">2.7dp</dimen><!--8px-->
+    <dimen name="main_matrix_width">95dp</dimen>
+    <dimen name="text_size">32sp</dimen>
 </resources>

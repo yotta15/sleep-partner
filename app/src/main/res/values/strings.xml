@@ -7,5 +7,40 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+    <string name="bzy">白噪音</string>
+    <string name="music">音乐</string>
+    <string name="story">睡前故事</string>
+
+    <string-array name="musicName">
+        <item>I Figured You Out</item>
+        <item>3_00 AM</item>
+        <item>Light On</item>
+        <item>Weather</item>
+        <item>Song For Evangeline</item>
+        <item>Let It Be Me</item>
+        <item>Keys to My World</item>
+        <item>Ten Ton Digger</item>
+        <item>清平乐</item>
+        <item>空谷回声</item>
+        <item>月光边境</item>
+        <item>高山流水</item>
+    </string-array>
+
+    <string-array name="musicAuthor">
+        <item>Elliott Smith</item>
+        <item>Finding Hope</item>
+        <item>Mark Ballas</item>
+        <item>Novo Amor</item>
+        <item>Pajaro Sunrise</item>
+        <item>Rosie Thomas</item>
+        <item>The Candle Thieves</item>
+        <item>The Candle Thieves</item>
+        <item>关大洲</item>
+        <item>孔祥东</item>
+        <item>林海</item>
+        <item>于秋旋</item>
+    </string-array>
+
+
 
 </resources>
