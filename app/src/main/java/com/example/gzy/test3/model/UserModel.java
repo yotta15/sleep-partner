@@ -4,6 +4,7 @@ import cn.bmob.v3.BmobObject;
 
 public class UserModel  extends BmobObject{
     private String name;
+    private String phone;
     private String passwd;
     private String sex;
     private String age;
@@ -13,10 +14,13 @@ public class UserModel  extends BmobObject{
     private String height;
     private String weight;
 
-    public int checkUserValidity(String name,String passwd){
+    public int checkUserValidity(String phone,String passwd){
         return  0;
     }
-    public UserModel(String name, String passwd) {
+    public  UserModel(){
+
+    }
+    public UserModel(String phone, String passwd) {
         this.name = name;
         this.passwd = passwd;
     }
@@ -32,7 +36,13 @@ public class UserModel  extends BmobObject{
         this.height = height;
         this.weight = weight;
     }
+    public String getPhone() {
+        return phone;
+    }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
     public String getName() {
         return name;
     }
