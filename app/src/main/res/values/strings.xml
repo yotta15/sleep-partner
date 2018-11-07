@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">睡眠小伙伴</string>
-    <string name="nchu">\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t来自南昌航空大学邮箱app</string>
-    <string name="email">nchu.edu.com</string>
     <string name="tab_one">签到</string>
     <string name="tab_two">促眠</string>
     <string name="tab_three">我的</string>
