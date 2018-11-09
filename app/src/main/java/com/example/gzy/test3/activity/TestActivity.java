@@ -13,6 +13,8 @@ import com.example.gzy.test3.fragment.RegisterFragmentTwo;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+
 public class TestActivity  extends FragmentActivity
 {
     List<Fragment> mLists = new ArrayList<>();
@@ -23,18 +25,22 @@ public class TestActivity  extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
+
+        //第一：默认初始化
+        Bmob.initialize(this, "5a5dcb5264e14c4fa9886e8511707ac0");
+
         mView = (ProgressView) findViewById(R.id.ffff);
 
         mModels = new ArrayList<>();
 
-        mLists.add(RegisterFragmentOne.newInstance(0, "确认密码"));
-        mLists.add(RegisterFragmentTwo.newInstance(1, "输入邮箱"));
-        mLists.add(RegisterFragmentThree.newInstance(2, "再次输入"));
-        mLists.add(TestFragment.newInstance(3, "最终完成"));
+        mLists.add(RegisterFragmentTwo.newInstance(0, "用户注册"));
+        mLists.add(RegisterFragmentTwo.newInstance(1, "信息填写"));
+        mLists.add(RegisterFragmentThree.newInstance(2, "最终完成"));
+//        mLists.add(TestFragment.newInstance(3, "最终完成"));
 
-        mModels.add(new ProgressView.Model("确认密码", ProgressView.STARTING));
-        mModels.add(new ProgressView.Model("输入邮箱", ProgressView.AFTER));
-        mModels.add(new ProgressView.Model("再次输入", ProgressView.AFTER));
+        mModels.add(new ProgressView.Model("用户注册", ProgressView.STARTING));
+        mModels.add(new ProgressView.Model("信息填写", ProgressView.AFTER));
+//        mModels.add(new ProgressView.Model("再次输入", ProgressView.AFTER));
         mModels.add(new ProgressView.Model("最终完成", ProgressView.AFTER));
 
         mView.setData(mModels);

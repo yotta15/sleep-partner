@@ -17,9 +17,7 @@ public class UserModel  extends BmobObject{
     public int checkUserValidity(String phone,String passwd){
         return  0;
     }
-    public  UserModel(){
-
-    }
+    public  UserModel(){ }
     public UserModel(String phone, String passwd) {
         this.name = name;
         this.passwd = passwd;

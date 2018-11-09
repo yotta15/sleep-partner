@@ -40,7 +40,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.register);
+        setContentView(R.layout.register_phone);
         sharedPreferences=getSharedPreferences("sleep_partner",MODE_PRIVATE);
         editor=sharedPreferences.edit();
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);

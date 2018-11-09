@@ -31,7 +31,7 @@ public class TestFragment extends Fragment {
 
         final int position = getArguments().getInt("position");
         String name = getArguments().getString("name");
-      // View  view = inflater.inflate(R.layout.register, container, false);
+
         Button btn = new Button(container.getContext(), null);
         btn.setGravity(Gravity.CENTER);
         btn.setText("当前状态:" + name);
