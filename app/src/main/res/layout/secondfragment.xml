@@ -1,67 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gridlayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:columnCount="3"
-    android:rowCount="5"
-    >
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/image1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        android:adjustViewBounds="true"
-        android:drawableTop="@drawable/breathstudy_img01"
-        android:text="雨打树叶" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/fg1viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/image2"
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:drawableTop="@drawable/breathstudy_img02"
-        android:text="平静舒适" />
-
-    <Button
-        android:id="@+id/image3"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:drawableTop="@drawable/breathstudy_img03"
-        android:text="炉边小灶" />
-
-    <Button
-        android:id="@+id/image4"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:drawableTop="@drawable/breathstudy_img05"
-        android:text="夜虫唧唧" />
-
-    <Button
-        android:id="@+id/image5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:drawableTop="@drawable/breathstudy_img06"
-        android:text="鸟语花香" />
-    <Button
-        android:id="@+id/image6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:drawableTop="@drawable/breathstudy_img08"
-        android:text="轻踏落叶" />
-    <Button
-        android:id="@+id/image7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:drawableTop="@drawable/cosleep_alarm_musicicon1"
-        android:text="心跳" />
-</GridLayout>
+</LinearLayout>
