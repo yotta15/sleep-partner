@@ -1,6 +1,6 @@
 package com.example.gzy.test3.fragment;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
@@ -14,12 +14,12 @@ import com.example.gzy.test3.activity.TestActivity;
 import com.example.gzy.test3.activity.TestFragment;
 
 public class RegisterFragmentTwo extends Fragment {
-    public static TestFragment newInstance(int position, String name) {
+    public static RegisterFragmentTwo newInstance(int position, String name) {
 
         Bundle args = new Bundle();
         args.putInt("position", position);
         args.putString("name", name);
-        TestFragment fragment = new TestFragment();
+        RegisterFragmentTwo fragment = new RegisterFragmentTwo();
         fragment.setArguments(args);
         return fragment;
     }
@@ -30,18 +30,18 @@ public class RegisterFragmentTwo extends Fragment {
 
         final int position = getArguments().getInt("position");
         String name = getArguments().getString("name");
-        //View view = inflater.inflate(R.layout.register, container, false);
-        Button btn = new Button(container.getContext(), null);
-        btn.setGravity(Gravity.CENTER);
-        btn.setText("当前状态:" + name);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((TestActivity) getActivity()).setPosition(position);
-            }
-        });
-        return btn;
+        View view = inflater.inflate(R.layout.register_info, container, false);
+//        Button btn = new Button(container.getContext(), null);
+//        btn.setGravity(Gravity.CENTER);
+//        btn.setText("当前状态:" + name);
+//
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ((TestActivity) getActivity()).setPosition(position);
+//            }
+//        });
+        return view;
     }
 
     @Override
