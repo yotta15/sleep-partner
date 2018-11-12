@@ -1,11 +1,22 @@
 package com.example.gzy.test3.activity;
 
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
@@ -29,15 +40,65 @@ public class ThirdActivity  extends AppCompatActivity implements BottomNavigatio
     private int lastShowFragment = 0;
     private FrameLayout f1;
     private TextView textView;
+    private DrawerLayout drawerLayout;
+//    private Button btn;
+    private Toolbar toolbar;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private ListView lvLeftMenu;
+    private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
+    private ArrayAdapter arrayAdapter;
+    private ImageView ivRunningMan;
+    private AnimationDrawable mAnimationDrawable;
 
     protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.tabbar);
+
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        lvLeftMenu = (ListView) findViewById(R.id.lv_left_menu);
+        //京东RunningMan动画效果，和本次Toolbar无关
+//        mAnimationDrawable = (AnimationDrawable) ivRunningMan.getBackground();
+//        mAnimationDrawable.start();
+        toolbar.setTitle("Toolbar");//设置Toolbar标题
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff")); //设置标题颜色
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         f1=(FrameLayout) findViewById(R.id.content);
         textView=(TextView) findViewById(R.id.message);
         mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        drawerLayout=(DrawerLayout)findViewById(R.id.draw);
+//        btn=(Button)findViewById(R.id.btn);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                drawerLayout.openDrawer(Gravity.LEFT);
+//            }
+//        });
+
+        //创建返回键，并实现打开关/闭监听
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+//                mAnimationDrawable.stop();
+            }
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+//                mAnimationDrawable.start();
+            }
+        };
+        mDrawerToggle.syncState();
+        drawerLayout.setDrawerListener(mDrawerToggle);
+        //设置菜单列表
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
+        lvLeftMenu.setAdapter(arrayAdapter);
+
         /*** the setting for BottomNavigationBar ***/
 
 //        mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);

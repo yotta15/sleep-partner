@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp"
         android:src="@drawable/bt3" />
     <TextView  android:id="@+id/name"
         android:layout_width="match_parent"
