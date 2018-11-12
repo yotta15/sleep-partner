@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <NumberPicker
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/np_age"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:layout_below="@+id/scrollView"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_Cancle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:alpha="0.8"
+
+                android:gravity="center"
+                android:text="取消"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/btn_Conserve"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:gravity="center"
+                android:text="保存"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+
