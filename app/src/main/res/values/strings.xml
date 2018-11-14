@@ -37,6 +37,9 @@
     <string name="showage">18岁</string>
     <string name="showweight">120斤</string>
     <string name="showheight">180厘米</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="forget_passwd">忘记密码</string>
     <string-array name="musicName">
         <item>I Figured You Out</item>
         <item>3_00 AM</item>

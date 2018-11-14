@@ -3,7 +3,6 @@ package com.example.gzy.test3.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -13,6 +12,8 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Bundle;
 
@@ -24,13 +25,10 @@ import cn.bmob.v3.Bmob;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ILoginView {
 
-    private EditText username, password;
-    private Button bt_username_clear;
-    private Button bt_pwd_clear;
-    private Button forgive_pwd;
-    private Button bt_pwd_eye;
+    private EditText musername, mpassword;
+    private ImageButton bt_username_clear,bt_pwd_clear,bt_pwd_eye;
     private Button login;
-    private Button register;
+     private TextView forgive_pwd,register;
     private boolean isOpen = false;
     private LoginPresenterImpl loginPresenter;
 //    SharedPreferences sharedPreferences;
@@ -39,14 +37,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login);
         //第一：默认初始化
         Bmob.initialize(this, "5a5dcb5264e14c4fa9886e8511707ac0");
-        username = (EditText) findViewById(R.id.username);
-        username.addTextChangedListener(new TextWatcher() {
+        musername = (EditText) findViewById(R.id.username);
+        musername.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String user = username.getText().toString().trim();
+                String user = musername.getText().toString().trim();
                 if ("".equals(user)) {
                     bt_username_clear.setVisibility(View.INVISIBLE);
                 } else {
@@ -58,14 +56,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void afterTextChanged(Editable s) {}
         });
-        password = (EditText) findViewById(R.id.password);
-        password.addTextChangedListener(new TextWatcher() {
+        mpassword = (EditText) findViewById(R.id.password);
+        mpassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String pwd = password.getText().toString().trim();
+                String pwd = mpassword.getText().toString().trim();
                 if ("".equals(pwd)) {
+                    bt_pwd_eye.setVisibility(View.INVISIBLE);
                     bt_pwd_clear.setVisibility(View.INVISIBLE);
                 } else {
+                    bt_pwd_eye.setVisibility(View.VISIBLE);
                     bt_pwd_clear.setVisibility(View.VISIBLE);
                 }
             }
@@ -73,40 +73,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void afterTextChanged(Editable s) {
-                if (!username.getText().toString().equals("")) {
+                if (!musername.getText().toString().equals("")) {
                     login.setEnabled(true);
                     login.setVisibility(View.VISIBLE);
                 }
             }
         });
 
-        bt_username_clear = (Button) findViewById(R.id.bt_username_clear);
+        bt_username_clear = (ImageButton) findViewById(R.id.bt_username_clear);
         bt_username_clear.setOnClickListener(this);
-        bt_pwd_clear = (Button) findViewById(R.id.bt_pwd_clear);
+        bt_pwd_clear = (ImageButton) findViewById(R.id.bt_pwd_clear);
         bt_pwd_clear.setOnClickListener(this);
-        bt_pwd_eye = (Button) findViewById(R.id.bt_pwd_eye);
+        bt_pwd_eye = (ImageButton) findViewById(R.id.bt_pwd_eye);
         bt_pwd_eye.setOnClickListener(this);
         login = (Button) findViewById(R.id.login);
         login.setOnClickListener(this);
-        register = (Button) findViewById(R.id.register);
+        register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
-        forgive_pwd = (Button) findViewById(R.id.forgive_pwd);
+        forgive_pwd = (TextView) findViewById(R.id.forgive_pwd);
         forgive_pwd.setOnClickListener(this);
 
         loginPresenter = new LoginPresenterImpl(this);
-        //获取只能被本应用程序读写的SharedPreferences
-//        sharedPreferences = getSharedPreferences("sleep_partner", MODE_PRIVATE);
-//        editor = sharedPreferences.edit();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_username_clear:
-                username.setText("");
+                musername.setText("");
                 break;
             case R.id.bt_pwd_clear:
-                password.setText("");
+                mpassword.setText("");
                 break;
             case R.id.bt_pwd_eye:
                 if (isOpen) {
@@ -117,12 +114,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 changePwdOpenOrClose(isOpen);
                 break;
             case R.id.login:
-                loginPresenter.doLogin(username.getText().toString().trim(), password.getText().toString().trim());
+                if(!musername.getText().toString().equals("")&&!mpassword.getText().equals("")){
+                    loginPresenter.doLogin(musername.getText().toString().trim(), mpassword.getText().toString().trim());
+                }
                 break;
             case R.id.register:
-// 注册按钮
-                //  loginPresenter.doRegister();
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
                 Toast.makeText(LoginActivity.this, "注册", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.forgive_pwd:
@@ -141,12 +139,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     public void changePwdOpenOrClose(boolean flag) {
         if (flag) {
-            bt_pwd_eye.setBackgroundResource(R.drawable.password_open);
-            password.setTransformationMethod(HideReturnsTransformationMethod
+            bt_pwd_eye.setImageResource(R.drawable.pswd_open);
+            mpassword.setTransformationMethod(HideReturnsTransformationMethod
                     .getInstance());
         } else {
-            bt_pwd_eye.setBackgroundResource(R.drawable.password_close);
-            password.setTransformationMethod(PasswordTransformationMethod
+            bt_pwd_eye.setImageResource(R.drawable.pswd_close);
+            mpassword.setTransformationMethod(PasswordTransformationMethod
                     .getInstance());
         }
     }
@@ -158,7 +156,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     @Override
-    public void onLoginResult(Boolean result, int code) {
+    public void onLoginResult(Boolean result) {
         if (result) {
             Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, ThirdActivity.class));

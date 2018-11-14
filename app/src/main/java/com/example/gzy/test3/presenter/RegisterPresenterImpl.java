@@ -2,7 +2,6 @@ package com.example.gzy.test3.presenter;
 
 import android.widget.Toast;
 
-import com.example.gzy.test3.activity.TestActivity;
 import com.example.gzy.test3.fragment.IRegisterOneView;
 import com.example.gzy.test3.model.UserModel;
 
@@ -19,6 +18,7 @@ import static cn.bmob.v3.Bmob.getApplicationContext;
 
 public class RegisterPresenterImpl implements IRegisterPresenter {
     IRegisterOneView iRegisterOneView;
+
     public RegisterPresenterImpl(IRegisterOneView iRegisterOneView ){
         this.iRegisterOneView=iRegisterOneView;
     }

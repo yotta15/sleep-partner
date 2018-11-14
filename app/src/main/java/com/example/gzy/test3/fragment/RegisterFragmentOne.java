@@ -1,18 +1,13 @@
 package com.example.gzy.test3.fragment;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,14 +17,11 @@ import com.example.gzy.test3.R;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
-import com.example.gzy.test3.activity.TestActivity;
+import com.example.gzy.test3.activity.RegisterActivity;
 import com.example.gzy.test3.model.UserModel;
 import com.example.gzy.test3.presenter.RegisterPresenterImpl;
 
@@ -214,7 +206,7 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
                 if (!phoneNum.equals("") && !passwd.equals("") && !username.equals("")) {
                     registerPresenter.initUser(username, phoneNum, passwd);
                 }
-                ((TestActivity) getActivity()).setPosition(position);
+                ((RegisterActivity) getActivity()).setPosition(position);
                 break;
             default:
                 break;

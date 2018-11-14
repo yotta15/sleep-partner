@@ -9,17 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.gzy.test3.R;
-import com.example.gzy.test3.activity.TestActivity;
-import com.example.gzy.test3.activity.TestFragment;
+import com.example.gzy.test3.activity.RegisterActivity;
 
 public class RegisterFragmentThree extends Fragment {
-    public static TestFragment newInstance(int position, String name) {
+    public static RegisterFragmentThree newInstance(int position, String name) {
 
         Bundle args = new Bundle();
         args.putInt("position", position);
         args.putString("name", name);
-        TestFragment fragment = new TestFragment();
+        RegisterFragmentThree fragment = new RegisterFragmentThree();
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,7 +36,7 @@ public class RegisterFragmentThree extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((TestActivity) getActivity()).setPosition(position);
+                ((RegisterActivity) getActivity()).setPosition(position);
             }
         });
         return btn;

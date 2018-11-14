@@ -3,14 +3,11 @@ package com.example.gzy.test3.fragment;
  * created by gzy on 2018.11.12
  */
 
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,19 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gzy.test3.R;
-import com.example.gzy.test3.activity.TestActivity;
-import com.example.gzy.test3.activity.TestFragment;
+import com.example.gzy.test3.activity.RegisterActivity;
 import com.example.gzy.test3.model.UserModel;
 
-import java.util.List;
-
-import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
-
-import static cn.bmob.v3.Bmob.getApplicationContext;
 
 public class RegisterFragmentTwo extends Fragment {
     EditText mEmail;
@@ -196,7 +186,7 @@ public class RegisterFragmentTwo extends Fragment {
                     public void done(BmobException e) {
                         if(e==null){
                             Toast.makeText(getActivity(),"success",Toast.LENGTH_LONG).show();
-                            ((TestActivity) getActivity()).setPosition(position);
+                            ((RegisterActivity) getActivity()).setPosition(position);
                         }else{
                             Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_LONG).show();
                         }
