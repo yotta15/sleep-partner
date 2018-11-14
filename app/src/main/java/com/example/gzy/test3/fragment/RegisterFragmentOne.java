@@ -35,7 +35,7 @@ import com.example.gzy.test3.presenter.RegisterPresenterImpl;
 
 import static cn.bmob.v3.Bmob.getApplicationContext;
 
-public class RegisterFragmentOne extends Fragment implements View.OnClickListener ,IRegisterOneView{
+public class RegisterFragmentOne extends Fragment implements View.OnClickListener, IRegisterOneView {
     private Button btnSendMsg, btnSubmitCode;
     private EditText etPhoneNumber, etCode, etpwd, etusername;
     private int i = 60;//倒计时
@@ -93,18 +93,6 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
 
         position = getArguments().getInt("position");
         String name = getArguments().getString("name");
-//        Button btn = (Button)view.findViewById(R.id.btnSubmitCode);
-//        btn.setGravity(Gravity.CENTER);
-//       // btn.setText("当前状态:" + name);
-//
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//               //registerPresenter.doRegister();
-//                ((TestActivity) getActivity()).setPosition(position);
-//
-//            }
-//        });
         return view;
     }
 
@@ -200,6 +188,11 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
                 break;
             case R.id.btnSubmitCode:
                 String code = etCode.getText().toString().trim();
+                if (android.text.TextUtils.isEmpty(username)) {
+                    Toast.makeText(getActivity(), "昵称不能为空",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (android.text.TextUtils.isEmpty(phoneNum)) {
                     Toast.makeText(getActivity(), "手机号码不能为空",
                             Toast.LENGTH_SHORT).show();
@@ -215,11 +208,7 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (android.text.TextUtils.isEmpty(username)) {
-                    Toast.makeText(getActivity(), "昵称不能为空",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
+
 
                 SMSSDK.submitVerificationCode("86", phoneNum, code);
                 if (!phoneNum.equals("") && !passwd.equals("") && !username.equals("")) {
@@ -232,23 +221,6 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
         }
 
     }
-//    public  void initUser(String phoneNum,String passwd){
-//        UserModel user = new UserModel();
-//
-//        user.setPhone(phoneNum);
-//        user.setPasswd(passwd);
-//
-//        user.save(new SaveListener<String>() {
-//            @Override
-//            public void done(String objectId,BmobException e) {
-//                if(e==null){
-//                    Toast.makeText(getActivity(),"success",Toast.LENGTH_LONG).show();
-//                }else{
-//                    Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
-//    }
 
     @Override
     public void onDestroy() {
@@ -258,10 +230,10 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public boolean OnSignUpResult(boolean flag,String username,String password) {
-        if(flag){
+    public boolean OnSignUpResult(boolean flag, String username, String password) {
+        if (flag) {
             registerPresenter.LoginUser(username, password);
-        }else {
+        } else {
             Toast.makeText(getActivity(), "register error", Toast.LENGTH_LONG).show();
         }
         return flag;

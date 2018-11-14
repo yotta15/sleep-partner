@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="邮     箱:"
+            android:text="@string/info_email"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -24,14 +24,15 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@null"
             android:drawablePadding="10dp"
-            android:hint="请输入邮箱"
+            android:hint="@string/tip_email"
             android:inputType="textEmailAddress"
             android:lines="0"
             android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
             android:paddingTop="10dp"
             android:textColor="@android:color/black"
             android:textColorHint="#cccccc"
@@ -58,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="性     别:"
+            android:text="@string/info_sex"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -67,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="1dp"
             android:orientation="horizontal">
 
@@ -75,9 +76,9 @@
                 android:id="@+id/Sex_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:checked="true"
-                android:text="男"
+                android:text="@string/male"
                 android:textColor="#0000ff"
                 android:textSize="15sp" />
 
@@ -85,8 +86,8 @@
                 android:id="@+id/Sex_feamale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:text="女"
+                android:layout_marginEnd="20dp"
+                android:text="@string/feamale"
                 android:textColor="#0000ff"
                 android:textSize="15sp" />
         </RadioGroup>
@@ -113,17 +114,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="年     龄:"
+            android:text="@string/info_age"
             android:textColor="#222222"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/TextAge"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
-            android:text="18岁"
+            android:gravity="end"
+            android:text="@string/showage"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -131,8 +132,8 @@
             android:id="@+id/BtnAge"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="0dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="0dp"
             android:background="@color/white"
             android:src="@drawable/raw" />
 
@@ -158,17 +159,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="身     高:"
+            android:text="@string/info_height"
             android:textColor="#222222"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/TextHeight"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
-            android:text="180厘米"
+            android:gravity="end"
+            android:text="@string/showheight"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -176,8 +177,8 @@
             android:id="@+id/BtnHeight"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="0dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="0dp"
             android:background="@color/white"
             android:src="@drawable/raw" />
 
@@ -202,17 +203,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="体     重:"
+            android:text="@string/info_weight"
             android:textColor="#222222"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/TextWeight"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
-            android:text="120.0斤"
+            android:gravity="end"
+            android:text="@string/showweight"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -220,8 +221,8 @@
             android:id="@+id/BtnWeight"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="0dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="0dp"
             android:background="@color/white"
             android:src="@drawable/raw" />
 
@@ -244,7 +245,7 @@
         android:layout_marginTop="30dp"
         android:background="@android:color/holo_blue_light"
         android:gravity="center"
-        android:text="确认"
+        android:text="@string/info_confirm"
         android:textColor="#0000ff"
         android:textSize="15sp" />
 </LinearLayout>

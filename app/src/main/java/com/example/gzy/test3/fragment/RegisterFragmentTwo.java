@@ -152,7 +152,8 @@ public class RegisterFragmentTwo extends Fragment {
                 final BottomSheetDialog bottomSheetDialog3 = new BottomSheetDialog(getActivity());
                 View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_bottom_weight, null);
                 NumberPicker np = (NumberPicker) dialogView.findViewById(R.id.np_weight);
-                np.setMinValue(6);
+                np.setMinValue(30);
+                np.setMaxValue(10000);
                 np.setValue(120);
                 weight=np.getValue();
                 np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -170,7 +171,7 @@ public class RegisterFragmentTwo extends Fragment {
                 dialogView.findViewById(R.id.btn_Conserve).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mTextWeight.setText(weight + "厘米");
+                        mTextWeight.setText(weight + "斤");
                         bottomSheetDialog3.dismiss();
                     }
                 });
@@ -182,7 +183,7 @@ public class RegisterFragmentTwo extends Fragment {
         mBtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("update",sex+"aaaaaaa"+age+"aaaaaaa"+weight+"aaaaaaa"+height);
+              // Log.e("update",sex+"aaaaaaa"+age+"aaaaaaa"+weight+"aaaaaaa"+height);
                 UserModel newUser = new UserModel();
                 newUser.setSex(sex);
                 newUser.setAge(age);

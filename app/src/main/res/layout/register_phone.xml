@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="昵     称:"
+            android:text="@string/username"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -25,15 +25,16 @@
             android:id="@+id/nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@null"
             android:drawablePadding="10dp"
-            android:hint="请输入昵称"
+            android:hint="@string/tip_username"
             android:inputType="textPersonName"
             android:lines="0"
             android:maxLength="11"
             android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
             android:paddingTop="10dp"
             android:textColor="@android:color/black"
             android:textColorHint="#cccccc"
@@ -59,7 +60,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="手机号:"
+            android:text="@string/phone"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -67,15 +68,16 @@
             android:id="@+id/etPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@null"
             android:drawablePadding="10dp"
-            android:hint="请输入手机号"
+            android:hint="@string/tip_phone"
             android:inputType="phone"
             android:lines="0"
             android:maxLength="11"
             android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
             android:paddingTop="10dp"
             android:textColor="@android:color/black"
             android:textColorHint="#cccccc"
@@ -101,7 +103,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="验证码:"
+            android:text="@string/code"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -111,12 +113,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="请输入验证码"
+            android:hint="@string/tip_code"
             android:inputType="number"
             android:lines="0"
             android:maxLength="6"
             android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
             android:paddingTop="10dp"
             android:textColor="@android:color/black"
             android:textColorHint="#cccccc"
@@ -126,9 +129,9 @@
             android:id="@+id/btnSendMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="获取验证码"
-            android:textColor="#0000ff"
+            android:layout_marginEnd="5dp"
+            android:text="@string/getcode"
+            android:background="@color/white"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -150,7 +153,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="密     码:"
+            android:text="@string/password"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -160,12 +163,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="请输入密码"
+            android:hint="@string/tip_password"
             android:inputType="textPassword"
             android:lines="0"
             android:maxLength="10"
             android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
             android:paddingTop="10dp"
             android:textColor="@android:color/black"
             android:textColorHint="#cccccc"
@@ -191,7 +195,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
-        android:text="验证"
+        android:text="@string/confirm"
         android:textColor="#0000ff"
         android:textSize="15sp" />
 </LinearLayout>
