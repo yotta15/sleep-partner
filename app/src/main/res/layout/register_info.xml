@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
 
     <LinearLayout
@@ -17,21 +16,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="昵     称:"
+            android:text="邮     箱:"
             android:textColor="#222222"
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/nickname"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:background="@null"
             android:drawablePadding="10dp"
-            android:hint="请输入昵称"
-            android:inputType="phone"
+            android:hint="请输入邮箱"
+            android:inputType="textEmailAddress"
             android:lines="0"
-            android:maxLength="11"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
@@ -53,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
+
         android:orientation="horizontal">
 
         <TextView
@@ -135,6 +133,7 @@
             android:layout_height="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="0dp"
+            android:background="@color/white"
             android:src="@drawable/raw" />
 
     </LinearLayout>
@@ -179,7 +178,8 @@
             android:layout_height="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="0dp"
-            android:src="@drawable/arrowhead" />
+            android:background="@color/white"
+            android:src="@drawable/raw" />
 
     </LinearLayout>
 
@@ -222,7 +222,8 @@
             android:layout_height="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="0dp"
-            android:src="@drawable/arrowhead" />
+            android:background="@color/white"
+            android:src="@drawable/raw" />
 
     </LinearLayout>
 

@@ -33,7 +33,7 @@ public class TestActivity  extends FragmentActivity
 
         mModels = new ArrayList<>();
 
-        mLists.add(RegisterFragmentTwo.newInstance(0, "用户注册"));
+        mLists.add(RegisterFragmentOne.newInstance(0, "用户注册"));
         mLists.add(RegisterFragmentTwo.newInstance(1, "信息填写"));
         mLists.add(RegisterFragmentThree.newInstance(2, "最终完成"));
 //        mLists.add(TestFragment.newInstance(3, "最终完成"));

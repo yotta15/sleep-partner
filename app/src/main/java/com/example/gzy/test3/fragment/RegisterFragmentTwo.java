@@ -8,6 +8,8 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,18 +20,31 @@ import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gzy.test3.R;
 import com.example.gzy.test3.activity.TestActivity;
 import com.example.gzy.test3.activity.TestFragment;
+import com.example.gzy.test3.model.UserModel;
+
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
+
+import static cn.bmob.v3.Bmob.getApplicationContext;
 
 public class RegisterFragmentTwo extends Fragment {
-    EditText mNickname;
+    EditText mEmail;
     TextView mTextage, mTextHeight, mTextWeight;
     RadioGroup mSex;
-    ImageButton mBtnAge, mBtnHeight, mBtnWeight, mBtnConfirm;
-    String sex;
-    int age, weight, height;
+    ImageButton mBtnAge, mBtnHeight, mBtnWeight;
+    Button mBtnConfirm;
+    String sex="男";
+    int age=18, weight=120, height=180;
 
     public static RegisterFragmentTwo newInstance(int position, String name) {
 
@@ -48,7 +63,8 @@ public class RegisterFragmentTwo extends Fragment {
         final int position = getArguments().getInt("position");
         String name = getArguments().getString("name");
         View view = inflater.inflate(R.layout.register_info, container, false);
-        mNickname = (EditText) view.findViewById(R.id.nickname);
+        mEmail = (EditText) view.findViewById(R.id.email);
+        mEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         mSex = (RadioGroup) view.findViewById(R.id.Sex);
         mTextage = (TextView) view.findViewById(R.id.TextAge);
         mBtnAge = (ImageButton) view.findViewById(R.id.BtnAge);
@@ -162,16 +178,32 @@ public class RegisterFragmentTwo extends Fragment {
                 bottomSheetDialog3.show();
             }
         });
-//        Button btn = new Button(container.getContext(), null);
-//        btn.setGravity(Gravity.CENTER);
-//        btn.setText("当前状态:" + name);
-//
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ((TestActivity) getActivity()).setPosition(position);
-//            }
-//        });
+        mBtnConfirm=(Button)view.findViewById(R.id.btnConfirm);
+        mBtnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("update",sex+"aaaaaaa"+age+"aaaaaaa"+weight+"aaaaaaa"+height);
+                UserModel newUser = new UserModel();
+                newUser.setSex(sex);
+                newUser.setAge(age);
+                newUser.setWeight(weight);
+                newUser.setHeight(height);
+                newUser.setEmail(mEmail.getText().toString().trim());
+                BmobUser bmobUser = BmobUser.getCurrentUser();
+                newUser.update(bmobUser.getObjectId(),new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        if(e==null){
+                            Toast.makeText(getActivity(),"success",Toast.LENGTH_LONG).show();
+                            ((TestActivity) getActivity()).setPosition(position);
+                        }else{
+                            Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }
+        });
         return view;
     }
 

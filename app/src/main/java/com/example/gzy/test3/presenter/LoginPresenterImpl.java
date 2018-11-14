@@ -31,16 +31,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
     private void initUser(){
         UserModel user = new UserModel();
-        user.setName("root");
-        user.setPhone("123456");
-        user.setPasswd("123456");
-        user.setAge("18");
-        user.setSex("男");
-        user.setArea("南昌市");
-        user.setGrade("0");
-        user.setQq("123");
-        user.setWeight("100");
-        user.setHeight("100");
+
         user.save(new SaveListener<String>() {
             @Override
             public void done(String objectId,BmobException e) {

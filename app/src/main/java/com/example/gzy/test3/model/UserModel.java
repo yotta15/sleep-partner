@@ -1,61 +1,23 @@
 package com.example.gzy.test3.model;
 
-import cn.bmob.v3.BmobObject;
+/**
+ * CREATED BY GZY
+ * 基础的用户表，包含字段:姓名，电话，密码，身高体重，性别，邮箱，地区以及用户等级
+ */
 
-public class UserModel  extends BmobObject{
-    private String name;
-    private String phone;
-    private String passwd;
+import cn.bmob.v3.BmobUser;
+
+public class UserModel  extends BmobUser {
+
     private String sex;
-    private String age;
+    private int age;
     private String area;
-    private String qq;
     private String grade;
-    private String height;
-    private String weight;
+    private int height;
+    private int  weight;
 
-    public int checkUserValidity(String phone,String passwd){
-        return  0;
-    }
     public  UserModel(){ }
-    public UserModel(String phone, String passwd) {
-        this.name = name;
-        this.passwd = passwd;
-    }
 
-    public UserModel(String name, String passwd, String sex, String age, String area, String qq, String grade, String height, String weight) {
-        this.name = name;
-        this.passwd = passwd;
-        this.sex = sex;
-        this.age = age;
-        this.area = area;
-        this.qq = qq;
-        this.grade = grade;
-        this.height = height;
-        this.weight = weight;
-    }
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPasswd() {
-        return passwd;
-    }
-
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
-    }
 
     public String getSex() {
         return sex;
@@ -65,11 +27,11 @@ public class UserModel  extends BmobObject{
         this.sex = sex;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -81,14 +43,6 @@ public class UserModel  extends BmobObject{
         this.area = area;
     }
 
-    public String getQq() {
-        return qq;
-    }
-
-    public void setQq(String qq) {
-        this.qq = qq;
-    }
-
     public String getGrade() {
         return grade;
     }
@@ -97,19 +51,19 @@ public class UserModel  extends BmobObject{
         this.grade = grade;
     }
 
-    public String getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
-    public String getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 

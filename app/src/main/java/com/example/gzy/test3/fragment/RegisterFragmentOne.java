@@ -35,20 +35,20 @@ import com.example.gzy.test3.presenter.RegisterPresenterImpl;
 
 import static cn.bmob.v3.Bmob.getApplicationContext;
 
-public class RegisterFragmentOne  extends Fragment implements  View.OnClickListener{
-      private Button btnSendMsg, btnSubmitCode;
-    private android.widget.EditText etPhoneNumber, etCode,etpwd;
+public class RegisterFragmentOne extends Fragment implements View.OnClickListener ,IRegisterOneView{
+    private Button btnSendMsg, btnSubmitCode;
+    private EditText etPhoneNumber, etCode, etpwd, etusername;
     private int i = 60;//倒计时
     private String Appkey;
-    private String  AppSecret;
-    android.content.SharedPreferences sharedPreferences;
-    android.content.SharedPreferences.Editor editor;
+    private String AppSecret;
+
 
     UserModel user;
     int position;
 
     private RegisterPresenterImpl registerPresenter;
-    public static RegisterFragmentOne  newInstance(int position, String name) {
+
+    public static RegisterFragmentOne newInstance(int position, String name) {
 
         Bundle args = new Bundle();
         args.putInt("position", position);
@@ -61,18 +61,16 @@ public class RegisterFragmentOne  extends Fragment implements  View.OnClickListe
     @android.support.annotation.Nullable
     @Override
     public View onCreateView(android.view.LayoutInflater inflater, @android.support.annotation.Nullable android.view.ViewGroup container, @android.support.annotation.Nullable Bundle savedInstanceState) {
-        View  view = inflater.inflate(R.layout.register_phone, container, false);
-        registerPresenter=new RegisterPresenterImpl();
-
-        sharedPreferences=getActivity().getSharedPreferences("sleep_partner", Context.MODE_PRIVATE);
-        editor=sharedPreferences.edit();
-        etPhoneNumber = (android.widget.EditText) view.findViewById(R.id.etPhoneNumber);
-        etCode = (android.widget.EditText) view.findViewById(R.id.etCode);
-        etpwd=(EditText) view.findViewById(R.id.etpwd);
-        btnSendMsg = (Button)view. findViewById(R.id.btnSendMsg);
-        btnSubmitCode = (Button)view. findViewById(R.id.btnSubmitCode);
-        Appkey="24d4eb1e64dce";
-        AppSecret="251b4f6d2cf288974ad84a2cda845574";
+        View view = inflater.inflate(R.layout.register_phone, container, false);
+        registerPresenter = new RegisterPresenterImpl(this);
+        etusername = (EditText) view.findViewById(R.id.nickname);
+        etPhoneNumber = (EditText) view.findViewById(R.id.etPhoneNumber);
+        etCode = (EditText) view.findViewById(R.id.etCode);
+        etpwd = (EditText) view.findViewById(R.id.etpwd);
+        btnSendMsg = (Button) view.findViewById(R.id.btnSendMsg);
+        btnSubmitCode = (Button) view.findViewById(R.id.btnSubmitCode);
+        Appkey = "24d4eb1e64dce";
+        AppSecret = "251b4f6d2cf288974ad84a2cda845574";
         // 启动短信验证sdk
         SMSSDK.initSDK(getActivity().getApplicationContext(), Appkey, AppSecret);
 
@@ -93,7 +91,7 @@ public class RegisterFragmentOne  extends Fragment implements  View.OnClickListe
         btnSendMsg.setOnClickListener(this);
         btnSubmitCode.setOnClickListener(this);
 
-         position = getArguments().getInt("position");
+        position = getArguments().getInt("position");
         String name = getArguments().getString("name");
 //        Button btn = (Button)view.findViewById(R.id.btnSubmitCode);
 //        btn.setGravity(Gravity.CENTER);
@@ -136,15 +134,7 @@ public class RegisterFragmentOne  extends Fragment implements  View.OnClickListe
                         //当号码来自短信注册页面时调用登录注册接口
                         //当号码来自绑定页面时调用绑定手机号码接口
                         //成功时存入账号和密码
-                        SimpleDateFormat sdf=new SimpleDateFormat("YYYY年MM月DD日"+"hh:mm:ss");
-                        editor.putString("time",sdf.format(new Date()));
-                        editor.putString("account",etPhoneNumber.getText().toString().trim());
-                        editor.putString("pwd",etpwd.getText().toString().trim());
-                        //必须要提交
-                        editor.commit();
-                        Toast.makeText(getActivity(), "短信验证成功"+sharedPreferences.getString("account",null)
-                                        +sharedPreferences.getString("time",null),
-                                Toast.LENGTH_SHORT).show();
+                        SimpleDateFormat sdf = new SimpleDateFormat("YYYY年MM月DD日" + "hh:mm:ss");
 //                        Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
 //                        startActivity(intent);
 
@@ -178,7 +168,8 @@ public class RegisterFragmentOne  extends Fragment implements  View.OnClickListe
     @Override
     public void onClick(View v) {
         String phoneNum = etPhoneNumber.getText().toString().trim();
-        String passwd=etpwd.getText().toString().trim();
+        String passwd = etpwd.getText().toString().trim();
+        String username = etusername.getText().toString().trim();
         switch (v.getId()) {
             case R.id.btnSendMsg:
                 if (TextUtils.isEmpty(phoneNum)) {
@@ -210,13 +201,13 @@ public class RegisterFragmentOne  extends Fragment implements  View.OnClickListe
             case R.id.btnSubmitCode:
                 String code = etCode.getText().toString().trim();
                 if (android.text.TextUtils.isEmpty(phoneNum)) {
-                   Toast.makeText(getActivity(), "手机号码不能为空",
+                    Toast.makeText(getActivity(), "手机号码不能为空",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (android.text.TextUtils.isEmpty(code)) {
                     Toast.makeText(getActivity(), "验证码不能为空",
-                           Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (android.text.TextUtils.isEmpty(passwd)) {
@@ -224,13 +215,17 @@ public class RegisterFragmentOne  extends Fragment implements  View.OnClickListe
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-               SMSSDK.submitVerificationCode("86", phoneNum, code);
-                if(!phoneNum.equals("")&&!passwd.equals("")){
-                    registerPresenter.initUser(phoneNum,passwd);
-//                    initUser(phoneNum, passwd);
+                if (android.text.TextUtils.isEmpty(username)) {
+                    Toast.makeText(getActivity(), "昵称不能为空",
+                            Toast.LENGTH_SHORT).show();
+                    return;
                 }
-               ((TestActivity) getActivity()).setPosition(position);
+
+                SMSSDK.submitVerificationCode("86", phoneNum, code);
+                if (!phoneNum.equals("") && !passwd.equals("") && !username.equals("")) {
+                    registerPresenter.initUser(username, phoneNum, passwd);
+                }
+                ((TestActivity) getActivity()).setPosition(position);
                 break;
             default:
                 break;
@@ -260,5 +255,15 @@ public class RegisterFragmentOne  extends Fragment implements  View.OnClickListe
         super.onDestroy();
         // 销毁回调监听接口
         cn.smssdk.SMSSDK.unregisterAllEventHandler();
+    }
+
+    @Override
+    public boolean OnSignUpResult(boolean flag,String username,String password) {
+        if(flag){
+            registerPresenter.LoginUser(username, password);
+        }else {
+            Toast.makeText(getActivity(), "register error", Toast.LENGTH_LONG).show();
+        }
+        return flag;
     }
 }
