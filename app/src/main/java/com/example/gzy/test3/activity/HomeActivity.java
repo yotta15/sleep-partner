@@ -19,7 +19,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         BmobUser bmobUser = BmobUser.getCurrentUser();
         if (bmobUser != null) {
-            intent = new Intent(this, ThirdActivity.class);
+            intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             // 允许用户使用应用
         } else {
