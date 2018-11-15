@@ -14,7 +14,12 @@ import com.example.gzy.test3.activity.ILoginView;
 import com.example.gzy.test3.model.UserModel;
 
 
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -26,21 +31,12 @@ public class LoginPresenterImpl implements ILoginPresenter {
     Handler handler;
     public   LoginPresenterImpl(ILoginView iLoginView){
         this.iLoginView = iLoginView;
-        initUser();
+        //initUser();
         handler = new Handler(Looper.getMainLooper());
     }
     private void initUser(){
         UserModel user = new UserModel();
-        user.setName("root");
-        user.setPhone("123456");
-        user.setPasswd("123456");
-        user.setAge("18");
-        user.setSex("男");
-        user.setArea("南昌市");
-        user.setGrade("0");
-        user.setQq("123");
-        user.setWeight("100");
-        user.setHeight("100");
+
         user.save(new SaveListener<String>() {
             @Override
             public void done(String objectId,BmobException e) {
@@ -55,22 +51,37 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
 
     @Override
-    public void doLogin(String name, String passwd) {
-        Boolean isLoginSuccess = true;
-       final int code=0;
-//       if(user!=null){
-//
-//       }
-       // final int code = user.checkUserValidity(name,passwd);
-        if (code!=0) isLoginSuccess = false;
-        final Boolean result = isLoginSuccess;
-        handler.postDelayed(new Runnable() {
+    public void doLogin(String phone, String passwd) {
+
+        BmobQuery<BmobUser> query = new BmobQuery<BmobUser>();
+        query.addWhereEqualTo("phone", phone);
+        query.addWhereEqualTo("password",passwd);
+        query.findObjects(new FindListener<BmobUser>() {
             @Override
-            public void run() {
-                //回调
-                iLoginView.onLoginResult(result, code);
+            public void done(List<BmobUser> object, BmobException e) {
+                if(e==null){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //回调
+                            iLoginView.onLoginResult(true);
+                        }
+                    }, 3000);
+
+                }else{
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //回调
+                            iLoginView.onLoginResult(false);
+                        }
+                    }, 3000);
+
+                }
             }
-        }, 3000);
+        });
+
+
 
     }
 

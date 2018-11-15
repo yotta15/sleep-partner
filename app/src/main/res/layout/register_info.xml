@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
 
     <LinearLayout
@@ -17,23 +16,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="昵     称:"
+            android:text="@string/info_email"
             android:textColor="#222222"
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/etPhoneNumber"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@null"
             android:drawablePadding="10dp"
-            android:hint="请输入昵称"
-            android:inputType="phone"
+            android:hint="@string/tip_email"
+            android:inputType="textEmailAddress"
             android:lines="0"
-            android:maxLength="11"
             android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"
             android:paddingTop="10dp"
             android:textColor="@android:color/black"
             android:textColorHint="#cccccc"
@@ -53,44 +52,45 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
+
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="性     别:"
+            android:layout_marginTop="5dp"
+            android:text="@string/info_sex"
             android:textColor="#222222"
-            android:textSize="16sp"
-            android:layout_marginTop="5dp"/>
-       <RadioGroup
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginLeft="10dp"
-           android:layout_marginTop="1dp"
-           android:orientation="horizontal"
-           android:layout_gravity="center_horizontal"
-           >
+            android:textSize="16sp" />
 
-        <RadioButton
-            android:id="@+id/Sex_male"
+        <RadioGroup
+            android:id="@+id/Sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="男"
-            android:checked="true"
-            android:textColor="#0000ff"
-            android:textSize="15sp" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal">
 
-           <RadioButton
-               android:id="@+id/Sex_feamale"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginRight="20dp"
-               android:text="女"
-               android:textColor="#0000ff"
-               android:textSize="15sp" />
-       </RadioGroup>
+            <RadioButton
+                android:id="@+id/Sex_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:checked="true"
+                android:text="@string/male"
+                android:textColor="#0000ff"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/Sex_feamale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/feamale"
+                android:textColor="#0000ff"
+                android:textSize="15sp" />
+        </RadioGroup>
     </LinearLayout>
 
 
@@ -113,33 +113,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="年     龄:"
+            android:layout_marginTop="0dp"
+            android:text="@string/info_age"
             android:textColor="#222222"
-            android:textSize="16sp"
-            android:layout_marginTop="0dp"/>
+            android:textSize="16sp" />
 
-        <!--<NumberPicker-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="80dp"-->
-        <!--android:focusable="true"-->
-        <!--android:focusableInTouchMode="true"/>-->
         <TextView
-
-            android:layout_width="wrap_content"
+            android:id="@+id/TextAge"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="16sp"
+            android:gravity="end"
+            android:text="@string/showage"
             android:textColor="@android:color/black"
-            android:gravity="right"
-            android:text="18"/>
+            android:textSize="16sp" />
 
         <ImageButton
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="0dp"
+            android:id="@+id/BtnAge"
             android:layout_width="20dp"
             android:layout_height="20dp"
-
-            android:src="@drawable/arrowhead" />
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/white"
+            android:src="@drawable/raw" />
 
     </LinearLayout>
 
@@ -150,49 +146,106 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="5dp"
         android:background="@android:color/darker_gray" />
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="30dp"-->
-        <!--android:layout_marginRight="30dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:orientation="horizontal">-->
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="30dp"-->
-            <!--android:text="身     高:"-->
-            <!--android:textColor="#222222"-->
-            <!--android:textSize="16sp" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <!--<NumberPicker-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="80dp"-->
-            <!--android:focusable="true"-->
-            <!--android:focusableInTouchMode="true"/>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="@string/info_height"
+            android:textColor="#222222"
+            android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/TextHeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="@string/showheight"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
+        <ImageButton
+            android:id="@+id/BtnHeight"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/white"
+            android:src="@drawable/raw" />
 
-    <!--</LinearLayout>-->
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="@string/info_weight"
+            android:textColor="#222222"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/TextWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="@string/showweight"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/BtnWeight"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/white"
+            android:src="@drawable/raw" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
         android:background="@android:color/darker_gray" />
 
     <Button
-        android:id="@+id/btnSubmitCode"
+        android:id="@+id/btnConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light"
-        android:gravity="center"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
-        android:text="验证"
+        android:background="@android:color/holo_blue_light"
+        android:gravity="center"
+        android:text="@string/info_confirm"
         android:textColor="#0000ff"
         android:textSize="15sp" />
 </LinearLayout>

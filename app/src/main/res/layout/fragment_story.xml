@@ -14,6 +14,6 @@
         android:layout_height="match_parent"
 
         android:text="@string/story"
-        android:textSize="@dimen/text_size"
+        android:textSize="@dimen/large_text_size"
         android:textColor="@color/main_top_color"/>
 </LinearLayout>
