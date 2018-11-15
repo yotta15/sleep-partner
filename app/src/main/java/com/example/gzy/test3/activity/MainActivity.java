@@ -31,7 +31,7 @@ import com.example.gzy.test3.fragment.FragmentTwo;
  * Created by gzy on 2018/3/17.
  */
 
-public class ThirdActivity  extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
+public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
     BottomNavigationBar mBottomNavigationBar;
     private FragmentOne mFragmentOne;
     private FragmentTwo mFragmentTwo;
@@ -41,14 +41,11 @@ public class ThirdActivity  extends AppCompatActivity implements BottomNavigatio
     private FrameLayout f1;
     private TextView textView;
     private DrawerLayout drawerLayout;
-//    private Button btn;
     private Toolbar toolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView lvLeftMenu;
     private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
     private ArrayAdapter arrayAdapter;
-    private ImageView ivRunningMan;
-    private AnimationDrawable mAnimationDrawable;
 
     protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +55,6 @@ public class ThirdActivity  extends AppCompatActivity implements BottomNavigatio
 
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         lvLeftMenu = (ListView) findViewById(R.id.lv_left_menu);
-        //京东RunningMan动画效果，和本次Toolbar无关
-//        mAnimationDrawable = (AnimationDrawable) ivRunningMan.getBackground();
-//        mAnimationDrawable.start();
         toolbar.setTitle("Toolbar");//设置Toolbar标题
         toolbar.setTitleTextColor(Color.parseColor("#ffffff")); //设置标题颜色
         setSupportActionBar(toolbar);
@@ -72,25 +66,16 @@ public class ThirdActivity  extends AppCompatActivity implements BottomNavigatio
         textView=(TextView) findViewById(R.id.message);
         mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         drawerLayout=(DrawerLayout)findViewById(R.id.draw);
-//        btn=(Button)findViewById(R.id.btn);
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                drawerLayout.openDrawer(Gravity.LEFT);
-//            }
-//        });
 
         //创建返回键，并实现打开关/闭监听
         mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-//                mAnimationDrawable.stop();
             }
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-//                mAnimationDrawable.start();
             }
         };
         mDrawerToggle.syncState();

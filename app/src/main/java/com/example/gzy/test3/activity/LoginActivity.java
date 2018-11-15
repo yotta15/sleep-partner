@@ -3,7 +3,6 @@ package com.example.gzy.test3.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -161,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onLoginResult(Boolean result, int code) {
         if (result) {
             Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, ThirdActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         } else{
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
             builder.setTitle("提示");

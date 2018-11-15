@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
            Button button2 = (Button) findViewById(R.id.button2);
            button2.setOnClickListener(this);
        }else {
-           intent=new Intent(this,ThirdActivity.class);
+           intent=new Intent(this,MainActivity.class);
            startActivity(intent);
        }
     }
