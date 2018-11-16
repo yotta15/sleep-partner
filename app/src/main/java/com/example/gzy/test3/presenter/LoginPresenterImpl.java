@@ -21,6 +21,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 import static android.content.Context.MODE_PRIVATE;
 import static cn.bmob.v3.Bmob.getApplicationContext;
@@ -86,10 +87,5 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
 
-    @Override
-    public void doRegister() {
-//        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-//        Toast.makeText(LoginActivity.this, "注册", Toast.LENGTH_SHORT).show();
 
-    }
 }

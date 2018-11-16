@@ -17,6 +17,8 @@ import com.example.gzy.test3.R;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -156,9 +158,7 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
                     Toast.makeText(getApplicationContext(), "手机号码不能为空",
                             Toast.LENGTH_SHORT).show();
                     return;
-                }
-                SMSSDK.getVerificationCode("86", phoneNum);
-                btnSendMsg.setClickable(false);
+                }  if(isMobile(phoneNum)) {
                 //开始倒计时
                 new Thread(new Runnable() {
                     @Override
@@ -177,6 +177,11 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
                         handler.sendEmptyMessage(-2);
                     }
                 }).start();
+                SMSSDK.getVerificationCode("86", phoneNum);
+                btnSendMsg.setClickable(false);
+            }
+
+
                 break;
             case R.id.btnSubmitCode:
                 String code = etCode.getText().toString().trim();
@@ -230,4 +235,15 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
         }
         return flag;
     }
+    //这个方法是判断是否是电话号的
+    public static boolean isMobile(String str) {
+        Pattern p = null;
+        Matcher m = null;
+        boolean b = false;
+        p = Pattern.compile("^[1][3,5,8][0-9]{9}$"); // 验证手机号
+        m = p.matcher(str);
+        b = m.matches();
+        return b;
+    }
+
 }

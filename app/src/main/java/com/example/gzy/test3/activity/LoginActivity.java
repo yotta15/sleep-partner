@@ -26,13 +26,11 @@ import cn.bmob.v3.Bmob;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ILoginView {
 
     private EditText musername, mpassword;
-    private ImageButton bt_username_clear,bt_pwd_clear,bt_pwd_eye;
+    private ImageButton bt_username_clear, bt_pwd_clear, bt_pwd_eye;
     private Button login;
-     private TextView forgive_pwd,register;
+    private TextView forgive_pwd, register;
     private boolean isOpen = false;
     private LoginPresenterImpl loginPresenter;
-//    SharedPreferences sharedPreferences;
-//    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +49,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     bt_username_clear.setVisibility(View.VISIBLE);
                 }
             }
+
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
         mpassword = (EditText) findViewById(R.id.password);
         mpassword.addTextChangedListener(new TextWatcher() {
@@ -69,8 +71,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     bt_pwd_clear.setVisibility(View.VISIBLE);
                 }
             }
+
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
                 if (!musername.getText().toString().equals("")) {
@@ -114,7 +119,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 changePwdOpenOrClose(isOpen);
                 break;
             case R.id.login:
-                if(!musername.getText().toString().equals("")&&!mpassword.getText().equals("")){
+                if (!musername.getText().toString().equals("") && !mpassword.getText().equals("")) {
                     loginPresenter.doLogin(musername.getText().toString().trim(), mpassword.getText().toString().trim());
                 }
                 break;
@@ -124,7 +129,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(LoginActivity.this, "注册", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.forgive_pwd:
-// 忘记密码按钮，携带账户号
                 Toast.makeText(LoginActivity.this, "忘记密码", Toast.LENGTH_SHORT).show();
                 break;
             default:
@@ -160,7 +164,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (result) {
             Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, ThirdActivity.class));
-        } else{
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
             builder.setTitle("提示");
             builder.setMessage("用户名或密码错误");
@@ -173,5 +177,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             });
         }
 
-}
+    }
 }

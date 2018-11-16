@@ -33,8 +33,8 @@ public class RegisterFragmentTwo extends Fragment {
     RadioGroup mSex;
     ImageButton mBtnAge, mBtnHeight, mBtnWeight;
     Button mBtnConfirm;
-    String sex="男";
-    int age=18, weight=120, height=180;
+    String sex = "男";
+    int age = 18, weight = 120, height = 180;
 
     public static RegisterFragmentTwo newInstance(int position, String name) {
 
@@ -79,7 +79,7 @@ public class RegisterFragmentTwo extends Fragment {
                 np.setMaxValue(100);
                 np.setMinValue(0);
                 np.setValue(18);
-                age=np.getValue();
+                age = np.getValue();
                 np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                     @Override
                     public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
@@ -112,7 +112,7 @@ public class RegisterFragmentTwo extends Fragment {
                 np.setMinValue(30);
                 np.setMaxValue(242);
                 np.setValue(180);
-                height=np.getValue();
+                height = np.getValue();
                 np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                     @Override
                     public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
@@ -145,7 +145,7 @@ public class RegisterFragmentTwo extends Fragment {
                 np.setMinValue(30);
                 np.setMaxValue(10000);
                 np.setValue(120);
-                weight=np.getValue();
+                weight = np.getValue();
                 np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                     @Override
                     public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
@@ -169,30 +169,33 @@ public class RegisterFragmentTwo extends Fragment {
                 bottomSheetDialog3.show();
             }
         });
-        mBtnConfirm=(Button)view.findViewById(R.id.btnConfirm);
+        mBtnConfirm = (Button) view.findViewById(R.id.btnConfirm);
         mBtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              // Log.e("update",sex+"aaaaaaa"+age+"aaaaaaa"+weight+"aaaaaaa"+height);
-                UserModel newUser = new UserModel();
-                newUser.setSex(sex);
-                newUser.setAge(age);
-                newUser.setWeight(weight);
-                newUser.setHeight(height);
-                newUser.setEmail(mEmail.getText().toString().trim());
-                BmobUser bmobUser = BmobUser.getCurrentUser();
-                newUser.update(bmobUser.getObjectId(),new UpdateListener() {
-                    @Override
-                    public void done(BmobException e) {
-                        if(e==null){
-                            Toast.makeText(getActivity(),"success",Toast.LENGTH_LONG).show();
-                            ((RegisterActivity) getActivity()).setPosition(position);
-                        }else{
-                            Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_LONG).show();
+                // Log.e("update",sex+"aaaaaaa"+age+"aaaaaaa"+weight+"aaaaaaa"+height);
+                if ("".equals(mEmail.getText().toString())) {
+                    Toast.makeText(getActivity(), "请填入邮箱", Toast.LENGTH_LONG).show();
+                } else {
+                    UserModel newUser = new UserModel();
+                    newUser.setSex(sex);
+                    newUser.setAge(age);
+                    newUser.setWeight(weight);
+                    newUser.setHeight(height);
+                    newUser.setEmail(mEmail.getText().toString().trim());
+                    BmobUser bmobUser = BmobUser.getCurrentUser();
+                    newUser.update(bmobUser.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e == null) {
+                                Toast.makeText(getActivity(), "success", Toast.LENGTH_LONG).show();
+                                ((RegisterActivity) getActivity()).setPosition(position);
+                            } else {
+                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
-
+                    });
+                }
             }
         });
         return view;

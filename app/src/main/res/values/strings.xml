@@ -14,6 +14,8 @@
     <string name="close">关</string>
     <string name="username">昵 &#160;&#160; 称:</string>
     <string name="phone">手机号:</string>
+    <string name="odlpwd">旧密码:</string>
+    <string name="newpwd">新密码:</string>
     <string name="code">验证码:</string>
     <string name="password">密  &#160;&#160;  码:</string>
     <string name="age">年龄</string>
@@ -26,11 +28,13 @@
     <string name="info_age">年&#160;&#160;&#160;&#160;龄:</string>
     <string name="male">男</string>
     <string name="feamale">女</string>
-    <string name="tip_email">请输入邮箱</string>
+    <string name="tip_email">请输入邮箱，此信息很重要</string>
     <string name="tip_username">请输入用户名</string>
     <string name="tip_phone">请输入手机号</string>
     <string name="tip_code">请输入验证码</string>
     <string name="tip_password">请输入密码</string>
+    <string name="tip_oldpwd">请输入旧密码</string>
+    <string name="tip_newpwd">请输入新密码</string>
     <string name="getcode">获取验证码</string>
     <string name="confirm">验证</string>
     <string name="info_confirm">确认</string>
@@ -40,6 +44,7 @@
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="forget_passwd">忘记密码</string>
+    <string name="send_email">发送邮件</string>
     <string-array name="musicName">
         <item>I Figured You Out</item>
         <item>3_00 AM</item>
