@@ -12,6 +12,12 @@
     <string name="story">睡前故事</string>
     <string name="open">开</string>
     <string name="close">关</string>
+
+    <string name="night">夜间模式</string>
+    <string name="set">设置</string>
+    <string name="exit">退出</string>
+    <string name="click_login">点击登录</string>
+
     <string name="username">昵 &#160;&#160; 称:</string>
     <string name="phone">手机号:</string>
     <string name="odlpwd">旧密码:</string>
