@@ -90,13 +90,12 @@ public class UpdateUserActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void UpdatePassword(String email) {
-//        final String email = "1142524038@qq.com";
         BmobUser.resetPasswordByEmail(email, new UpdateListener() {
 
             @Override
             public void done(BmobException e) {
                 if (e == null) {
-                    //Log.e("flag",password+"success");
+                    //？未收到邮件  跳转到登入页
                     Toast.makeText(UpdateUserActivity.this, "success", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(UpdateUserActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();

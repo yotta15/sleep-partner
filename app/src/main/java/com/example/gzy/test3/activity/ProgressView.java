@@ -1,6 +1,7 @@
-
-
 package com.example.gzy.test3.activity;
+/**
+ * 成员变量私有化，放在同一package
+ */
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -84,7 +85,7 @@ public class ProgressView extends View {
     /**
      * 数据
      */
-    private List<Model> mModels = new ArrayList<>();
+    public  List<Model> mModels = new ArrayList<>();
 
 
     /**
@@ -256,7 +257,7 @@ public class ProgressView extends View {
     }
 
 
-    static class Model {
+     public  static class Model {
         String name;
 
         public Model(String name, int state) {

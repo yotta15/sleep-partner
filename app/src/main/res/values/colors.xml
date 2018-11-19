@@ -30,5 +30,7 @@
     <color name="drawer_top">#b2c8bb</color>
     <color name="drawer_bottom">#FFF5F7</color>
 
-
+    <color name="launcher_item_select">#54B0E9</color>
+    <color name="launcher_item_normal">#9B9B9B</color>
+    <color name="white_normal">#ffffffff</color>
 </resources>
