@@ -10,11 +10,11 @@ import cn.bmob.v3.BmobUser;
 public class UserModel  extends BmobUser {
 
     private String sex;
-    private int age;
+    private Integer age;
     private String area;
     private String grade;
-    private int height;
-    private int  weight;
+    private Integer height;
+    private Integer  weight;
 
     public  UserModel(){ }
 
