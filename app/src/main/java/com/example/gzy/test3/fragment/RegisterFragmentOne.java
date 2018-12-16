@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gzy.test3.R;
@@ -30,8 +31,9 @@ import com.example.gzy.test3.presenter.RegisterPresenterImpl;
 import static cn.bmob.v3.Bmob.getApplicationContext;
 
 public class RegisterFragmentOne extends Fragment implements View.OnClickListener, IRegisterOneView {
-    private Button btnSendMsg, btnSubmitCode;
+    private Button  btnSubmitCode;
     private EditText etPhoneNumber, etCode, etpwd, etusername;
+    private TextView btnSendMsg;
     private int i = 60;//倒计时
     private String Appkey;
     private String AppSecret;
@@ -61,7 +63,7 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
         etPhoneNumber = (EditText) view.findViewById(R.id.etPhoneNumber);
         etCode = (EditText) view.findViewById(R.id.etCode);
         etpwd = (EditText) view.findViewById(R.id.etpwd);
-        btnSendMsg = (Button) view.findViewById(R.id.btnSendMsg);
+        btnSendMsg = (TextView) view.findViewById(R.id.btnSendMsg);
         btnSubmitCode = (Button) view.findViewById(R.id.btnSubmitCode);
         Appkey = "24d4eb1e64dce";
         AppSecret = "251b4f6d2cf288974ad84a2cda845574";

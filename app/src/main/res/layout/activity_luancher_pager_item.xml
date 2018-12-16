@@ -26,6 +26,6 @@
         android:textColor="@color/launcher_item_select"
         android:textSize="16sp"
         android:visibility="invisible"
-        android:text="开启我的头条"/>
+        android:text="@string/start_headlines"/>
 
 </FrameLayout>

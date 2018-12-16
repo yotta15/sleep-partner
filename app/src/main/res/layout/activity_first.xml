@@ -9,13 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:text="有兴趣的可以关注一下博主" />
+        android:text="111111" />
 
     <com.shizhenjie.tool.CustomTextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:text="http://blog.csdn.net/qq_31546677?viewmode=contents" />
+        android:text="111111" />
 
 </LinearLayout>
