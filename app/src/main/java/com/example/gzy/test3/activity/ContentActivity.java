@@ -169,6 +169,7 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         mFragmentThree = new FragmentThree();
         fragments = new Fragment[]{mFragmentOne, mFragmentTwo, mFragmentThree};
         lastShowFragment = 0;
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content, mFragmentOne)
