@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
-
+//ToDo  Register->MainActibity  逻辑有问题
 public class RegisterActivity extends FragmentActivity
 {
     List<Fragment> mLists = new ArrayList<>();

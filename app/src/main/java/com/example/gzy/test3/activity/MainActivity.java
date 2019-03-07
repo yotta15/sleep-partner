@@ -13,10 +13,15 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gzy.test3.R;
 import com.example.gzy.test3.UI.ILauncherView;
 import com.example.gzy.test3.adapter.LauncherPagerAdapter;
+import com.example.gzy.test3.model.UserModel;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
 
 public class MainActivity extends FragmentActivity implements ILauncherView {
 	private ViewPager viewpagerLauncher;
@@ -26,19 +31,23 @@ public class MainActivity extends FragmentActivity implements ILauncherView {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		//第一：默认初始化
+		Bmob.initialize(this, "5a5dcb5264e14c4fa9886e8511707ac0");
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		if (!isFirst()) {
-			gotoMain();
-		}
+		UserModel myuser =  BmobUser.getCurrentUser(UserModel.class);
+//       	if(null == myuser){
+//			Toast.makeText(this,"notfound",Toast.LENGTH_LONG);
+//       		gotoMain();
+//		}
 		viewpagerLauncher = (ViewPager) findViewById(R.id.viewpager_launcher);
 		adapter = new LauncherPagerAdapter(this, this);
 		viewpagerLauncher.setOffscreenPageLimit(2);
 		viewpagerLauncher.setCurrentItem(0);
 		viewpagerLauncher.setOnPageChangeListener(changeListener);
 		viewpagerLauncher.setAdapter(adapter);
-		ViewGroup group = (ViewGroup) findViewById(R.id.viewGroup);// ??????????????
+		ViewGroup group = (ViewGroup) findViewById(R.id.viewGroup);
 		tips = new ImageView[4];
 		for (int i = 0; i < tips.length; i++) {
 			ImageView imageView = new ImageView(this);
@@ -50,8 +59,8 @@ public class MainActivity extends FragmentActivity implements ILauncherView {
 			tips[i] = imageView;
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 					new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			layoutParams.leftMargin = 10;// ???????view??????
-			layoutParams.rightMargin = 10;// ???????view??????
+			layoutParams.leftMargin = 10;
+			layoutParams.rightMargin = 10;
 			group.addView(imageView, layoutParams);
 		}
 	}
@@ -90,7 +99,7 @@ public class MainActivity extends FragmentActivity implements ILauncherView {
 
 	@Override
 	public void gotoMain() {
-		Intent intent = new Intent(this, LoginActivity.class);
+		Intent intent = new Intent(this, WelcomeActivity.class);
 		startActivity(intent);
 		finish();
 	}

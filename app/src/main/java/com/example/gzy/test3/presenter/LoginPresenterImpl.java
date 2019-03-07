@@ -61,22 +61,12 @@ public class LoginPresenterImpl implements ILoginPresenter {
             @Override
             public void done(List<BmobUser> object, BmobException e) {
                 if(e==null){
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //回调
-                            iLoginView.onLoginResult(true);
-                        }
-                    }, 3000);
+                    iLoginView.onLoginResult(true);
+
 
                 }else{
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //回调
-                            iLoginView.onLoginResult(false);
-                        }
-                    }, 3000);
+                    iLoginView.onLoginResult(false);
+
 
                 }
             }

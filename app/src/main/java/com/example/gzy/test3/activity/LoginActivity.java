@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onLoginResult(Boolean result) {
         if (result) {
             Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, WelcomeActivity.class));
+            startActivity(new Intent(this, ContentActivity.class));
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
             builder.setTitle("提示");

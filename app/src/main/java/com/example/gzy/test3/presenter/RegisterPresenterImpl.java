@@ -38,7 +38,7 @@ public class RegisterPresenterImpl implements IRegisterPresenter {
                     Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_LONG).show();
                 } else {
                     iRegisterOneView.OnSignUpResult(false,name,passwd);
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "手机号不能重复注册", Toast.LENGTH_LONG).show();
                 }
             }
             });

@@ -1,5 +1,6 @@
 package com.example.gzy.test3.fragment;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import java.util.regex.Pattern;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
+import com.example.gzy.test3.activity.LoginActivity;
 import com.example.gzy.test3.activity.RegisterActivity;
 import com.example.gzy.test3.model.UserModel;
 import com.example.gzy.test3.presenter.RegisterPresenterImpl;
@@ -100,7 +102,7 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            if (msg.what == -1) {
+            if ( -1 ==msg.what ) {
                 btnSendMsg.setText(i + " s");
             } else if (msg.what == -2) {
                 btnSendMsg.setText("重新发送");
@@ -213,7 +215,6 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
                 if (!phoneNum.equals("") && !passwd.equals("") && !username.equals("")) {
                     registerPresenter.initUser(username, phoneNum, passwd);
                 }
-                ((RegisterActivity) getActivity()).setPosition(position);
                 break;
             default:
                 break;
@@ -232,8 +233,12 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
     public boolean OnSignUpResult(boolean flag, String username, String password) {
         if (flag) {
             registerPresenter.LoginUser(username, password);
+            ((RegisterActivity) getActivity()).setPosition(position);
+
         } else {
             Toast.makeText(getActivity(), "register error", Toast.LENGTH_LONG).show();
+            Intent intent=new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
         }
         return flag;
     }

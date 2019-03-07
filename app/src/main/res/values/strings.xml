@@ -52,6 +52,8 @@
     <string name="register">注册</string>
     <string name="forget_passwd">忘记密码</string>
     <string name="send_email">发送邮件</string>
+    <string name="skip">跳过</string>
+    <string name="default_file_name">SleepPartne_Radio</string>
     <string-array name="musicName">
         <item>I Figured You Out</item>
         <item>3_00 AM</item>

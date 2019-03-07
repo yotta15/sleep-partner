@@ -1,5 +1,6 @@
 package com.example.gzy.test3.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,18 +16,20 @@ import android.widget.Toast;
 
 
 import com.example.gzy.test3.R;
+import com.example.gzy.test3.activity.ContentActivity;
+import com.example.gzy.test3.service.RecordingService;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class FragmentOne extends Fragment implements View.OnClickListener {
-    private  Timer timer;
+    private Timer timer;
     private TimerTask timerTask;
     private View view;
     private Button sleep, getup;
-    private int i=0;
-
+    private int i = 0;
+    //Intent intent = new Intent(((ContentActivity)getActivity()), RecordingService.class);
 
 
 
@@ -37,7 +40,7 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
         getup = (Button) view.findViewById(R.id.getup);
         getup.setOnClickListener(this);
         getup.setClickable(false);
-        getup.setTextColor( ContextCompat.getColor(getActivity(), R.color.gray));
+        getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
         return view;
 
 
@@ -64,7 +67,7 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
                 }).start();
 
 
-            //    startTime();
+                //    startTime();
                 break;
             case R.id.getup:
                 new Thread(new Runnable() {
@@ -77,7 +80,7 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
 
                     }
                 }).start();
-             //   stopTime();
+                //   stopTime();
                 break;
             default:
                 break;
@@ -85,46 +88,44 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
 
     }
 
-// public void  initview(){
+    // public void  initview(){
 //
 //     new Thread() {
 //         public void run () {
 //             Looper.prepare();
-          Handler   myhandle=new Handler(){
-                 public void handleMessage(Message msg) {
+    Handler myhandle = new Handler() {
+
+        public void handleMessage(Message msg) {
             if (1 == msg.what) {
-                     startTime();
+                startTime();
                 sleep.setClickable(false);
-                sleep.setTextColor( ContextCompat.getColor(getActivity(), R.color.gray));
+                sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
+               // getActivity().startService(intent);
                 getup.setClickable(true);
-                getup.setTextColor( ContextCompat.getColor(getActivity(), R.color.sleep));
-                 }
+                getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.sleep));
+            }
 
             if (2 == msg.what) {
-                     stopTime();
+                stopTime();
                 sleep.setClickable(true);
-                sleep.setTextColor( ContextCompat.getColor(getActivity(), R.color.sleep));
+                sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.sleep));
+               // getActivity().stopService(intent);
                 getup.setClickable(false);
-                getup.setTextColor( ContextCompat.getColor(getActivity(), R.color.gray));
-                }
-             }
-             };
+                getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
+            }
+        }
+    };
 
-//             Looper.loop();
-//
-//         }
-//     }.start();
-// }
     /**
      * 开始
      */
     public void startTime() {
-        timer=new Timer();
+        timer = new Timer();
         timerTask = new TimerTask() {
             @Override
             public void run() {
 
-               i++;
+                i++;
                 //异常，在Android中不允许Activity里新启动的线程访问该Activity里的UI组件，这样会导致新启动的线程无法改变UI组件的属性值。
 //                Toast.makeText(getActivity(), "晚安", Toast.LENGTH_SHORT).show();
             }
@@ -145,7 +146,7 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), "你睡了 " + i / 3600 + "小时" + i / 60 + "分" + i + "秒", Toast.LENGTH_SHORT).show();
 
             timer.cancel();
-            i=0;
+            i = 0;
         } else {
             //这里应该单独做一个界面，显示睡觉时间
             Toast.makeText(getActivity(), "你睡了 " + i / 3600 + "小时" + i / 60 + "分" + i + "秒", Toast.LENGTH_SHORT).show();
