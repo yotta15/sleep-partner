@@ -44,4 +44,6 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     //添加bottomDaiglog 的依赖
     implementation 'com.android.support:design:26.1.0'
+
+
 }
