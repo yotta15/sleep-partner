@@ -3,7 +3,11 @@ package com.example.gzy.test3.activity;
 /**
  * Created by w on 2018/12/2.
  */
+
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -26,7 +30,7 @@ import com.example.gzy.test3.fragment.FragmentOne;
 import com.example.gzy.test3.fragment.FragmentThree;
 import com.example.gzy.test3.fragment.FragmentTwo;
 
-public class ContentActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
+public class ContentActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     BottomNavigationBar mBottomNavigationBar;
     private FragmentOne mFragmentOne;
     private FragmentTwo mFragmentTwo;
@@ -42,13 +46,14 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
     private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
     private ArrayAdapter arrayAdapter;
 
-    protected  void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        applyPermission();
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.tabbar);
 
-        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         lvLeftMenu = (ListView) findViewById(R.id.lv_left_menu);
         toolbar.setTitle("Toolbar");//设置Toolbar标题
         toolbar.setTitleTextColor(Color.parseColor("#ffffff")); //设置标题颜色
@@ -57,10 +62,10 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        f1=(FrameLayout) findViewById(R.id.content);
-        textView=(TextView) findViewById(R.id.message);
+        f1 = (FrameLayout) findViewById(R.id.content);
+        textView = (TextView) findViewById(R.id.message);
         mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
-        drawerLayout=(DrawerLayout)findViewById(R.id.draw);
+        drawerLayout = (DrawerLayout) findViewById(R.id.draw);
 
         //创建返回键，并实现打开关/闭监听
         mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
@@ -68,6 +73,7 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -98,7 +104,7 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
                         .setActiveColorResource(R.color.lime))
                 .addItem(new BottomNavigationItem(R.drawable.thirdpg, R.string.tab_three)
                         .setActiveColorResource(R.color.lime))
-                        //依次添加item,分别icon和名称
+                //依次添加item,分别icon和名称
                 .setFirstSelectedPosition(0)//设置默认选择item
                 .initialise();//初始化
         mBottomNavigationBar.setTabSelectedListener(this);
@@ -139,6 +145,24 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
 
     }
 
+    //动态申请权限
+    public void applyPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int REQUEST_CODE_CONTACT = 101;
+            String[] permissions = {Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+            //验证是否许可权限
+            for (String str : permissions) {
+                if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
+                 //申请权限
+                    this.requestPermissions(permissions, REQUEST_CODE_CONTACT);
+                    return;
+                }
+            }
+        }
+
+    }
+
     @Override
     public void onTabUnselected(int position) {
 
@@ -148,6 +172,7 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
     public void onTabReselected(int position) {
 
     }
+
     /**
      * 切换Fragment
      *
@@ -162,6 +187,7 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         }
         transaction.show(fragments[index]).commitAllowingStateLoss();
     }
+
     //fragment初始化有问题
     private void initFragments() {
         mFragmentOne = new FragmentOne();

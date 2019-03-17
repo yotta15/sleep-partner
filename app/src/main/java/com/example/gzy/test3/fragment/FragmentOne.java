@@ -3,7 +3,6 @@ package com.example.gzy.test3.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,8 +15,10 @@ import android.widget.Toast;
 
 
 import com.example.gzy.test3.R;
-import com.example.gzy.test3.activity.ContentActivity;
+import com.example.gzy.test3.service.AudioRecordFunc;
+import com.example.gzy.test3.service.AudioRecorder;
 import com.example.gzy.test3.service.RecordingService;
+import com.example.gzy.test3.service.SensorService;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,9 +30,8 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
     private View view;
     private Button sleep, getup;
     private int i = 0;
-    //Intent intent = new Intent(((ContentActivity)getActivity()), RecordingService.class);
-
-
+    private AudioRecordFunc audioRecorder;
+    private AudioRecorder maudioRecorder;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.firstfragment, container, false);
@@ -49,6 +49,8 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        audioRecorder=new AudioRecordFunc();
+        maudioRecorder=new AudioRecorder();
 //        initview();
     }
 
@@ -93,14 +95,20 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
 //     new Thread() {
 //         public void run () {
 //             Looper.prepare();
+    //TODO 改用bindservice启动，binder中内调停止service
     Handler myhandle = new Handler() {
 
         public void handleMessage(Message msg) {
+            Intent intent = new Intent(getActivity(), RecordingService.class);
+            Intent intent2=new Intent(getActivity(), SensorService.class);
             if (1 == msg.what) {
                 startTime();
                 sleep.setClickable(false);
                 sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
-               // getActivity().startService(intent);
+                getActivity().startService(intent2);
+                //SaudioRecorder.startRecord();
+
+                // maudioRecorder.getNoiseLevel();
                 getup.setClickable(true);
                 getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.sleep));
             }
@@ -109,7 +117,9 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
                 stopTime();
                 sleep.setClickable(true);
                 sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.sleep));
-               // getActivity().stopService(intent);
+              // getActivity().stopService(intent);
+//                audioRecorder.stopRecord();
+                getActivity().stopService(intent2);
                 getup.setClickable(false);
                 getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
             }
