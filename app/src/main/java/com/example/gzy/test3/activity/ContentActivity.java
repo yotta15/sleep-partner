@@ -46,6 +46,8 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
     private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
     private ArrayAdapter arrayAdapter;
 
+    private  Fragment  currentFragment=new Fragment();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         applyPermission();
@@ -56,7 +58,7 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         lvLeftMenu = (ListView) findViewById(R.id.lv_left_menu);
         toolbar.setTitle("Toolbar");//设置Toolbar标题
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff")); //设置标题颜色
+        toolbar.setTitleTextColor(getResources().getColor(R.color.holo_blue_light)); //设置标题颜色
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,25 +87,27 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
         lvLeftMenu.setAdapter(arrayAdapter);
 
-        /*** the setting for BottomNavigationBar ***/
+        /**
+         * the setting for BottomNavigationBar
+         * TODO 设置图片与文字的距离太近
+         **/
 
 //        mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
 //        mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
-        mBottomNavigationBar.setBarBackgroundColor(R.color.green);//set background color for navigation bar
-        mBottomNavigationBar.setInActiveColor(R.color.white);//unSelected icon color
-        BadgeItem badgeItem = new BadgeItem();//实现数值添加
-        badgeItem.setHideOnSelect(false)
-                .setText("10")
-                .setBackgroundColorResource(R.color.orange)
-                .setBorderWidth(0);
+        mBottomNavigationBar.setBarBackgroundColor(R.color.white);//set background color for navigation bar
+        mBottomNavigationBar.setInActiveColor(R.color.black);//unSelected icon color
+        //   BadgeItem badgeItem = new BadgeItem();//实现数值添加
+//        badgeItem.setHideOnSelect(false)
+//                .setBackgroundColorResource(R.color.holo_blue_light)
+//                .setBorderWidth(0);
         mBottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.firstpg, R.string.tab_one)
-                .setActiveColorResource(R.color.lime).setBadgeItem(badgeItem))
+                .setActiveColorResource(R.color.holo_blue_light))
                 .addItem(new BottomNavigationItem(R.drawable.secondpg, R.string.tab_two)
-                        .setActiveColorResource(R.color.lime))
+                        .setActiveColorResource(R.color.holo_blue_light))
                 .addItem(new BottomNavigationItem(R.drawable.thirdpg, R.string.tab_three)
-                        .setActiveColorResource(R.color.lime))
+                        .setActiveColorResource(R.color.holo_blue_light))
                 //依次添加item,分别icon和名称
                 .setFirstSelectedPosition(0)//设置默认选择item
                 .initialise();//初始化
@@ -112,26 +116,44 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         initFragments();
     }
 
+    //动态申请权限
+    public void applyPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int REQUEST_CODE_CONTACT = 101;
+            String[] permissions = {Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+            //验证是否许可权限
+            for (String str : permissions) {
+                if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
+                    //申请权限
+                    this.requestPermissions(permissions, REQUEST_CODE_CONTACT);
+                    return;
+                }
+            }
+        }
+
+    }
+
     @Override
     public void onTabSelected(int position) {
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+      // FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (position) {
 
             case 0:
                 if (lastShowFragment != 0) {
-                    switchFrament(lastShowFragment, 0);
+                    switchFragment(mFragmentOne).commit();
                     lastShowFragment = 0;
                 }
                 break;
             case 1:
                 if (lastShowFragment != 1) {
-                    switchFrament(lastShowFragment, 1);
+                    switchFragment(mFragmentTwo).commit();
                     lastShowFragment = 1;
                 }
                 break;
             case 2:
                 if (lastShowFragment != 2) {
-                    switchFrament(lastShowFragment, 2);
+                    switchFragment(mFragmentThree).commit();
                     lastShowFragment = 2;
                 }
                 break;
@@ -145,50 +167,46 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
 
     }
 
-    //动态申请权限
-    public void applyPermission() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            int REQUEST_CODE_CONTACT = 101;
-            String[] permissions = {Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-            //验证是否许可权限
-            for (String str : permissions) {
-                if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
-                 //申请权限
-                    this.requestPermissions(permissions, REQUEST_CODE_CONTACT);
-                    return;
-                }
-            }
-        }
-
-    }
-
     @Override
     public void onTabUnselected(int position) {
-
     }
 
     @Override
     public void onTabReselected(int position) {
-
+    }
+  //
+    private FragmentTransaction switchFragment(Fragment targetFragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (!targetFragment.isAdded()) {
+            //第一次使用switchFragment()时currentFragment为null，所以要判断一下    
+            if (currentFragment != null) {
+                transaction.hide(currentFragment);
+            }
+            transaction.add(R.id.content, targetFragment);
+        } else {
+            transaction.hide(currentFragment).show(targetFragment);
+        } currentFragment = targetFragment;
+        return transaction;
     }
 
     /**
      * 切换Fragment
+     * TODO 切换fragment时状态未能保存
      *
      * @param lastIndex 上个显示Fragment的索引
      * @param index     需要显示的Fragment的索引
+     *                  NOTICE : replace 会在fragment切换时进行重建，这里应该使用add
      */
-    public void switchFrament(int lastIndex, int index) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.hide(fragments[lastIndex]);
-        if (!fragments[index].isAdded()) {
-            transaction.replace(R.id.content, fragments[index]);
-        }
-        transaction.show(fragments[index]).commitAllowingStateLoss();
-    }
+//    public void switchFrament(int lastIndex, int index) {
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.hide(fragments[lastIndex]);
+//        if (!fragments[index].isAdded()) {
+//            transaction.replace(R.id.content, fragments[index]);
+//        }
+//        transaction.show(fragments[index]).commitAllowingStateLoss();
+//    }
 
-    //fragment初始化有问题
+    //第一次init把fragment全部添加进来，这样所有Fragment只会被实例化一次（优化）
     private void initFragments() {
         mFragmentOne = new FragmentOne();
         mFragmentTwo = new FragmentTwo();
@@ -198,8 +216,12 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content, mFragmentOne)
-                .show(mFragmentOne)
+                .add(R.id.content, mFragmentOne)
+                .add(R.id.content, mFragmentTwo)
+                .add(R.id.content, mFragmentThree)
+                .hide(mFragmentTwo)
+                .hide(mFragmentThree)
+              //  .show(mFragmentOne)
                 .commit();
     }
 }

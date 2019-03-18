@@ -119,7 +119,7 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
                 sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.sleep));
               // getActivity().stopService(intent);
 //                audioRecorder.stopRecord();
-                getActivity().stopService(intent2);
+               // getActivity().stopService(intent2);
                 getup.setClickable(false);
                 getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
             }

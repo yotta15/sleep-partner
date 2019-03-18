@@ -9,8 +9,10 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.gzy.test3.R;
+import com.example.gzy.test3.UI.Toastview;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,13 +84,13 @@ public class RecordingService extends  Service{
     // 设置录音文件的名字和保存路径
     public void setFileNameAndPath() {
         File f;
-
+        Toast.makeText(getApplicationContext(),"file is ready",Toast.LENGTH_LONG).show();
         do {
             count++;
             mFileName = getString(R.string.default_file_name)
                     + "_" + (System.currentTimeMillis()) + ".mp4";
-            mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            mFilePath += "/SoundRecorder/" + mFileName;
+            mFilePath = Environment.getExternalStorageDirectory().getPath();
+            mFilePath += "/12/" + mFileName;
             f = new File(mFilePath);
         } while (f.exists() && !f.isDirectory());
     }

@@ -48,6 +48,7 @@ public class SensorService extends Service implements SensorEventListener{
             //TODO
         }
     }
+    
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -81,7 +82,8 @@ public class SensorService extends Service implements SensorEventListener{
         float delta = (float) (Math.sqrt(deltaX * deltaX  + deltaZ * deltaZ) / diffTime * 10000);
         // 当检测到一个摇晃（加速度的差值大于指定阈值）,差不多是这了，
         if (delta > shakeThreshold ) {
-            Log.i("SensorChange","change");
+          //  Log.i("SensorChange","change");
+            Toast.makeText(getApplication(),"Sensor change",Toast.LENGTH_LONG).show();
             //TODO
             // dosomething();
         }

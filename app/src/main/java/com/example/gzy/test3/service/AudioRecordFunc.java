@@ -3,6 +3,7 @@ package com.example.gzy.test3.service;
 /**
  * created by gzy on 2019/3/13.
  * Describle;
+ * 去噪，去除手机内部声音
  */
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +34,7 @@ public class AudioRecordFunc {
      */
     private ConcurrentLinkedQueue<byte[]> audioQueue = new ConcurrentLinkedQueue<byte[]>();
     //核心线性大小，最大线程池大小，线程池中超过corePoolSize数目的空闲线程最大存活时间，keepAliveTime时间单位
-    private ThreadPoolExecutor mExecutor = new ThreadPoolExecutor(2, 2, 60, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>());
+   // private ThreadPoolExecutor mExecutor = new ThreadPoolExecutor(2, 2, 60, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>());
 
     private AudioTrack mAudioTrack;
     private AudioRecord mAudioRecord;
@@ -52,8 +53,9 @@ public class AudioRecordFunc {
     private void initData() {
         mRecorderBufferSize = AudioRecord.getMinBufferSize(mSampleRateInHZ, mChannelConfig, mAudioFormat);
         mAudioData = new byte[320];
-        mAudioRecord = new AudioRecord(MediaRecorder.AudioSource.
-                VOICE_COMMUNICATION, mSampleRateInHZ, mChannelConfig, mAudioFormat, mRecorderBufferSize);
+        //插上耳机的时候，仍然使用机身的麦克风接受外界输入，耳机播放音频与机身麦克风接受外音互不干扰
+        mAudioRecord = new AudioRecord(MediaRecorder.AudioSource.CAMCORDER,
+                mSampleRateInHZ, mChannelConfig, mAudioFormat, mRecorderBufferSize);
         mLock=new Object();
 //        mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, mSampleRateInHZ, mChannelConfig, mAudioFormat, mRecorderBufferSize * 2
 //                , AudioTrack.MODE_STREAM);
@@ -129,7 +131,15 @@ public class AudioRecordFunc {
         mAudioRecord.stop();
 
     }
+    //去噪
+    void calc1(short[] lin,int off,int len) {
+        int i,j;
 
+        for (i = 0; i < len; i++) {
+            j = lin[i+off];
+            lin[i+off] = (short)(j>>2);
+        }
+    }
     private void pcmToWave(String inFileName, String outFileName) {
         FileInputStream in = null;
         FileOutputStream out = null;
