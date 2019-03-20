@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 矩形边框圆角 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"
+    android:useLevel="true"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+
+    <size android:height="100dp"
+        android:width="100dp"/>
+
+    <stroke
+        android:width="2dp"
+        android:color="@color/white" />
+
+    <corners android:bottomLeftRadius="2dp"
+        android:bottomRightRadius="2dp"
+        android:topLeftRadius="2dp"
+        android:topRightRadius="2dp" />
+
+</shape>

@@ -11,4 +11,6 @@
     <dimen name="main_matrix_width">95dp</dimen>
     <dimen name="nomal_text_size">16sp</dimen>
     <dimen name="large_text_size">20sp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_4">4dp</dimen>
 </resources>

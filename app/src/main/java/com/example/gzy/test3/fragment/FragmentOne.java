@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +29,15 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
     private Timer timer;
     private TimerTask timerTask;
     private View view;
+     private CardView mcardview;
     private Button sleep, getup;
     private int i = 0;
     private AudioRecordFunc audioRecorder;
     private AudioRecorder maudioRecorder;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.firstfragment, container, false);
+        view = inflater.inflate(R.layout.sleepfragment, container, false);
+
         sleep = (Button) view.findViewById(R.id.sleep);
         sleep.setOnClickListener(this);
         getup = (Button) view.findViewById(R.id.getup);
@@ -49,8 +52,8 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        audioRecorder=new AudioRecordFunc();
-        maudioRecorder=new AudioRecorder();
+        audioRecorder = new AudioRecordFunc();
+        maudioRecorder = new AudioRecorder();
 //        initview();
     }
 
@@ -100,7 +103,7 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
 
         public void handleMessage(Message msg) {
             Intent intent = new Intent(getActivity(), RecordingService.class);
-            Intent intent2=new Intent(getActivity(), SensorService.class);
+            Intent intent2 = new Intent(getActivity(), SensorService.class);
             if (1 == msg.what) {
                 startTime();
                 sleep.setClickable(false);
@@ -117,9 +120,9 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
                 stopTime();
                 sleep.setClickable(true);
                 sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.sleep));
-              // getActivity().stopService(intent);
+                // getActivity().stopService(intent);
 //                audioRecorder.stopRecord();
-               // getActivity().stopService(intent2);
+                // getActivity().stopService(intent2);
                 getup.setClickable(false);
                 getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
             }
