@@ -50,5 +50,6 @@ dependencies {
     //添加bottomDaiglog 的依赖
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:appcompat-v7:26.1.0'
+
     implementation 'com.githang:status-bar-compat:latest.integration'
 }

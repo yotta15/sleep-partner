@@ -25,9 +25,9 @@
     <!--允许读取手机状态 用于创建BmobInstallation-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 授予该程序录制声音的权限 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- 授予该程序想外部存储器写入数据的权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -36,7 +36,24 @@
         android:roundIcon="@mipmap/sleep_partner"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".service.SensorService"/>
+        <service android:name=".service.SensorService" />
+        <service android:name=".service.AlarmService" />
+
+        <receiver
+            android:name=".broadcastReceiver.AlarmReceiver"
+            android:exported="false">
+            <intent-filter android:priority="20">
+                <action android:name="com.g.android.RING" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activity.AlarmActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -85,6 +102,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
