@@ -1,7 +1,10 @@
 package com.example.gzy.test3.activity;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +16,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.gzy.test3.R;
+import com.example.gzy.test3.broadcastReceiver.AlarmReceiver;
 import com.example.gzy.test3.service.AlarmService;
 import com.githang.statusbar.StatusBarCompat;
 
@@ -22,13 +26,19 @@ import java.util.Calendar;
 /**
  * created by gzy on 2019/3/21.
  * Describle;
+ * 只能设置一天的闹钟
+ * 耗时操作交给service
  */
-public class AlarmActivity extends AppCompatActivity  implements View.OnClickListener {
-    private  ImageView  mreturn;
-    private  Switch mswitch;
+public class AlarmActivity extends AppCompatActivity implements View.OnClickListener {
+    private ImageView mreturn;
+    private Switch mswitch;
     private TimePicker mtimePicker;
     private AlarmManager alarmManager;
     Intent intent;
+    PendingIntent pendingIntent;
+    Calendar c=Calendar.getInstance();
+    boolean Tag = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,40 +49,60 @@ public class AlarmActivity extends AppCompatActivity  implements View.OnClickLis
         intent = new Intent(AlarmActivity.this, AlarmService.class);
 
         //用于获取alarmmanager对象
-        alarmManager=(AlarmManager)getSystemService(ALARM_SERVICE) ;
-//        Intent intent = new Intent(getActivity(), AlarmService.class);
-//        intent.putExtra("calendar", CalendarLab.get(getActivity()).getCalendar());
-//        intent.putExtra("noteId", noteId);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        getActivity().startService(intent);
-////发送一条启动闹铃图标的广播
-//        Intent intentIcon = new Intent("com.gaozhidong.android.Color");
-//        intentIcon.putExtra("noteId", noteId);
-//        getActivity().sendBroadcast(intentIcon);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        //动态注册
+        IntentFilter intentFilter=new IntentFilter("com.gzy.android.RING");
+        AlarmReceiver alarmReceiver=new AlarmReceiver();
+        registerReceiver(alarmReceiver,intentFilter);
 
-        mreturn=(ImageView)findViewById(R.id.iv_return);
-        mreturn.setOnClickListener(this);
-        mswitch=(Switch)findViewById(R.id.of_switch);
+        mreturn = (ImageView) findViewById(R.id.iv_return);
+        mreturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(AlarmActivity.this,ContentActivity.class);
+                startActivity(intent);
+            }
+        });
+        mswitch = (Switch) findViewById(R.id.of_switch);
 
-        mtimePicker=(TimePicker)findViewById(R.id.tp_clock);
+        mtimePicker = (TimePicker) findViewById(R.id.tp_clock);
+        mtimePicker.setIs24HourView(true);
+        //设置默认时间为当前时间加1
+        int i = c.get(Calendar.HOUR_OF_DAY)+1;
+        mtimePicker.setCurrentHour(i);
+        mtimePicker.cancelPendingInputEvents();
+        //TODO 日期设置记住用户习惯
         mtimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hourofday, int minute) {
-                Toast.makeText(getApplicationContext(), "time:" + hourofday + minute, Toast.LENGTH_LONG).show();
-                Calendar c = Calendar.getInstance();
-                c.setTimeInMillis(System.currentTimeMillis());
+                //   Toast.makeText(getApplicationContext(), "time:" + hourofday + minute, Toast.LENGTH_LONG).show();
+
+                //  c.setTimeInMillis(System.currentTimeMillis());
                 c.set(Calendar.HOUR, hourofday);
                 c.set(Calendar.MINUTE, minute);
-                intent.putExtra("calendar", c);
+                c.set(Calendar.SECOND, 0);
+                c.set(Calendar.MILLISECOND, 0);
+                Toast.makeText(getApplicationContext(), "" + c.getTimeInMillis(), Toast.LENGTH_LONG).show();
 
+                intent.putExtra("calendar", c);
+                //TODO service并不会重复启动
+                setAlarm();
             }
         });
         mswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    AlarmActivity.this.startService(intent);
+                if (b) {
+                    Tag = true;
+                    c.setTimeInMillis(System.currentTimeMillis());
+                    setAlarm();
+                    //  Toast.makeText(getApplicationContext(), "time", Toast.LENGTH_LONG).show();
+                    // AlarmActivity.this.startService(intent);
 
+
+
+                } else {
+                    Tag = false;
                 }
             }
         });
@@ -81,11 +111,25 @@ public class AlarmActivity extends AppCompatActivity  implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_return:
                 break;
 
         }
 
+    }
+
+    private void setAlarm() {
+        if (Tag) {
+            pendingIntent = PendingIntent.getService(AlarmActivity.this, 0, intent, 0);
+            //根据不同的版本使用不同的设置方法,将在calendar对应的时间启动paddingintent
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+            }
+        }
     }
 }

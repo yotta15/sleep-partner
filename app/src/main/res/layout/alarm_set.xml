@@ -74,11 +74,15 @@
 
             <TimePicker
                 android:id="@+id/tp_clock"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/of_switch"
                 android:headerBackground="@color/holo_blue_light"
-                android:numbersSelectorColor="@color/holo_blue_light">
+                android:numbersSelectorColor="@color/holo_blue_light"
+
+
+                android:keyboardNavigationCluster="false">
 
             </TimePicker>
 
