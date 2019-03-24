@@ -103,7 +103,6 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
 
         /**
          * the setting for BottomNavigationBar
-         * TODO 设置图片与文字的距离太近
          **/
 
 

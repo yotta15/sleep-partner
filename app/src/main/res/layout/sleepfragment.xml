@@ -15,37 +15,47 @@
         android:layout_marginLeft="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_8"
-        android:layout_centerInParent="true">
+       >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="300dp">
+
+            <com.example.gzy.test3.UI.cicle
+                android:id="@+id/cicle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                />
 
             <ImageView
                 android:id="@+id/iv_clock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
 
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="@drawable/ssss" />
+                android:background="@drawable/alarm" />
 
             <ImageView
                 android:id="@+id/iv_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="false"
-                android:layout_toRightOf="@id/iv_clock"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="22dp"
+                android:layout_marginTop="18dp"
                 android:background="@drawable/message" />
 
             <TextView
                 android:id="@+id/tv_notice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/iv_clock"
+                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
 
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
                 android:text="闹钟未设置"
                 android:textColor="@color/gray" />
         </RelativeLayout>

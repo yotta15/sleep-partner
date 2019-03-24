@@ -11,7 +11,11 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -34,6 +38,7 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
     private int i = 0;
     private AudioRecordFunc audioRecorder;
     private AudioRecorder maudioRecorder;
+    private ImageView imageView;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.sleepfragment, container, false);
@@ -44,9 +49,25 @@ public class FragmentOne extends Fragment implements View.OnClickListener {
         getup.setOnClickListener(this);
         getup.setClickable(false);
         getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
+        imageView=(ImageView)view.findViewById(R.id.iv_clock);
+        setFlickerAnimation(imageView);
+//        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));  //image的布局方式
+////        imageView.setImageResource(R.drawable.alarm);  //设置imageview呈现的图片
+////        view.addView(imageView);
         return view;
+     //   ViewGroup group = (ViewGroup) view.findViewById(R.id.viewGroup); //获取原来的布局容器
+     //   ImageView imageView = new ImageView(this);  //创建imageview
+        //添加到布局容器中，显示图片。
 
-
+    }
+    //实现图片闪烁效果
+    private void setFlickerAnimation(ImageView iv_chat_head) {
+        final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
+        animation.setDuration(500); // duration - half a second
+        animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate
+        animation.setRepeatCount(Animation.INFINITE); // Repeat animation infinitely
+        animation.setRepeatMode(Animation.REVERSE); //
+        iv_chat_head.setAnimation(animation);
     }
 
     public void onCreate(Bundle savedInstanceState) {
