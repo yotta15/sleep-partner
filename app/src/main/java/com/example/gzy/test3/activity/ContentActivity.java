@@ -39,6 +39,9 @@ import com.githang.statusbar.StatusBarCompat;
 
 import java.lang.reflect.Field;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobConfig;
+
 public class ContentActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     BottomNavigationBar mBottomNavigationBar;
     private FragmentOne mFragmentOne;
@@ -59,7 +62,17 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //
+
+        //第一：默认初始化
+        Bmob.initialize(this, "5a5dcb5264e14c4fa9886e8511707ac0");
+        //设置BmobConfig
+//        BmobConfig config =new BmobConfig.Builder()
+//                //请求超时时间（单位为秒）：默认15s
+//                .setConnectTimeout(30)
+//                //文件分片上传时每片的大小（单位字节），默认512*1024
+//                .setBlockSize(500*1024)
+//                .build();
+//        Bmob.getInstance().initConfig(config);
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.holo_blue_light));
         //初始化fragments及设置默认fragment
         initFragments();

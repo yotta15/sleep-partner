@@ -31,7 +31,9 @@
     <!--添加振动器权限-->
     <uses-permission android:name="android.permission.VIBRATE" />
     <!--添加闪光灯权限-->
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+   <!--重复依赖-->
+    <!--<uses-permission android:name="android.permission.CAMERA" />-->
 
     <application
         android:allowBackup="true"
@@ -40,16 +42,44 @@
         android:roundIcon="@mipmap/sleep_partner"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.gzy.test3.fileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <service android:name=".service.SensorService" />
         <service android:name=".service.AlarmService" />
 
         <receiver
             android:name=".broadcastReceiver.AlarmReceiver"
             android:exported="true">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="com.gzy.android.RING" />
             </intent-filter>
         </receiver>
+
+
+        <activity android:name=".activity.SelectImageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="com.foamtrace.photopicker.PhotoPickerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name="com.foamtrace.photopicker.PhotoPreviewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity android:name=".activity.AlarmActivity">
             <intent-filter>

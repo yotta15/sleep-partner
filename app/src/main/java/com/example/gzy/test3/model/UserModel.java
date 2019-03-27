@@ -6,6 +6,7 @@ package com.example.gzy.test3.model;
  */
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 
 public class UserModel  extends BmobUser {
 
@@ -15,6 +16,8 @@ public class UserModel  extends BmobUser {
     private String grade;
     private Integer height;
     private Integer  weight;
+
+    private BmobFile User_pic;
 
     public  UserModel(){ }
 
@@ -68,6 +71,11 @@ public class UserModel  extends BmobUser {
     }
 
 
+    public BmobFile getUser_pic() {
+        return User_pic;
+    }
 
-
+    public void setUser_pic(BmobFile user_pic) {
+        User_pic = user_pic;
+    }
 }
