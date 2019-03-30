@@ -13,6 +13,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -62,6 +63,7 @@ public class SelectImageActivity extends AppCompatActivity implements View.OnCli
         intent.setSelectModel(SelectModel.SINGLE);
         intent.setShowCarema(true);
         startActivityForResult(intent, REQUEST_CAMERA_CODE);
+
 
 //        setContentView(R.layout.selectimage);
 //        Button danxuan = (Button) findViewById(R.id.danxuan);
@@ -215,12 +217,16 @@ public class SelectImageActivity extends AppCompatActivity implements View.OnCli
                         loadAdpater(paths);
                     }
                     break;
+
             }
-            Intent intent3=new Intent();
-            intent3.putExtra("head_image",returnPicture());
-            SelectImageActivity.this.setResult(RESULT_SUCCEED,intent3);
-            SelectImageActivity.this.finish();
         }
+        Intent intent3= new Intent();
+        Bundle bundle=new Bundle();
+        bundle.putString("head_image",returnPicture());
+        intent3.putExtras(bundle);
+        Log.i("selectImage",bundle.getString("head_image"));
+        SelectImageActivity.this.setResult(RESULT_OK,intent3);
+        SelectImageActivity.this.finish();
     }
    public String  returnPicture(){
       String imagePath;

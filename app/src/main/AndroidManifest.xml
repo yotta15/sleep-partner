@@ -65,7 +65,7 @@
         </receiver>
 
 
-        <activity android:name=".activity.SelectImageActivity">
+        <activity android:name=".activity.SelectPhotoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

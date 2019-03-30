@@ -5,6 +5,7 @@ package com.example.gzy.test3.activity;
  */
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -277,6 +278,11 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
     public int dip2px(float dpValue) {
         final float scale = getApplication().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
 

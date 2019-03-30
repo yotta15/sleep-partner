@@ -3,11 +3,19 @@ package com.example.gzy.test3.fragment;
  * created by gzy on 2018.11.12
  */
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Environment;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +31,22 @@ import com.example.gzy.test3.R;
 import com.example.gzy.test3.activity.RegisterActivity;
 import com.example.gzy.test3.model.UserModel;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
+
+import static cn.bmob.v3.Bmob.getFilesDir;
 
 public class RegisterFragmentTwo extends Fragment {
     EditText mEmail;
@@ -35,6 +56,7 @@ public class RegisterFragmentTwo extends Fragment {
     Button mBtnConfirm;
     String sex = "男";
     int age = 18, weight = 120, height = 180;
+    File headimage;
 
     public static RegisterFragmentTwo newInstance(int position, String name) {
 
@@ -183,8 +205,11 @@ public class RegisterFragmentTwo extends Fragment {
                     newUser.setWeight(weight);
                     newUser.setHeight(height);
                     newUser.setEmail(mEmail.getText().toString().trim());
-                    BmobUser bmobUser = BmobUser.getCurrentUser();
-                    newUser.update(bmobUser.getObjectId(), new UpdateListener() {
+                    //newUser.setUser_pic(drawableToFile());
+                    newUser.setGrade(0);
+                    UserModel user = BmobUser.getCurrentUser(UserModel.class);
+                    //BmobUser bmobUser = BmobUser.getCurrentUser();
+                    newUser.update(user.getObjectId(), new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
                             if (e == null) {
@@ -204,5 +229,36 @@ public class RegisterFragmentTwo extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    //drawable 转file
+    private BmobFile drawableToFile()  {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.info_headimage);
+        String mfilename = getString(R.string.default_file_name)
+                + "head_image.png";
+        String mFilePath = Environment.getExternalStorageDirectory().getPath();
+        mFilePath += "/12/" + mfilename;
+
+
+        File file=new File(mFilePath);//将要保存图片的路径
+        File fileParent = file.getParentFile();
+        if(!fileParent.exists()){
+            fileParent.mkdirs();
+        }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    return (new BmobFile(file));
     }
 }

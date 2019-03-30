@@ -9,15 +9,15 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 
 public class UserModel  extends BmobUser {
-
+    private BmobFile User_pic;
     private String sex;
     private Integer age;
     private String area;
-    private String grade;
+    private Integer grade;
     private Integer height;
     private Integer  weight;
 
-    private BmobFile User_pic;
+
 
     public  UserModel(){ }
 
@@ -46,11 +46,11 @@ public class UserModel  extends BmobUser {
         this.area = area;
     }
 
-    public String getGrade() {
+    public int getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(int grade) {
         this.grade = grade;
     }
 

@@ -9,8 +9,10 @@
     <dimen name="main_top_tab_text_size">20sp</dimen> <!--48px-->
     <dimen name="main_line_height">2.7dp</dimen><!--8px-->
     <dimen name="main_matrix_width">95dp</dimen>
+    <dimen name="small_text_size">10sp</dimen>
     <dimen name="nomal_text_size">16sp</dimen>
     <dimen name="large_text_size">20sp</dimen>
+    <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_4">4dp</dimen>
 </resources>
