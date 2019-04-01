@@ -7,6 +7,7 @@ package com.example.gzy.test3.model;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobGeoPoint;
 
 public class UserModel  extends BmobUser {
     private BmobFile User_pic;
@@ -16,6 +17,17 @@ public class UserModel  extends BmobUser {
     private Integer grade;
     private Integer height;
     private Integer  weight;
+    private BmobGeoPoint address;
+
+    public BmobGeoPoint getAddress() {
+        return address;
+    }
+
+    public void setAddress(BmobGeoPoint address) {
+        this.address = address;
+    }
+
+
 
 
 

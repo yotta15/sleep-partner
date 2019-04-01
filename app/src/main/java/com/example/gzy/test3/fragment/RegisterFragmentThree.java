@@ -14,6 +14,9 @@ import com.example.gzy.test3.R;
 import com.example.gzy.test3.activity.ContentActivity;
 import com.example.gzy.test3.activity.MainActivity;
 
+/**
+ * 此页面用于注册 地区、个性化设置
+ */
 
 public class RegisterFragmentThree extends Fragment {
     private  Button btnSkip;

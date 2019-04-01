@@ -19,6 +19,7 @@ import android.os.Bundle;
 
 import com.example.gzy.test3.R;
 import com.example.gzy.test3.presenter.LoginPresenterImpl;
+import com.githang.statusbar.StatusBarCompat;
 
 import cn.bmob.v3.Bmob;
 
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         //第一：默认初始化
+        StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.white));
+
         Bmob.initialize(this, "5a5dcb5264e14c4fa9886e8511707ac0");
         musername = (EditText) findViewById(R.id.username);
         musername.addTextChangedListener(new TextWatcher() {

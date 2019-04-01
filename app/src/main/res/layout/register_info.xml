@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/info_email"
+            android:hint="@string/info_email"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -28,7 +28,6 @@
             android:layout_marginEnd="10dp"
             android:background="@null"
             android:drawablePadding="10dp"
-            android:hint="@string/tip_email"
             android:inputType="textEmailAddress"
             android:lines="0"
             android:paddingBottom="10dp"
@@ -60,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="@string/info_sex"
+            android:hint="@string/info_sex"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -115,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="@string/info_age"
+            android:hint="@string/info_age"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -125,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="@string/showage"
+            android:hint="@string/showage"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -160,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="@string/info_height"
+            android:hint="@string/info_height"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -170,7 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="@string/showheight"
+            android:hint="@string/showheight"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -180,6 +179,7 @@
             android:layout_height="20dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="0dp"
+
             android:background="@color/white"
             android:src="@drawable/raw" />
 
@@ -204,7 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="@string/info_weight"
+            android:hint="@string/info_weight"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -214,7 +214,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="@string/showweight"
+            android:hint="@string/showweight"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 

@@ -64,8 +64,13 @@ public class UserPresenterImpl implements IUserPresenter {
 
     public void downloadFile(BmobFile file) {
         //允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
+
         File saveFile = new File(Environment.getExternalStorageDirectory()
-                + getApplicationContext().getResources().getString(R.string.default_file_name), file.getFilename());
+                +"/"+ getApplicationContext().getResources().getString(R.string.default_file_name), "head_image");
+      //  File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
+        if(!saveFile.exists()){
+            saveFile.mkdirs();
+        }
         file.download(saveFile, new DownloadFileListener() {
 
             @Override
@@ -86,7 +91,7 @@ public class UserPresenterImpl implements IUserPresenter {
 
             @Override
             public void onProgress(Integer value, long newworkSpeed) {
-                Log.i("bmob", "下载进度：" + value + "," + newworkSpeed);
+             //   Log.i("bmob", "下载进度：" + value + "," + newworkSpeed);
             }
 
         });
@@ -94,7 +99,6 @@ public class UserPresenterImpl implements IUserPresenter {
 
     public void uploadHeadImage(String urlpath) {
 
-        //   Log.i("method","used");
         final BmobFile bmobFile = new BmobFile(new File(urlpath));
 
         bmobFile.uploadblock(new UploadFileListener() {
@@ -102,6 +106,7 @@ public class UserPresenterImpl implements IUserPresenter {
             @Override
             public void done(BmobException e) {
                 if (e == null) {
+                    Log.i("method","used");
                     saveFile(bmobFile);
                 } else {
                 }
@@ -110,10 +115,10 @@ public class UserPresenterImpl implements IUserPresenter {
     }
 
     private void saveFile(BmobFile file) {
-        UserModel user = BmobUser.getCurrentUser(UserModel.class);
+        UserModel user =new UserModel();
+        UserModel user1 = BmobUser.getCurrentUser(UserModel.class);
         user.setUser_pic(file);
-
-        user.update(user.getObjectId(), new UpdateListener() {
+        user.update(user1.getObjectId(), new UpdateListener() {
             @Override
             public void done(BmobException e) {
                 if (e == null) {

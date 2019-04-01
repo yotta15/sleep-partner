@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/username"
+            android:hint="@string/username"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -28,7 +28,6 @@
             android:layout_marginEnd="10dp"
             android:background="@null"
             android:drawablePadding="10dp"
-            android:hint="@string/tip_username"
             android:inputType="textPersonName"
             android:lines="0"
             android:maxLength="11"
@@ -60,7 +59,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/phone"
+            android:hint="@string/phone"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -71,7 +70,6 @@
             android:layout_marginEnd="10dp"
             android:background="@null"
             android:drawablePadding="10dp"
-            android:hint="@string/tip_phone"
             android:inputType="phone"
             android:lines="0"
             android:maxLength="11"
@@ -103,7 +101,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/code"
+            android:hint="@string/code"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -113,7 +111,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="@string/tip_code"
             android:inputType="number"
             android:lines="0"
             android:maxLength="6"
@@ -130,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:text="@string/getcode"
+            android:hint="@string/getcode"
             android:background="@color/white"
             android:textSize="15sp" />
     </LinearLayout>
@@ -153,7 +150,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/password"
+            android:hint="@string/password"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -163,7 +160,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="@string/tip_password"
             android:inputType="textPassword"
             android:lines="0"
             android:maxLength="10"
@@ -190,7 +186,6 @@
         android:id="@+id/btnSubmitCode"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-
         android:background="@layout/sign_button"
         android:hint="注册"
         android:textSize="15dp" />

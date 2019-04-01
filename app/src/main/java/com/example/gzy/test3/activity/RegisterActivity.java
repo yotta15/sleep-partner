@@ -1,5 +1,8 @@
 package com.example.gzy.test3.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +12,7 @@ import com.example.gzy.test3.R;
 import com.example.gzy.test3.fragment.RegisterFragmentOne;
 import com.example.gzy.test3.fragment.RegisterFragmentThree;
 import com.example.gzy.test3.fragment.RegisterFragmentTwo;
+import com.githang.statusbar.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +28,8 @@ public class RegisterActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
-
+        StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.holo_blue_light));
+        applyPermission();
         //第一：默认初始化
         Bmob.initialize(this, "5a5dcb5264e14c4fa9886e8511707ac0");
 
@@ -45,7 +50,22 @@ public class RegisterActivity extends FragmentActivity
 
 
     }
+    //动态申请权限,录音权限，读写权限
+    public void applyPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int REQUEST_CODE_CONTACT = 101;
+            String[] permissions = {Manifest.permission.READ_PHONE_STATE};
+            //验证是否许可权限
+            for (String str : permissions) {
+                if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
+                    //申请权限
+                    this.requestPermissions(permissions, REQUEST_CODE_CONTACT);
+                    return;
+                }
+            }
+        }
 
+    }
     public void switchFragment(Fragment from, Fragment to) {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

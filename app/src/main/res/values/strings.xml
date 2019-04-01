@@ -54,7 +54,7 @@
     <string name="send_email">发送邮件</string>
     <string name="skip">跳过</string>
     <string name="resetinfo">修改我的个人信息</string>
-    <string name="default_file_name">SleepPartne_Radio</string>
+    <string name="default_file_name">SleepPartner</string>
     <string-array name="musicName">
         <item>I Figured You Out</item>
         <item>3_00 AM</item>

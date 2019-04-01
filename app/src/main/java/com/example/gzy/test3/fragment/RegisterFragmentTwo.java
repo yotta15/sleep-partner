@@ -1,6 +1,8 @@
 package com.example.gzy.test3.fragment;
+
 /**
  * created by gzy on 2018.11.12
+ * 此页面用于注册 昵称、性别、年龄、身高、体重
  */
 
 import android.annotation.SuppressLint;
@@ -205,7 +207,7 @@ public class RegisterFragmentTwo extends Fragment {
                     newUser.setWeight(weight);
                     newUser.setHeight(height);
                     newUser.setEmail(mEmail.getText().toString().trim());
-                    //newUser.setUser_pic(drawableToFile());
+                    newUser.setUser_pic(null);
                     newUser.setGrade(0);
                     UserModel user = BmobUser.getCurrentUser(UserModel.class);
                     //BmobUser bmobUser = BmobUser.getCurrentUser();
@@ -225,6 +227,7 @@ public class RegisterFragmentTwo extends Fragment {
         });
         return view;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

@@ -1,5 +1,6 @@
 package com.example.gzy.test3.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,9 @@ import com.example.gzy.test3.presenter.RegisterPresenterImpl;
 
 import static cn.bmob.v3.Bmob.getApplicationContext;
 
+/**
+ * 此页面用于注册  昵称、手机号、密码
+ */
 public class RegisterFragmentOne extends Fragment implements View.OnClickListener, IRegisterOneView {
     private Button  btnSubmitCode;
     private EditText etPhoneNumber, etCode, etpwd, etusername;
@@ -100,6 +104,7 @@ public class RegisterFragmentOne extends Fragment implements View.OnClickListene
     }
 
 
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             if ( -1 ==msg.what ) {
