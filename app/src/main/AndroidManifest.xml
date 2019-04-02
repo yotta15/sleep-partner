@@ -81,6 +81,8 @@
 
         <activity android:name=".activity.ModifyInfoActivity"
             android:exported="true"/>
+        <activity android:name=".activity.BarChartActivity"
+            android:exported="true"/>
 
         <activity android:name=".activity.SelectPicPopupWindow"
             android:theme="@style/MyDialogStyleBottom"

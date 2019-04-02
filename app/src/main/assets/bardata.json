@@ -1,0 +1,126 @@
+{
+  "eFinType": 3,
+  "stFinDate": {
+    "fVal": -21.7467,
+    "sDtSecCode": "0001000063",
+    "sFinanceDesc": "净资产收益率-21.75%，行业排名100/101",
+    "stIndSTRank": {
+      "iDtNum": 101,
+      "iRank": 100
+    },
+    "vtDateValue": [
+      {
+        "fValue": 15,
+        "sYearMonth": "2018-03"
+      },
+      {
+        "fValue": 15,
+        "sYearMonth": "2017-12"
+      },
+      {
+        "fValue": 6,
+        "sYearMonth": "2017-09"
+      },
+      {
+        "fValue": 25,
+        "sYearMonth": "2017-06"
+      },
+      {
+        "fValue":25,
+        "sYearMonth": "2017-03"
+      },
+      {
+        "fValue": 5,
+        "sYearMonth": "2017-03"
+      },
+      {
+        "fValue": 15,
+        "sYearMonth": "2017-06"
+      },
+      {
+        "fValue": 15,
+        "sYearMonth": "2017-06"
+      },
+      {
+        "fValue": 25,
+        "sYearMonth": "2017-09"
+      },
+      {
+        "fValue": 25,
+        "sYearMonth": "2017-12"
+      },
+      {
+        "fValue":15,
+        "sYearMonth": "2018-03"
+      },
+      {
+        "fValue": 25,
+        "sYearMonth": "2017-09"
+      },
+      {
+        "fValue": 25,
+        "sYearMonth": "2017-12"
+      },
+      {
+        "fValue":15,
+        "sYearMonth": "2018-03"
+      },
+      {
+        "fValue": 15,
+        "sYearMonth": "2018-03"
+      },
+      {
+        "fValue": 15,
+        "sYearMonth": "2017-06"
+      },
+      {
+        "fValue": 25,
+        "sYearMonth": "2017-09"
+      },
+      {
+        "fValue": 25,
+        "sYearMonth": "2017-12"
+      },
+      {
+        "fValue":15,
+        "sYearMonth": "2018-03"
+      },
+      {
+        "fValue": 15,
+        "sYearMonth": "2017-12"
+      },
+      {
+        "fValue": 6,
+        "sYearMonth": "2017-09"
+      },
+      {
+        "fValue": 25,
+        "sYearMonth": "2017-06"
+      },
+      {
+        "fValue":25,
+        "sYearMonth": "2017-03"
+      },
+      {
+        "fValue": 5,
+        "sYearMonth": "2017-03"
+      },
+      {
+        "fValue": 15,
+        "sYearMonth": "2017-06"
+      },
+      {
+        "fValue": 25,
+        "sYearMonth": "2017-09"
+      },
+      {
+        "fValue": 25,
+        "sYearMonth": "2017-12"
+      },
+      {
+        "fValue":15,
+        "sYearMonth": "2018-03"
+      }
+    ]
+  }
+}

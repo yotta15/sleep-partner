@@ -17,7 +17,7 @@ import com.example.gzy.test3.adapter.FragmentAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentTwo extends Fragment {
+public class FragmentMusic extends Fragment {
 
     protected ViewPager viewPager;
     protected TabLayout tabLayout;

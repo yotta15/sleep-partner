@@ -29,7 +29,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class FragmentOne extends Fragment implements View.OnClickListener {
+public class  FragmentMonitor extends Fragment implements View.OnClickListener {
     private Timer timer;
     private TimerTask timerTask;
     private View view;

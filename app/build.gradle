@@ -61,7 +61,10 @@ dependencies {
    //  implementation 'me.iwf.photopicker:PhotoPicker:0.9.5@aar'
   //photopicker图片选择器
     implementation 'com.nineoldandroids:library:2.4.0'
-   implementation 'com.github.bumptech.glide:glide:3.7.0'
+   implementation 'com.github.bumptech.glide:glide:4.1.1'
     implementation 'com.foamtrace:photopicker:1.0'
+    //添加MPAndroidCHART依赖
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
 
 }

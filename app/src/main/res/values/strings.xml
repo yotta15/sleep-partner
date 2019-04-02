@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">睡眠小伙伴</string>
-    <string name="tab_one">签到</string>
-    <string name="tab_two">促眠</string>
-    <string name="tab_three">我的</string>
+    <string name="tab_one">检测</string>
+    <string name="tab_two">报告</string>
+    <string name="tab_three">音乐</string>
+    <string name="tab_four">我的</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>

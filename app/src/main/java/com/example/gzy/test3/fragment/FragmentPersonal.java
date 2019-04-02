@@ -60,7 +60,7 @@ import static android.app.Activity.RESULT_OK;
 import static cn.bmob.v3.Bmob.getApplicationContext;
 
 //调用Bmobobject类中的setValue（key，value）方法，只需要传入key及想要更新的值即可
-public class FragmentThree extends Fragment implements View.OnClickListener {
+public class FragmentPersonal extends Fragment implements View.OnClickListener {
     TextView mTVname, mTVage, mTVsex, mTVweight, mTVheight, mTVemail;
     TextView mTVSetinfo;
     ImageView mIVsetingo,mIVset;

@@ -7,7 +7,6 @@ package com.example.gzy.test3.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,27 +26,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.gzy.test3.R;
-import com.example.gzy.test3.fragment.FragmentOne;
-import com.example.gzy.test3.fragment.FragmentThree;
-import com.example.gzy.test3.fragment.FragmentTwo;
+import com.example.gzy.test3.fragment.FragmentMonitor;
+import com.example.gzy.test3.fragment.FragmentPersonal;
+import com.example.gzy.test3.fragment.FragmentMusic;
+import com.example.gzy.test3.fragment.FragmentReport;
 import com.githang.statusbar.StatusBarCompat;
 
 import java.lang.reflect.Field;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobConfig;
 
 public class ContentActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     BottomNavigationBar mBottomNavigationBar;
-    private FragmentOne mFragmentOne;
-    private FragmentTwo mFragmentTwo;
-    private FragmentThree mFragmentThree;
+    private FragmentMonitor mFragmentMonitor;
+    private FragmentReport mFragmentReport;
+    private FragmentMusic mFragmentMusic;
+    private FragmentPersonal mFragmentPersonal;
     private Fragment[] fragments;
     private int lastShowFragment = 0;
     private FrameLayout f1;
@@ -77,7 +75,7 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.holo_blue_light));
         //初始化fragments及设置默认fragment
         initFragments();
-        switchFragment(mFragmentOne);
+        switchFragment(mFragmentMonitor);
         applyPermission();
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -125,11 +123,13 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         mBottomNavigationBar.setBarBackgroundColor(R.color.white);//set background color for navigation bar
         mBottomNavigationBar.setInActiveColor(R.color.gray);//unSelected icon color
 
-        mBottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.firstpg, R.string.tab_one)
+        mBottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.firstpg, getResources().getString(R.string.tab_one))
                 .setActiveColorResource(R.color.holo_blue_light))
-                .addItem(new BottomNavigationItem(R.drawable.secondpg, R.string.tab_two)
+                .addItem(new BottomNavigationItem(R.drawable.secondpg,getResources().getString(R.string.tab_three))
                         .setActiveColorResource(R.color.holo_blue_light))
-                .addItem(new BottomNavigationItem(R.drawable.thirdpg, R.string.tab_three)
+                .addItem(new BottomNavigationItem(R.drawable.thirdpg,getResources().getString(R.string.tab_three))
+                        .setActiveColorResource(R.color.holo_blue_light))
+                .addItem(new BottomNavigationItem(R.drawable.fourthpg, getResources().getString(R.string.tab_four))
                         .setActiveColorResource(R.color.holo_blue_light))
                 //依次添加item,分别icon和名称
                 .setFirstSelectedPosition(0)//设置默认选择item
@@ -162,20 +162,26 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         switch (position) {
             case 0:
                 if (lastShowFragment != 0) {
-                    switchFragment(mFragmentOne).commit();
+                    switchFragment(mFragmentMonitor).commit();
                     lastShowFragment = 0;
                 }
                 break;
             case 1:
                 if (lastShowFragment != 1) {
-                    switchFragment(mFragmentTwo).commit();
+                    switchFragment(mFragmentReport).commit();
                     lastShowFragment = 1;
                 }
                 break;
             case 2:
                 if (lastShowFragment != 2) {
-                    switchFragment(mFragmentThree).commit();
+                    switchFragment(mFragmentMusic).commit();
                     lastShowFragment = 2;
+                }
+                break;
+            case 3:
+                if (lastShowFragment != 3) {
+                    switchFragment(mFragmentPersonal).commit();
+                    lastShowFragment = 3;
                 }
                 break;
             default:
@@ -210,21 +216,23 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
 
     //第一次init把fragment全部添加进来，这样所有Fragment只会被实例化一次（优化）
     private void initFragments() {
-        mFragmentOne = new FragmentOne();
-        mFragmentTwo = new FragmentTwo();
-        mFragmentThree = new FragmentThree();
-        fragments = new Fragment[]{mFragmentOne, mFragmentTwo, mFragmentThree};
+        mFragmentMonitor = new FragmentMonitor();
+        mFragmentReport=new FragmentReport();
+        mFragmentMusic = new FragmentMusic();
+        mFragmentPersonal = new FragmentPersonal();
+        fragments = new Fragment[]{mFragmentMonitor,mFragmentReport, mFragmentMusic, mFragmentPersonal};
         lastShowFragment = 0;
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.content, mFragmentOne)
-                .add(R.id.content, mFragmentTwo)
-                .add(R.id.content, mFragmentThree)
-            //    .hide(mFragmentOne)
-                .hide(mFragmentTwo)
-                .hide(mFragmentThree)
-              //  .show(mFragmentOne)
+                .add(R.id.content, mFragmentMonitor)
+                .add(R.id.content, mFragmentReport)
+                .add(R.id.content, mFragmentMusic)
+                .add(R.id.content, mFragmentPersonal)
+                .hide(mFragmentReport)
+                .hide(mFragmentMusic)
+                .hide(mFragmentPersonal)
+              //  .show(mFragmentMonitor)
                 .commit();
     }
 
