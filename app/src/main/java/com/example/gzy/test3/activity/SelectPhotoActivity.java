@@ -82,7 +82,8 @@ public class SelectPhotoActivity extends AppCompatActivity{
             // 第三个参数为要共享的文件，并且这个文件一定位于第二步我们在 path 文件中添加的子目录里面。
             if (photoFile != null) {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        FileProvider.getUriForFile(getApplicationContext(), "com.example.gzy.test3.fileProvider", createImageFile()));
+                        FileProvider.getUriForFile(getApplicationContext(),
+                                "com.example.gzy.test3.fileProvider", createImageFile()));
             }
         }
         return takePictureIntent;

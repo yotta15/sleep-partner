@@ -30,7 +30,6 @@ import com.bumptech.glide.load.Key;
 import com.example.gzy.test3.R;
 import com.example.gzy.test3.activity.LoginActivity;
 import com.example.gzy.test3.activity.ModifyInfoActivity;
-import com.example.gzy.test3.activity.SelectImageActivity;
 import com.example.gzy.test3.activity.SelectPhotoActivity;
 import com.example.gzy.test3.activity.SelectPicPopupWindow;
 import com.example.gzy.test3.model.UserModel;

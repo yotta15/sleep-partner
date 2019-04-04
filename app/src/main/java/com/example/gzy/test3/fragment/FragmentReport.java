@@ -1,7 +1,6 @@
 package com.example.gzy.test3.fragment;
 
 import android.graphics.Color;
-import android.support.annotation.ColorRes;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.gzy.test3.R;
-import com.example.gzy.test3.datasource.BarChartBean;
-import com.example.gzy.test3.datasource.LocalJsonAnalyzeUtil;
-import com.example.gzy.test3.datasource.MyBarDataSet;
+import com.example.gzy.test3.bardata.BarChartBean;
+import com.example.gzy.test3.bardata.LocalJsonAnalyzeUtil;
+import com.example.gzy.test3.bardata.MyBarDataSet;
+import com.example.gzy.test3.model.SleepInfo;
+import com.example.gzy.test3.model.SleepstateBean;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -32,15 +33,13 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
  * created by gzy on 2019/4/1.
  * Describle;
- *  浅睡 、深睡 、醒着、未检测到
+ * 浅睡 、深睡 、醒着、未检测到
  */
 public class FragmentReport extends Fragment {
     private BarChart barChart;
@@ -51,6 +50,9 @@ public class FragmentReport extends Fragment {
     private LimitLine limitLine;        //限制线
     TextView dataSet1TextView;
     TextView dataSet2TextView;
+    List<Integer> yValues;
+    List<String> xValues;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,21 +62,28 @@ public class FragmentReport extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_bar_chart, container, false);
-        dataSet1TextView =(TextView) view.findViewById(R.id.dataSet1TextView);
-        dataSet2TextView =(TextView) view.findViewById(R.id.dataSet2TextView);
+        dataSet1TextView = (TextView) view.findViewById(R.id.dataSet1TextView);
+        dataSet2TextView = (TextView) view.findViewById(R.id.dataSet2TextView);
 
 
         barChart = (BarChart) view.findViewById(R.id.bar_chart);
+
+        SleepInfo sleepInfo = LocalJsonAnalyzeUtil.JsonToObject(getActivity(),
+                "sleep.json", SleepInfo.class);
+        List<SleepstateBean> sleepstateBeans = sleepInfo.getSleepstate();
+        xValues = new ArrayList<>();
+        yValues = new ArrayList<>();
+
+        for (SleepstateBean statebean : sleepstateBeans) {
+            xValues.add(statebean.getSleeptime());
+        }
+//        BarChartBean barChartBean = LocalJsonAnalyzeUtil.JsonToObject(getActivity(),
+//                "bardata.json", BarChartBean.class);
+//
+//        List<BarChartBean.StFinDateBean.VtDateValueBean> dateValueList = barChartBean.getStFinDate().getVtDateValue();
+//        Collections.reverse(dateValueList);//将集合 逆序排列，转换成需要的顺序
         initBarChart(barChart);
-        BarChartBean barChartBean = LocalJsonAnalyzeUtil.JsonToObject(getActivity(),
-                "bardata.json", BarChartBean.class);
-
-        List<BarChartBean.StFinDateBean.VtDateValueBean> dateValueList = barChartBean.getStFinDate().getVtDateValue();
-        Collections.reverse(dateValueList);//将集合 逆序排列，转换成需要的顺序
-
-        showBarChart(dateValueList, "净资产收益率（%）", getResources().getColor(R.color.blue));
-
-
+        showBarChart(sleepstateBeans, "", getResources().getColor(R.color.blue));
 
 
         barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
@@ -104,6 +113,7 @@ public class FragmentReport extends Fragment {
         });
         return view;
     }
+
     /**
      * 初始化BarChart图表
      */
@@ -119,10 +129,10 @@ public class FragmentReport extends Fragment {
         barChart.setDoubleTapToZoomEnabled(false);
         //禁止拖拽
         barChart.setDragEnabled(false);
-        //X轴或Y轴禁止缩放
-        barChart.setScaleXEnabled(false);
+        //Y轴禁止缩放
+        barChart.setScaleXEnabled(true);
         barChart.setScaleYEnabled(false);
-        barChart.setScaleEnabled(false);
+        //   barChart.setScaleEnabled(false);
         //禁止所有事件
 //        barChart.setTouchEnabled(false);
         //不显示边框
@@ -145,7 +155,11 @@ public class FragmentReport extends Fragment {
 
         leftAxis = barChart.getAxisLeft();
         rightAxis = barChart.getAxisRight();
-//        xAxis.setAxisMinimum(0f);
+
+        xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMaximum(xValues.size());
+//将X轴的值显示在中央
+        xAxis.setCenterAxisLabels(true);
         //保证Y轴从0开始，不然会上移一点
 //        leftAxis.setAxisMinimum(0f);
 //        rightAxis.setAxisMinimum(0f);
@@ -175,25 +189,27 @@ public class FragmentReport extends Fragment {
         legend.setDrawInside(false);
     }
 
-  //单条柱状图
-    private void showBarChart(final List<BarChartBean.StFinDateBean.VtDateValueBean> dateValueList, String name, int color) {
+    //单条柱状图
+    private void showBarChart(final List<SleepstateBean> sleepstateBeans, String name, int color) {
         ArrayList<BarEntry> entries = new ArrayList<>();
-        for (int i = 0; i < dateValueList.size(); i++) {
+        for (int i = 0; i < sleepstateBeans.size(); i++) {
             /**
              * 此处还可传入Drawable对象 BarEntry(float x, float y, Drawable icon)
              * 即可设置柱状图顶部的 icon展示
              */
-            BarEntry barEntry = new BarEntry(i, (float) dateValueList.get(i).getFValue());
+            BarEntry barEntry = new BarEntry(i, (float) sleepstateBeans.get(i).getFvalue());
             entries.add(barEntry);
         }
         // 每一个BarDataSet代表一类柱状图
         MyBarDataSet barDataSet = new MyBarDataSet(entries, name);
         initBarDataSet(barDataSet);
-        //X轴自定义值
+        //X轴自定义值,只显示 第一个和最后一个
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return dateValueList.get((int) value % dateValueList.size()).getSYearMonth();
+                return  "";
+               // return xValues.get((int) Math.abs(value) % xValues.size());
+                //return sleepstateBeans.get((int) value % sleepstateBeans.size()).getSleeptime();
             }
         });
 
@@ -202,8 +218,9 @@ public class FragmentReport extends Fragment {
         data.setBarWidth(1f);
         barChart.setData(data);
     }
+
     private void initBarDataSet(MyBarDataSet barDataSet) {
-        int[] colors=new int[]{getResources().getColor(R.color.green),
+        int[] colors = new int[]{getResources().getColor(R.color.green),
                 getResources().getColor(R.color.orange),
                 getResources().getColor(R.color.red)};
         barDataSet.setColors(colors);
