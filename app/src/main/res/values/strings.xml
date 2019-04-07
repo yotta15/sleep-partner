@@ -56,6 +56,7 @@
     <string name="skip">跳过</string>
     <string name="resetinfo">修改我的个人信息</string>
     <string name="default_file_name">SleepPartner</string>
+    <string name="error_gif">error_gif</string>
     <string-array name="musicName">
         <item>I Figured You Out</item>
         <item>3_00 AM</item>

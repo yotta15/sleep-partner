@@ -2,11 +2,14 @@ package com.example.gzy.test3.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +29,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.Key;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.example.gzy.test3.R;
 import com.example.gzy.test3.activity.LoginActivity;
 import com.example.gzy.test3.activity.ModifyInfoActivity;
@@ -36,15 +42,30 @@ import com.example.gzy.test3.model.UserModel;
 import com.example.gzy.test3.presenter.IUserPresenter;
 import com.example.gzy.test3.presenter.UserPresenterImpl;
 import com.example.gzy.test3.util.DensityUtil;
+//import com.example.gzy.test3.util.GifSizeFilter;
+import com.example.gzy.test3.util.GifSizeFilter;
+import com.example.gzy.test3.util.GlideLoadEngine;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.filter.Filter;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
+import com.zhihu.matisse.internal.entity.IncapableCause;
+import com.zhihu.matisse.internal.entity.Item;
+import com.zhihu.matisse.internal.utils.PhotoMetadataUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
@@ -69,6 +90,7 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
     ArrayList<String> photos;
     String imagePath;
     BmobFile bmobfile;
+    private static final int REQUEST_CODE_CHOOSE = 23;//定义请求码常量
 
     //未登录提示登录
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -121,7 +143,7 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
             }).start();
 
         }
-            if(saveFile.exists()){
+            if(saveFile.exists()&&userPresenter.isLogin()){
                 try {
                     mHeadImage.setImageBitmap(decodeFile(saveFile));
 
@@ -129,13 +151,53 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
             }else {
-                Log.i("error","dont exist");
+                mHeadImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.info_headimage)).getBitmap());
             }
 
         //   mHeadImage.setImageURI(Uri.parse("file://"+filepath));
 
         //TODO 相机拍摄的照片是倒的 ，选择取消之后应该是之前的照片
-        mHeadImage.setOnClickListener(this);
+        mHeadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Matisse.from(getActivity())
+                        .choose(MimeType.ofImage(), false) // 选择 mime 的类型
+                        .countable(true)
+                        .addFilter(new Filter() {
+                            @Override
+                            protected Set<MimeType> constraintTypes() {
+                                return new HashSet<MimeType>() {{
+                                    add(MimeType.GIF);
+                                    add(MimeType.MP4);
+                                }};
+                            }
+
+                            @SuppressLint("StringFormatInvalid")
+                            @Override
+                            public IncapableCause filter(Context context, Item item) {
+                                if (!needFiltering(context, item))
+                                    return null;
+
+                                Point size = PhotoMetadataUtils.getBitmapBound(context.getContentResolver(), item.getContentUri());
+                                if (size.x < 320 || size.y < 320 || item.size > 5 * Filter.K * Filter.K) {
+                                    return new IncapableCause(IncapableCause.DIALOG, context.getString(R.string.error_gif, 320,
+                                            String.valueOf(PhotoMetadataUtils.getSizeInMB(5 * Filter.K * Filter.K))));
+                                }
+                                return null;
+                            }
+                        })
+
+                        .maxSelectable(1) // 图片选择的最多数量
+                        .gridExpectedSize((int) getResources().getDimension(R.dimen.imageSelectDimen))
+                        .capture(true)//选择照片时，是否显示拍照
+                        .captureStrategy(new CaptureStrategy(true, "com.example.gzy.test3.fileProvider"))
+                        //参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                        .thumbnailScale(0.85f) // 缩略图的比例
+                        .imageEngine(new GlideLoadEngine()) // 使用的图片加载引擎
+                        .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码
+            }
+        });
 
         mTVSetinfo = (TextView) view.findViewById(R.id.tv_setinfo);
         mTVSetinfo.setOnClickListener(this);
@@ -164,8 +226,10 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
                 startActivity(intent1);
                 break;
             case R.id.head_image:
-                Intent intent2 = new Intent(getActivity(), SelectPhotoActivity.class);
-                startActivityForResult(intent2, 1);
+                //图片预览问题
+
+//                Intent intent2 = new Intent(getActivity(), SelectPhotoActivity.class);
+//                startActivityForResult(intent2, 1);
             break;
             case R.id.iv_set:
                 //TODO
@@ -241,15 +305,15 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (data.getExtras().getString("head_image").equals("CANCELD") ||
-                    data.getExtras().getString("head_image").equals("")) {
-                mHeadImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.info_headimage)).getBitmap());
-            } else {
-                imagePath = data.getExtras().getString("head_image");
-                Log.i("test", imagePath);
-                mHeadImage.setImageBitmap(getBitMBitmap(imagePath));
-                userPresenter.uploadHeadImage(imagePath);
+        List<Uri> mSelected;
+        if ( resultCode == RESULT_OK && requestCode==REQUEST_CODE_CHOOSE) {
+            mSelected = Matisse.obtainResult(data);
+            Log.d("Matisse", "mSelected: " + mSelected.get(0).toString());
+            mHeadImage.setImageURI(mSelected.get(0));
+            try {
+                userPresenter.uploadHeadImage(mSelected.get(0));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
             }
         }
     }

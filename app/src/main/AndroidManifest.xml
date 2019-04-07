@@ -64,12 +64,12 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name="com.foamtrace.photopicker.PhotoPickerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:configChanges="orientation|screenSize"/>
-        <activity android:name="com.foamtrace.photopicker.PhotoPreviewActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <!--<activity-->
+            <!--android:name="com.foamtrace.photopicker.PhotoPickerActivity"-->
+            <!--android:theme="@style/Theme.AppCompat.NoActionBar"-->
+            <!--android:configChanges="orientation|screenSize"/>-->
+        <!--<activity android:name="com.foamtrace.photopicker.PhotoPreviewActivity"-->
+            <!--android:theme="@style/Theme.AppCompat.NoActionBar" />-->
 
         <activity android:name=".activity.SelectPhotoActivity">
             <intent-filter>

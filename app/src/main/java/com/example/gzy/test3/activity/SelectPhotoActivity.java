@@ -12,17 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.GridView;
 
-import com.foamtrace.photopicker.ImageCaptureManager;
-import com.foamtrace.photopicker.PhotoPickerActivity;
-import com.foamtrace.photopicker.PhotoPreviewActivity;
-import com.foamtrace.photopicker.SelectModel;
-import com.foamtrace.photopicker.intent.PhotoPickerIntent;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 
 /**
  * created by gzy on 2019/3/28.
@@ -32,7 +28,7 @@ public class SelectPhotoActivity extends AppCompatActivity{
 
     private ArrayList<String> imagePaths = null;
     private GridView gv;
-    private ImageCaptureManager captureManager; // 相机拍照处理类
+ //   private ImageCaptureManager captureManager; // 相机拍照处理类
     private static final int REQUEST_CAMERA_CODE = 11;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +38,22 @@ public class SelectPhotoActivity extends AppCompatActivity{
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }
-        PhotoPickerIntent intent = new PhotoPickerIntent(SelectPhotoActivity.this);
-        intent.setSelectModel(SelectModel.SINGLE);
-        intent.setShowCarema(true);
-        startActivityForResult(intent, REQUEST_CAMERA_CODE);
+//        PhotoPicker.builder()
+//                //设置图片选择数量
+//                .setPhotoCount(1)
+//                //取消选择时点击图片浏览
+//                .setPreviewEnabled(false)
+//                //开启裁剪
+//                .setCrop(true)
+//                //设置裁剪比例(X,Y)
+//                .setCropXY(1, 1)
+//                //设置裁剪界面标题栏颜色，设置裁剪界面状态栏颜色
+//                .setCropColors(R.color.colorPrimary, R.color.colorPrimaryDark)
+//                .start(SelectPhotoActivity.this);
+//        PhotoPickerIntent intent = new PhotoPickerIntent(SelectPhotoActivity.this);
+//        intent.setSelectModel(SelectModel.SINGLE);
+//        intent.setShowCarema(true);
+//        startActivityForResult(intent, REQUEST_CAMERA_CODE);
     }
     private File createImageFile() throws IOException {
 
@@ -107,24 +115,24 @@ public class SelectPhotoActivity extends AppCompatActivity{
                 // 选择照片
                 case REQUEST_CAMERA_CODE:
 
-                    loadAdpater(data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT));
+                  //  loadAdpater(data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT));
 
                     break;
                 //浏览照片
                 case 22:
-                    loadAdpater(data.getStringArrayListExtra(PhotoPreviewActivity.EXTRA_RESULT));
+                //    loadAdpater(data.getStringArrayListExtra(PhotoPreviewActivity.EXTRA_RESULT));
                     break;
                 // 调用相机拍照
-                case ImageCaptureManager.REQUEST_TAKE_PHOTO:
-
-                    if(captureManager.getCurrentPhotoPath() != null) {
-                        captureManager.galleryAddPic();
-
-                        ArrayList<String> paths = new ArrayList<>();
-                        paths.add(captureManager.getCurrentPhotoPath());
-                        loadAdpater(paths);
-                    }
-                    break;
+//                case ImageCaptureManager.REQUEST_TAKE_PHOTO:
+//
+//                    if(captureManager.getCurrentPhotoPath() != null) {
+//                        captureManager.galleryAddPic();
+//
+//                        ArrayList<String> paths = new ArrayList<>();
+//                        paths.add(captureManager.getCurrentPhotoPath());
+//                        loadAdpater(paths);
+//                    }
+              //      break;
 
             }
         }

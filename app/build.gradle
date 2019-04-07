@@ -51,7 +51,7 @@ dependencies {
     implementation files('libs/MobCommons-2016.1012.1447.jar')
     implementation(name: 'SMSSDK-2.1.2', ext: 'aar')
     //添加bottomDaiglog 的依赖
-    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:design:27.1.0'
     implementation 'com.android.support:appcompat-v7:26.1.0'
 
     implementation 'com.githang:status-bar-compat:latest.integration'
@@ -60,11 +60,15 @@ dependencies {
 
    //  implementation 'me.iwf.photopicker:PhotoPicker:0.9.5@aar'
   //photopicker图片选择器
-    implementation 'com.nineoldandroids:library:2.4.0'
-   implementation 'com.github.bumptech.glide:glide:4.1.1'
-    implementation 'com.foamtrace:photopicker:1.0'
+//    implementation 'com.nineoldandroids:library:2.4.0'
+//   implementation 'com.github.bumptech.glide:glide:4.1.1'
+//    implementation 'com.foamtrace:photopicker:1.0'
     //添加MPAndroidCHART依赖
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
+    implementation 'com.zhihu.android:matisse:0.5.2-beta2'
+  // implementation 'com.github.bumptech.glide:glide:4.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 
 }

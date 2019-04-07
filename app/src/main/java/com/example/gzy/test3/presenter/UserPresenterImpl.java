@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -17,6 +18,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -66,9 +69,9 @@ public class UserPresenterImpl implements IUserPresenter {
         //允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
 
         File saveFile = new File(Environment.getExternalStorageDirectory()
-                +"/"+ getApplicationContext().getResources().getString(R.string.default_file_name), "head_image");
-      //  File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
-        if(!saveFile.exists()){
+                + "/" + getApplicationContext().getResources().getString(R.string.default_file_name), "head_image");
+        //  File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
+        if (!saveFile.exists()) {
             saveFile.mkdirs();
         }
         file.download(saveFile, new DownloadFileListener() {
@@ -91,31 +94,33 @@ public class UserPresenterImpl implements IUserPresenter {
 
             @Override
             public void onProgress(Integer value, long newworkSpeed) {
-             //   Log.i("bmob", "下载进度：" + value + "," + newworkSpeed);
+                //   Log.i("bmob", "下载进度：" + value + "," + newworkSpeed);
             }
 
         });
     }
 
-    public void uploadHeadImage(String urlpath) {
+    public void uploadHeadImage(Uri uri) throws URISyntaxException {
+        if (isLogin()) {
+            final BmobFile bmobFile = new BmobFile(new File(new URI(uri.toString())));
 
-        final BmobFile bmobFile = new BmobFile(new File(urlpath));
+            bmobFile.uploadblock(new UploadFileListener() {
 
-        bmobFile.uploadblock(new UploadFileListener() {
-
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    Log.i("method","used");
-                    saveFile(bmobFile);
-                } else {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        Log.i("method", "used");
+                        saveFile(bmobFile);
+                    } else {
+                    }
                 }
-            }
-        });
+            });
+        }
+
     }
 
     private void saveFile(BmobFile file) {
-        UserModel user =new UserModel();
+        UserModel user = new UserModel();
         UserModel user1 = BmobUser.getCurrentUser(UserModel.class);
         user.setUser_pic(file);
         user.update(user1.getObjectId(), new UpdateListener() {

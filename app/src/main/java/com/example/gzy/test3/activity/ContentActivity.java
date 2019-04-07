@@ -37,6 +37,7 @@ import com.example.gzy.test3.fragment.FragmentReport;
 import com.githang.statusbar.StatusBarCompat;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import cn.bmob.v3.Bmob;
 
@@ -125,9 +126,9 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
 
         mBottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.firstpg, getResources().getString(R.string.tab_one))
                 .setActiveColorResource(R.color.holo_blue_light))
-                .addItem(new BottomNavigationItem(R.drawable.secondpg,getResources().getString(R.string.tab_three))
+                .addItem(new BottomNavigationItem(R.drawable.secondpg, getResources().getString(R.string.tab_three))
                         .setActiveColorResource(R.color.holo_blue_light))
-                .addItem(new BottomNavigationItem(R.drawable.thirdpg,getResources().getString(R.string.tab_three))
+                .addItem(new BottomNavigationItem(R.drawable.thirdpg, getResources().getString(R.string.tab_three))
                         .setActiveColorResource(R.color.holo_blue_light))
                 .addItem(new BottomNavigationItem(R.drawable.fourthpg, getResources().getString(R.string.tab_four))
                         .setActiveColorResource(R.color.holo_blue_light))
@@ -217,10 +218,10 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
     //第一次init把fragment全部添加进来，这样所有Fragment只会被实例化一次（优化）
     private void initFragments() {
         mFragmentMonitor = new FragmentMonitor();
-        mFragmentReport=new FragmentReport();
+        mFragmentReport = new FragmentReport();
         mFragmentMusic = new FragmentMusic();
         mFragmentPersonal = new FragmentPersonal();
-        fragments = new Fragment[]{mFragmentMonitor,mFragmentReport, mFragmentMusic, mFragmentPersonal};
+        fragments = new Fragment[]{mFragmentMonitor, mFragmentReport, mFragmentMusic, mFragmentPersonal};
         lastShowFragment = 0;
 
         getSupportFragmentManager()
@@ -232,7 +233,7 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
                 .hide(mFragmentReport)
                 .hide(mFragmentMusic)
                 .hide(mFragmentPersonal)
-              //  .show(mFragmentMonitor)
+                //  .show(mFragmentMonitor)
                 .commit();
     }
 
@@ -291,6 +292,15 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (getSupportFragmentManager().getFragments() != null && getSupportFragmentManager().getFragments().size() > 0) {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            for (Fragment mFragment : fragments) {
+
+                mFragment.onActivityResult(requestCode, resultCode, data);
+
+            }
+        }
+
     }
 }
 
