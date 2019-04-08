@@ -1,5 +1,6 @@
 package com.example.gzy.test3.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -120,6 +121,7 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
 //         public void run () {
 //             Looper.prepare();
     //TODO 改用bindservice启动，binder中内调停止service
+    @SuppressLint("HandlerLeak")
     Handler myhandle = new Handler() {
 
         public void handleMessage(Message msg) {
@@ -143,7 +145,7 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
                 sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.sleep));
                 // getActivity().stopService(intent);
 //                audioRecorder.stopRecord();
-                // getActivity().stopService(intent2);
+                getActivity().stopService(intent2);
                 getup.setClickable(false);
                 getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
             }

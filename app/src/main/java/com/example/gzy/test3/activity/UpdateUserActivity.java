@@ -43,6 +43,10 @@ import static cn.bmob.v3.Bmob.getApplicationContext;
 /**
  * created by gzy on 2018/11/15.
  * Describle;
+ * 用户输入他们的电子邮件，请求重置自己的密码。
+ * Bmob向他们的邮箱发送一封包含特殊的密码重置链接的电子邮件。
+ * 用户根据向导点击重置密码连接，打开一个特殊的Bmob页面，根据提示他们可以输入一个新的密码。
+ * 用户的密码已被重置为新输入的密码。
  */
 public class UpdateUserActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mEmail;

@@ -1,4 +1,4 @@
-package com.example.gzy.test3.util;
+package com.example.gzy.test3.bardata;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,18 +21,8 @@ import java.util.Set;
  */
 public class GifSizeFilter extends Filter {
 
-    private int mMinWidth;
-    private int mMinHeight;
-    private int mMaxSize;
-
-   public GifSizeFilter(int minWidth, int minHeight, int maxSizeInBytes) {
-        mMinWidth = minWidth;
-        mMinHeight = minHeight;
-        mMaxSize = maxSizeInBytes;
-    }
-
     @Override
-    public Set<MimeType> constraintTypes() {
+    protected Set<MimeType> constraintTypes() {
         return new HashSet<MimeType>() {{
             add(MimeType.GIF);
             add(MimeType.MP4);
@@ -46,9 +36,9 @@ public class GifSizeFilter extends Filter {
             return null;
 
         Point size = PhotoMetadataUtils.getBitmapBound(context.getContentResolver(), item.getContentUri());
-        if (size.x < mMinWidth || size.y < mMinHeight || item.size > mMaxSize) {
-            return new IncapableCause(IncapableCause.DIALOG, context.getString(R.string.error_gif, mMinWidth,
-                    String.valueOf(PhotoMetadataUtils.getSizeInMB(mMaxSize))));
+        if (size.x < 320 || size.y < 320 || item.size > 5 * Filter.K * Filter.K) {
+            return new IncapableCause(IncapableCause.DIALOG, context.getString(R.string.error_gif, 320,
+                    String.valueOf(PhotoMetadataUtils.getSizeInMB(5 * Filter.K * Filter.K))));
         }
         return null;
     }

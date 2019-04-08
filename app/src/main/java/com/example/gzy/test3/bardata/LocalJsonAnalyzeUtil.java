@@ -2,7 +2,7 @@ package com.example.gzy.test3.bardata;
 
 /**
  * created by gzy on 2019/4/1.
- * Describle;
+ * Describle;获取本地Json文件并 解析
  */
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -13,10 +13,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/**
- * Created by xhu_ww on 2018/6/1.
- * description:获取本地Json文件并 解析
- */
 public class LocalJsonAnalyzeUtil {
 
     public static String getJson(Context context, String fileName) {

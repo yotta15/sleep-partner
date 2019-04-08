@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/info_email"
+            android:hint="@string/info_email"
             android:textColor="#222222"
             android:textSize="16sp" />
 
@@ -31,7 +31,6 @@
             android:drawablePadding="10dp"
             android:inputType="textEmailAddress"
             android:lines="0"
-            android:maxLength="11"
             android:paddingBottom="10dp"
             android:paddingStart="20dp"
             android:paddingEnd="0dp"
@@ -48,18 +47,25 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:background="@android:color/darker_gray" />
-
-
     <Button
         android:id="@+id/sendEmail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light"
-        android:gravity="center"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/send_email"
-        android:textColor="#0000ff"
-        android:textSize="15sp" />
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@layout/sign_button"
+        android:hint="@string/send_email"
+        android:textSize="15dp" />
+
+    <!--<Button-->
+        <!--android:id="@+id/sendEmail"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@android:color/holo_blue_light"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginLeft="30dp"-->
+        <!--android:layout_marginRight="30dp"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:text="@string/send_email"-->
+        <!--android:textColor="#0000ff"-->
+        <!--android:textSize="15sp" />-->
 </LinearLayout>

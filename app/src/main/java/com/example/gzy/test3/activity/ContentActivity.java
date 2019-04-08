@@ -36,7 +36,9 @@ import com.example.gzy.test3.fragment.FragmentMusic;
 import com.example.gzy.test3.fragment.FragmentReport;
 import com.githang.statusbar.StatusBarCompat;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
@@ -76,6 +78,7 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.holo_blue_light));
         //初始化fragments及设置默认fragment
         initFragments();
+        closeAndroidPDialog();
         switchFragment(mFragmentMonitor);
         applyPermission();
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -214,6 +217,29 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         return transaction;
     }
 
+    /**
+     * 解决在AndroidP 版本上弹窗问题
+     */
+    private void closeAndroidPDialog(){
+        try {
+            Class aClass = Class.forName("android.content.pm.PackageParser$Package");
+            Constructor declaredConstructor = aClass.getDeclaredConstructor(String.class);
+            declaredConstructor.setAccessible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            Class cls = Class.forName("android.app.ActivityThread");
+            Method declaredMethod = cls.getDeclaredMethod("currentActivityThread");
+            declaredMethod.setAccessible(true);
+            Object activityThread = declaredMethod.invoke(null);
+            Field mHiddenApiWarningShown = cls.getDeclaredField("mHiddenApiWarningShown");
+            mHiddenApiWarningShown.setAccessible(true);
+            mHiddenApiWarningShown.setBoolean(activityThread, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     //第一次init把fragment全部添加进来，这样所有Fragment只会被实例化一次（优化）
     private void initFragments() {

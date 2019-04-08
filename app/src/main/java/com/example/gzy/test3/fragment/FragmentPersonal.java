@@ -1,15 +1,12 @@
 package com.example.gzy.test3.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,64 +14,43 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 import com.example.gzy.test3.R;
-import com.example.gzy.test3.activity.LoginActivity;
+
 import com.example.gzy.test3.activity.ModifyInfoActivity;
-import com.example.gzy.test3.activity.SelectPhotoActivity;
 import com.example.gzy.test3.activity.SelectPicPopupWindow;
 import com.example.gzy.test3.model.UserModel;
-import com.example.gzy.test3.presenter.IUserPresenter;
 import com.example.gzy.test3.presenter.UserPresenterImpl;
-import com.example.gzy.test3.util.DensityUtil;
-//import com.example.gzy.test3.util.GifSizeFilter;
-import com.example.gzy.test3.util.GifSizeFilter;
-import com.example.gzy.test3.util.GlideLoadEngine;
+import com.example.gzy.test3.bardata.GifSizeFilter;
+import com.example.gzy.test3.bardata.GlideLoadEngine;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
-import com.zhihu.matisse.internal.entity.IncapableCause;
-import com.zhihu.matisse.internal.entity.Item;
-import com.zhihu.matisse.internal.utils.PhotoMetadataUtils;
+
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.DownloadFileListener;
-import cn.bmob.v3.listener.UploadFileListener;
 import de.hdodenhof.circleimageview.CircleImageView;
-//import me.iwf.photopicker.PhotoPicker;
-//import me.iwf.photopicker.PhotoPreview;
+
 
 import static android.app.Activity.RESULT_OK;
 import static cn.bmob.v3.Bmob.getApplicationContext;
@@ -157,47 +133,7 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
         //   mHeadImage.setImageURI(Uri.parse("file://"+filepath));
 
         //TODO 相机拍摄的照片是倒的 ，选择取消之后应该是之前的照片
-        mHeadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Matisse.from(getActivity())
-                        .choose(MimeType.ofImage(), false) // 选择 mime 的类型
-                        .countable(true)
-                        .addFilter(new Filter() {
-                            @Override
-                            protected Set<MimeType> constraintTypes() {
-                                return new HashSet<MimeType>() {{
-                                    add(MimeType.GIF);
-                                    add(MimeType.MP4);
-                                }};
-                            }
-
-                            @SuppressLint("StringFormatInvalid")
-                            @Override
-                            public IncapableCause filter(Context context, Item item) {
-                                if (!needFiltering(context, item))
-                                    return null;
-
-                                Point size = PhotoMetadataUtils.getBitmapBound(context.getContentResolver(), item.getContentUri());
-                                if (size.x < 320 || size.y < 320 || item.size > 5 * Filter.K * Filter.K) {
-                                    return new IncapableCause(IncapableCause.DIALOG, context.getString(R.string.error_gif, 320,
-                                            String.valueOf(PhotoMetadataUtils.getSizeInMB(5 * Filter.K * Filter.K))));
-                                }
-                                return null;
-                            }
-                        })
-
-                        .maxSelectable(1) // 图片选择的最多数量
-                        .gridExpectedSize((int) getResources().getDimension(R.dimen.imageSelectDimen))
-                        .capture(true)//选择照片时，是否显示拍照
-                        .captureStrategy(new CaptureStrategy(true, "com.example.gzy.test3.fileProvider"))
-                        //参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
-                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                        .thumbnailScale(0.85f) // 缩略图的比例
-                        .imageEngine(new GlideLoadEngine()) // 使用的图片加载引擎
-                        .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码
-            }
-        });
+        mHeadImage.setOnClickListener(this);
 
         mTVSetinfo = (TextView) view.findViewById(R.id.tv_setinfo);
         mTVSetinfo.setOnClickListener(this);
@@ -226,10 +162,20 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
                 startActivity(intent1);
                 break;
             case R.id.head_image:
-                //图片预览问题
+                Matisse.from(getActivity())
+                        .choose(MimeType.ofImage(), false) // 选择 mime 的类型
+                        .countable(true)
+                        .addFilter(new GifSizeFilter())
 
-//                Intent intent2 = new Intent(getActivity(), SelectPhotoActivity.class);
-//                startActivityForResult(intent2, 1);
+                        .maxSelectable(1) // 图片选择的最多数量
+                        .gridExpectedSize((int) getResources().getDimension(R.dimen.imageSelectDimen))
+                        .capture(true)//选择照片时，是否显示拍照
+                        .captureStrategy(new CaptureStrategy(true, "com.example.gzy.test3.fileProvider"))
+                        //参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                        .thumbnailScale(0.85f) // 缩略图的比例
+                        .imageEngine(new GlideLoadEngine()) // 使用的图片加载引擎
+                        .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码
             break;
             case R.id.iv_set:
                 //TODO

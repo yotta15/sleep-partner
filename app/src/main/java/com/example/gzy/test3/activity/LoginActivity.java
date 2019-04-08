@@ -3,6 +3,7 @@ package com.example.gzy.test3.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -132,6 +133,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(LoginActivity.this, "注册", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.forgive_pwd:
+                Intent intent1=new Intent(LoginActivity.this,UpdateUserActivity.class);
+                startActivity(intent1);
                 Toast.makeText(LoginActivity.this, "忘记密码", Toast.LENGTH_SHORT).show();
                 break;
             default:
@@ -165,19 +168,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onLoginResult(Boolean result) {
         if (result) {
-            Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, ContentActivity.class));
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-            builder.setTitle("提示");
-            builder.setMessage("用户名或密码错误");
-            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
+
+//            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+//            builder.setTitle("提示");
+//            builder.setMessage("用户名或密码错误");
+//            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    dialogInterface.dismiss();
+//                }
 //            Toast.makeText(this, "Login Fail, code = " + code, Toast.LENGTH_SHORT).show();
-            });
+  //          });
         }
 
     }
