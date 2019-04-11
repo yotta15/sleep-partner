@@ -5,6 +5,8 @@ package com.example.gzy.test3.activity;
  */
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -64,7 +66,7 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        closeAndroidPDialog();
         //第一：默认初始化
         Bmob.initialize(this, "5a5dcb5264e14c4fa9886e8511707ac0");
         //设置BmobConfig
@@ -78,7 +80,6 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.holo_blue_light));
         //初始化fragments及设置默认fragment
         initFragments();
-        closeAndroidPDialog();
         switchFragment(mFragmentMonitor);
         applyPermission();
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -142,11 +143,38 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         setBottomNavigationItem(mBottomNavigationBar, 6, 26, 10);
     }
 
+    /**
+     * 解决在AndroidP 版本上弹窗问题
+     */
+    private void closeAndroidPDialog() {
+        try {
+            Class aClass = Class.forName("android.content.pm.PackageParser$Package");
+            Constructor declaredConstructor = aClass.getDeclaredConstructor(String.class);
+            declaredConstructor.setAccessible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            Class cls = Class.forName("android.app.ActivityThread");
+            Method declaredMethod = cls.getDeclaredMethod("currentActivityThread");
+            declaredMethod.setAccessible(true);
+            Object activityThread = declaredMethod.invoke(null);
+            Field mHiddenApiWarningShown = cls.getDeclaredField("mHiddenApiWarningShown");
+            mHiddenApiWarningShown.setAccessible(true);
+            mHiddenApiWarningShown.setBoolean(activityThread, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //动态申请权限,录音权限，读写权限
     public void applyPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
             int REQUEST_CODE_CONTACT = 101;
             String[] permissions = {Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.INTERNET,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE};
             //验证是否许可权限
@@ -217,29 +245,6 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         return transaction;
     }
 
-    /**
-     * 解决在AndroidP 版本上弹窗问题
-     */
-    private void closeAndroidPDialog(){
-        try {
-            Class aClass = Class.forName("android.content.pm.PackageParser$Package");
-            Constructor declaredConstructor = aClass.getDeclaredConstructor(String.class);
-            declaredConstructor.setAccessible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            Class cls = Class.forName("android.app.ActivityThread");
-            Method declaredMethod = cls.getDeclaredMethod("currentActivityThread");
-            declaredMethod.setAccessible(true);
-            Object activityThread = declaredMethod.invoke(null);
-            Field mHiddenApiWarningShown = cls.getDeclaredField("mHiddenApiWarningShown");
-            mHiddenApiWarningShown.setAccessible(true);
-            mHiddenApiWarningShown.setBoolean(activityThread, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     //第一次init把fragment全部添加进来，这样所有Fragment只会被实例化一次（优化）
     private void initFragments() {

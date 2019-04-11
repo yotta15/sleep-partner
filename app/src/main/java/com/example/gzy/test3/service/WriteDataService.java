@@ -36,22 +36,10 @@ import java.util.Map;
  * Describle;
  * !!!!! assets 目录下只能读，不能写！！！！！！！
  */
-public class WriteDataService extends Service {
+public class WriteDataService  {
     SleepInfo sleepInfo=new SleepInfo();
     List<SleepstateBean> sleepstates=new ArrayList<>();
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    //写json文件
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-    }
 
     //单例模式，没有<T>就不知道T是从何而来的
     public  <T> void toJson(String  key, T value) {
@@ -121,7 +109,7 @@ public class WriteDataService extends Service {
         Date date = new Date(System.currentTimeMillis());
         String filename = "data_" + simpleDateFormat.format(date) + ".json";
         File saveFile = new File(Environment.getExternalStorageDirectory()
-                + "/" + getApplicationContext().getResources().getString(R.string.default_file_name), filename);
+                + "/" + "SleepPartner", filename);
         if (!saveFile.exists()) {
             saveFile.mkdirs();
         }

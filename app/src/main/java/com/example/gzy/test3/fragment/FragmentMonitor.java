@@ -1,14 +1,18 @@
 package com.example.gzy.test3.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +27,13 @@ import android.widget.Toast;
 import com.example.gzy.test3.R;
 import com.example.gzy.test3.service.AudioRecordFunc;
 import com.example.gzy.test3.service.AudioRecorder;
-import com.example.gzy.test3.service.RecordingService;
+import com.example.gzy.test3.service.AudioRecorderService;
 import com.example.gzy.test3.service.SensorService;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.content.Context.BIND_AUTO_CREATE;
 
 
 public class  FragmentMonitor extends Fragment implements View.OnClickListener {
@@ -40,9 +46,15 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
     private AudioRecordFunc audioRecorder;
     private AudioRecorder maudioRecorder;
     private ImageView imageView;
+    AudioRecorderService.MyBinder mybinder;
+
+
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.sleepfragment, container, false);
+        Intent intent=new Intent(getActivity(), AudioRecorderService.class);
+        MyServiceConn myServiceConn=new MyServiceConn();
+        getActivity().bindService(intent,myServiceConn, BIND_AUTO_CREATE);
 
         sleep = (Button) view.findViewById(R.id.sleep);
         sleep.setOnClickListener(this);
@@ -82,6 +94,8 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sleep:
+                //bindservice 只会启动 onbind一次
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -115,23 +129,42 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
 
     }
 
-    // public void  initview(){
-//
-//     new Thread() {
-//         public void run () {
-//             Looper.prepare();
+    private class MyServiceConn implements ServiceConnection {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder iBinder) {
+            Log.i("connected","succeed");
+            //iBinder为服务里面onBind()方法返回的对象，所以可以强转为自定义InterfaceMyBinder类型
+            mybinder = (AudioRecorderService.MyBinder) iBinder;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    }
     //TODO 改用bindservice启动，binder中内调停止service
     @SuppressLint("HandlerLeak")
     Handler myhandle = new Handler() {
 
         public void handleMessage(Message msg) {
-            Intent intent = new Intent(getActivity(), RecordingService.class);
+          //  Intent intent = new Intent(getActivity(), AudioRecorderService.class);
             Intent intent2 = new Intent(getActivity(), SensorService.class);
+            //开启服务
+
             if (1 == msg.what) {
                 startTime();
                 sleep.setClickable(false);
                 sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
-                getActivity().startService(intent2);
+
+             //   test.onCreate(getContext());
+
+                //bindservice 是异步操作，不能马上调用service操作
+      //      for(int i=10000000;i>0;i--){}
+            mybinder.startRecord();
+
+
+
                 //SaudioRecorder.startRecord();
 
                 // maudioRecorder.getNoiseLevel();
@@ -143,19 +176,26 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
                 stopTime();
                 sleep.setClickable(true);
                 sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.sleep));
-                // getActivity().stopService(intent);
+                //stoprecord
+
+                mybinder.stopRecord();
+               // getActivity().stopService(intent);
 //                audioRecorder.stopRecord();
-                getActivity().stopService(intent2);
+             //   test.stop();
+          //      getActivity().stopService(intent2);
                 getup.setClickable(false);
                 getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
             }
         }
     };
 
+
     /**
      * 开始
      */
     public void startTime() {
+
+
         timer = new Timer();
         timerTask = new TimerTask() {
             @Override

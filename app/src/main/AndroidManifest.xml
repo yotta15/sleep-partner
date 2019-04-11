@@ -42,7 +42,12 @@
         android:roundIcon="@mipmap/sleep_partner"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <!--百度语音-->
+        <meta-data android:name="com.baidu.speech.APP_ID" android:value="15968759" />
+        <meta-data android:name="com.baidu.speech.API_KEY" android:value="U6zTYHOC2oosn9m1V2NZQUI7" />
+        <meta-data android:name="com.baidu.speech.SECRET_KEY" android:value="hGY3HRmoFpnzbbCYew0W6CxisHClue1x" />
+        <service android:name="com.baidu.speech.VoiceRecognitionService" android:exported="false" />
+        
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.gzy.test3.fileProvider"
@@ -55,7 +60,7 @@
 
         <service android:name=".service.SensorService" />
         <service android:name=".service.AlarmService" />
-
+        <service android:name=".service.AudioRecorderService"/>
         <receiver
             android:name=".broadcastReceiver.AlarmReceiver"
             android:exported="true">

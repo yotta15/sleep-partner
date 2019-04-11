@@ -1,11 +1,15 @@
 package com.example.gzy.test3.presenter;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Toast;
@@ -99,10 +103,10 @@ public class UserPresenterImpl implements IUserPresenter {
 
         });
     }
-
+// content://media/external/images/media/813974
     public void uploadHeadImage(Uri uri) throws URISyntaxException {
         if (isLogin()) {
-            final BmobFile bmobFile = new BmobFile(new File(new URI(uri.toString())));
+            final BmobFile bmobFile = new BmobFile(new File(getRealFilePath(getApplicationContext(),uri)));
 
             bmobFile.uploadblock(new UploadFileListener() {
 
@@ -118,7 +122,28 @@ public class UserPresenterImpl implements IUserPresenter {
         }
 
     }
-
+    public static String getRealFilePath(final Context context, final Uri uri ) {
+        if ( null == uri ) return null;
+        final String scheme = uri.getScheme();
+        String data = null;
+        if ( scheme == null )
+            data = uri.getPath();
+        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+            data = uri.getPath();
+        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
+            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
+            if ( null != cursor ) {
+                if ( cursor.moveToFirst() ) {
+                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
+                    if ( index > -1 ) {
+                        data = cursor.getString( index );
+                    }
+                }
+                cursor.close();
+            }
+        }
+        return data;
+    }
     private void saveFile(BmobFile file) {
         UserModel user = new UserModel();
         UserModel user1 = BmobUser.getCurrentUser(UserModel.class);
