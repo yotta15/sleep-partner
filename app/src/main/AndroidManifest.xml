@@ -87,6 +87,8 @@
         <activity android:name=".activity.ModifyInfoActivity"
             android:exported="true"/>
 
+        <activity android:name=".pageslice.test"
+            android:exported="true"/>
 
         <activity android:name=".activity.SelectPicPopupWindow"
             android:theme="@style/MyDialogStyleBottom"

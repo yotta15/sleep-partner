@@ -10,6 +10,8 @@ import android.content.res.AssetManager;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -32,6 +34,24 @@ public class LocalJsonAnalyzeUtil {
         }
         return stringBuilder.toString();
     }
+    public static String getJsonFromExternal(Context context, String fileName)  {
+        StringBuilder stringBuilder = new StringBuilder();
+        //获得assets资源管理器
+
+        //使用IO流读取json文件内容
+        try {
+            FileInputStream f = new FileInputStream(fileName);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                    f, "utf-8"));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
 
     public static <T> T JsonToObject(String json, Class<T> type) {
         Gson gson = new Gson();
@@ -42,5 +62,8 @@ public class LocalJsonAnalyzeUtil {
         Gson gson = new Gson();
         return gson.fromJson(getJson(context, fileName), type);
     }
-
+    public static <T> T JsonToObjectFromExternal(Context context, String fileName, Class<T> type) {
+        Gson gson = new Gson();
+        return gson.fromJson(getJsonFromExternal(context, fileName), type);
+    }
 }

@@ -12,31 +12,21 @@
           "fvalue": 15,
           "sleeptime": "22:.10:30"
         },
-     {
+        {
           "fvalue": 15,
           "sleeptime": "22:.10:30"
         },
-
         {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
-        },
-	{
           "fvalue": 15,
           "sleeptime": "22:.10:30"
         },
-
         {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
+          "fvalue": 15,
+          "sleeptime": "22:.10:30"
         },
         {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
+          "fvalue": 15,
+          "sleeptime": "22:.10:30"
         },
         {
           "fvalue": 15,
@@ -54,36 +44,13 @@
           "fvalue": 15,
           "sleeptime": "22:.10:30"
         },
-       {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
-        },
-
         {
           "fvalue": 15,
           "sleeptime": "22:.10:30"
         },
-       {
+        {
           "fvalue": 15,
           "sleeptime": "22:.10:30"
-        },
-
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
         },
         {
           "fvalue": 15,

@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/dataSet1TextView"
         android:layout_width="wrap_content"
@@ -27,6 +29,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dataSet1TextView" />
 
+
+
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bar_chart"
         android:layout_width="368dp"
@@ -39,4 +43,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    </android.support.v7.widget.CardView>
+
+
+
 </android.support.constraint.ConstraintLayout>

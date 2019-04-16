@@ -36,7 +36,13 @@ public class cicle extends View {
 //        设置画笔属性
 //        paint.setStyle(Paint.Style.FILL);//画笔属性是实心圆
         paint.setStyle(Paint.Style.STROKE);//画笔属性是空心圆
-        paint.setStrokeWidth(8);//设置画笔粗细
+        paint.setStrokeWidth(10);//设置画笔粗细
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, 200, paint);
+
+        paint.setStrokeWidth(4);
+        paint.setTextSize(40);
+        paint.setTextAlign(Paint.Align.CENTER);
+        Paint.FontMetrics fontMetrics=paint.getFontMetrics();
 
         /*四个参数：
                 参数一：圆心的x坐标
@@ -44,9 +50,18 @@ public class cicle extends View {
                 参数三：圆的半径
                 参数四：定义好的画笔
                 圆在上半部分
+                (fontMetrics.bottom - fontMetrics.top)/2  文字高度的一半
+                 float distance=(fontMetrics.bottom - fontMetrics.top)/2 - fontMetrics.bottom;
+                 float baseline=rectF.centerY()+distance;
                 */
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, 200, paint);
+        float distance=(fontMetrics.bottom - fontMetrics.top)/2 - fontMetrics.bottom;
+        //float baseline=canvas.getHeight()/2  +distance;
 
+        //y值减去元的半径
+        canvas.drawText("12",getWidth()/2,getHeight()/2-200+fontMetrics.bottom - fontMetrics.top,paint);
+        canvas.drawText("6",getWidth()/2,getHeight()/2+200-distance,paint);
+        canvas.drawText("9",getWidth()/2-170,getHeight()/2+distance,paint);
+        canvas.drawText("3",getWidth()/2+170,getHeight()/2+distance,paint);
     }
 
 
