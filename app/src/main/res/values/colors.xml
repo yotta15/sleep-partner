@@ -34,4 +34,6 @@
     <color name="launcher_item_select">#54B0E9</color>
     <color name="launcher_item_normal">#9B9B9B</color>
     <color name="white_normal">#ffffffff</color>
+    <color name="manguo_yellow">#d4df0c</color>
+    <color name="cao_green">#86f203</color>
 </resources>

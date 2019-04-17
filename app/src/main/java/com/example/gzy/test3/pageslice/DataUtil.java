@@ -65,15 +65,13 @@ public class DataUtil {
 
         File file = new File(fileTruePath);
         if (!file.exists()) {
-          //  Log.i("file",fileAbsolutePath+"asdddassssssss");
             return null;
         }
 
-
+ //TODO 当前目录下没有json文件，返回一个样例
       File[] subFile = file.listFiles();
 
-        if (Environment.getExternalStorageState().
-                equals(Environment.MEDIA_MOUNTED) && subFile!=null) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && subFile!=null) {
             for (int iFileLength = 0; iFileLength < subFile.length; iFileLength++) {
                 // 判断是否为文件夹
                 if (!subFile[iFileLength].isDirectory()) {
@@ -88,18 +86,45 @@ public class DataUtil {
         Log.i("vecfile",""+vecFile.size()+vecFile.get(0));
         return vecFile;
     }
+    //用于返回当前目录下所有的 sleepInfo 实例
+   public List<SleepInfo> GetAllSleepInfo(Context context){
+       List<SleepInfo>  allSleepInfo = new ArrayList<>();
+       String filepath = Environment.getExternalStorageDirectory()
+               +"/SleepPartner";
+       Vector<String> vecfile = GetJsonFileName(filepath);
+       if(0== vecfile.size()){
+           SleepInfo sleepInfo = LocalJsonAnalyzeUtil.JsonToObject(context,"sleep.json",SleepInfo.class);
+           allSleepInfo.add(sleepInfo);
 
+       }else {
+           for (String s : vecfile) {
+               SleepInfo sleepInfo = LocalJsonAnalyzeUtil.JsonToObjectFromExternal(context,
+                       s, SleepInfo.class);
+               allSleepInfo.add(sleepInfo);
+           }
+       }
+      // Log.i("GetSleepList",""+allSleepstateBean.size());
+       return allSleepInfo;
+   }
     //用于返回目录下的所有sleepstateBean 的集合
     public List<List<SleepstateBean>> GetSleepList(Context context) {
         List<List<SleepstateBean>> allSleepstateBean = new ArrayList<>();
         String filepath = Environment.getExternalStorageDirectory()
                 +"/SleepPartner";
         Vector<String> vecfile = GetJsonFileName(filepath);
-        for (String s : vecfile) {
-            SleepInfo sleepInfo = LocalJsonAnalyzeUtil.JsonToObjectFromExternal(context,
-                    s, SleepInfo.class);
-            List<SleepstateBean> sleepstateBeans = sleepInfo.getSleepstate();
-            allSleepstateBean.add(sleepstateBeans);
+        if(0== vecfile.size()){
+
+                SleepInfo sleepInfo = LocalJsonAnalyzeUtil.JsonToObject(context,"sleep.json",SleepInfo.class);
+                List<SleepstateBean> sleepstateBeans = sleepInfo.getSleepstate();
+                allSleepstateBean.add(sleepstateBeans);
+
+        }else {
+            for (String s : vecfile) {
+                SleepInfo sleepInfo = LocalJsonAnalyzeUtil.JsonToObjectFromExternal(context,
+                        s, SleepInfo.class);
+                List<SleepstateBean> sleepstateBeans = sleepInfo.getSleepstate();
+                allSleepstateBean.add(sleepstateBeans);
+            }
         }
         Log.i("GetSleepList",""+allSleepstateBean.size());
         return allSleepstateBean;

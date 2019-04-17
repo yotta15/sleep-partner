@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
 
 import com.example.gzy.test3.R;
+import com.example.gzy.test3.model.SleepInfo;
 import com.example.gzy.test3.model.SleepstateBean;
 
 
@@ -80,11 +81,13 @@ public class test extends AppCompatActivity {
         }
         DataUtil dataUtil=new DataUtil();
         List<List<SleepstateBean>> allSleepstateBean= dataUtil.GetSleepList(getApplicationContext());
+       List<SleepInfo> allSleepInfo= dataUtil.GetAllSleepInfo(getApplicationContext());
         //初始化数据
         for (int i = 0; i < allSleepstateBean.size(); i++) {
             DataBean bean = new DataBean();
             bean.name = "第" + (i + 1) + "条数据";
-            bean.sleepstateBean=allSleepstateBean.get(i);
+
+            bean.sleepInfo=allSleepInfo.get(i);
             dataList.add(bean);
         }
         //计算viewpager一共显示几页

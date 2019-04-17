@@ -44,6 +44,8 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     Calendar c=Calendar.getInstance();
     boolean Tag = false;
 
+    AlarmReceiver alarmReceiver=new AlarmReceiver();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,13 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.white));
 
         setContentView(R.layout.alarm_set);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("panhouye");
+        filter.setPriority(-1000);//设置动态优先级
+        alarmReceiver = new AlarmReceiver();
+        registerReceiver(alarmReceiver,filter);
+
+
         intent = new Intent(AlarmActivity.this, AlarmService.class);
 
         //用于获取alarmmanager对象
@@ -64,8 +73,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         mreturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(AlarmActivity.this,ContentActivity.class);
-                startActivity(intent);
+               finish();
             }
         });
         mswitch = (Switch) findViewById(R.id.of_switch);
@@ -169,7 +177,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AlarmReceiver alarmReceiver=new AlarmReceiver();
+
         unregisterReceiver(alarmReceiver);
     }
 }

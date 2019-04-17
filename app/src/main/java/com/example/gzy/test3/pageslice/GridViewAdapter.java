@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.ImageHeaderParser;
 import com.example.gzy.test3.R;
 import com.example.gzy.test3.bardata.MyBarDataSet;
 import com.example.gzy.test3.model.SleepstateBean;
@@ -23,6 +25,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.idlestar.ratingstar.RatingStarView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +41,14 @@ public class GridViewAdapter extends BaseAdapter {
     private XAxis xAxis;                //X轴
     private Legend legend;              //图例
 
-    List<Integer> yValues;
-    List<String> xValues;
+    List<Integer> yValues = new ArrayList<>();
+    ;
+    List<String> xValues = new ArrayList<>();
+    ;
 
     List<SleepstateBean> sleepstateBeans;
 
-   public  GridViewAdapter(List<DataBean> datas, int page,Context context) {
+    public GridViewAdapter(List<DataBean> datas, int page, Context context) {
         dataList = new ArrayList<>();
         //start end分别代表要显示的数组在总数据List中的开始和结束位置
         int start = page * test.item_grid_num;
@@ -52,60 +57,88 @@ public class GridViewAdapter extends BaseAdapter {
             dataList.add(datas.get(start));
             start++;
         }
-        DataUtil c=new DataUtil();
-       sleepstateBeans=c.returnlist(context);
-        xValues = new ArrayList<>();
-        yValues = new ArrayList<>();
-        for (SleepstateBean statebean : sleepstateBeans) {
-            xValues.add(statebean.getSleeptime());
-        }
+        DataUtil c = new DataUtil();
+//        sleepstateBeans = c.returnlist(context);
+//
+//        for (SleepstateBean statebean : sleepstateBeans) {
+//            xValues.add(statebean.getSleeptime());
+//        }
     }
+
     @Override
     public int getCount() {
         return dataList.size();
     }
+
     @Override
     public Object getItem(int i) {
         return dataList.get(i);
     }
+
     @Override
     public long getItemId(int i) {
         return i;
     }
+
     @Override
     public View getView(int i, View itemView, ViewGroup viewGroup) {
         ViewHolder mHolder;
         if (itemView == null) {
             mHolder = new ViewHolder();
-            itemView= LayoutInflater.from(viewGroup.getContext())
+            itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.item_gridview, viewGroup, false);
-            mHolder.barChart = (BarChart) itemView.findViewById(R.id.item_linearlayout);
-
-            LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(900,900);
+            mHolder.barChart = (BarChart) itemView.findViewById(R.id.item_barchart);
+            LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(900, 600);
             tvParams.gravity = Gravity.CENTER_HORIZONTAL;
-            tvParams.gravity=Gravity.CENTER_VERTICAL;
+            tvParams.gravity = Gravity.CENTER_VERTICAL;
             mHolder.barChart.setLayoutParams(tvParams);
 
+            mHolder.tv_score = (TextView) itemView.findViewById(R.id.tv_score);
+
             mHolder.tv_text = (TextView) itemView.findViewById(R.id.tv_text);
+            mHolder.rsv_rating = (RatingStarView) itemView.findViewById(R.id.rsv_rating);
+            mHolder.tv_starttime=(TextView) itemView.findViewById(R.id.tv_starttime);
+            mHolder.tv_endtime=(TextView) itemView.findViewById(R.id.tv_endtime);
+            mHolder.iv_starttime=(ImageView)itemView.findViewById(R.id.iv_starttime);
+            mHolder.iv_endtime=(ImageView)itemView.findViewById(R.id.iv_endtime);
             itemView.setTag(mHolder);
-        }
-        else {
+        } else {
             mHolder = (ViewHolder) itemView.getTag();
         }
         DataBean bean = dataList.get(i);
 
         if (bean != null) {
 
-           initBarChart(mHolder.barChart);
-            showBarChart(bean.sleepstateBean,"",viewGroup.getContext(),mHolder.barChart);
-            mHolder.tv_text.setText(bean.name);
+            initBarChart(mHolder.barChart);
+            showBarChart(bean.sleepInfo.getSleepstate(), "", viewGroup.getContext(), mHolder.barChart);
+            mHolder.tv_text.setText(bean.sleepInfo.getSleepdate());
+            mHolder.tv_score.setText(String.valueOf(bean.sleepInfo.getScore()));
+            //百分制转化为五分制
+            mHolder.rsv_rating.setRating(bean.sleepInfo.getScore()/20.0f);
+            String[] str1=bean.sleepInfo.getStarttime().split(":");
+            String[] str2=bean.sleepInfo.getEndtime().split(":");
+
+            mHolder.iv_starttime.setImageResource((Integer.parseInt(str1[0])>19||(Integer.parseInt(str1[0])<6))?
+                    R.drawable.moon:R.drawable.sun);
+            mHolder.iv_endtime.setImageResource((Integer.parseInt(str2[0])>19||(Integer.parseInt(str2[0])<6))?
+                    R.drawable.moon:R.drawable.sun);
+            mHolder.tv_starttime.setText("睡觉时间  "+bean.sleepInfo.getStarttime());
+            mHolder.tv_endtime.setText("起床时间  "+bean.sleepInfo.getEndtime());
         }
         return itemView;
     }
+
     private class ViewHolder {
+        private TextView tv_score;
+        private ImageView iv_starttime;
+        private ImageView iv_endtime;
         private BarChart barChart;
         private TextView tv_text;
+        private RatingStarView rsv_rating;
+        private TextView tv_starttime;
+        private TextView tv_endtime;
     }
+
     /**
      * 初始化BarChart图表
      */
@@ -123,10 +156,10 @@ public class GridViewAdapter extends BaseAdapter {
         barChart.setDragEnabled(false);
         //Y轴禁止缩放
         barChart.setScaleXEnabled(true);
-        barChart.setScaleYEnabled(true);
+        barChart.setScaleYEnabled(false);
         //   barChart.setScaleEnabled(false);
         //禁止所有事件
-//        barChart.setTouchEnabled(false);
+        barChart.setTouchEnabled(false);
         //不显示边框
         barChart.setDrawBorders(true);
 
@@ -149,12 +182,12 @@ public class GridViewAdapter extends BaseAdapter {
         rightAxis = barChart.getAxisRight();
 
         xAxis.setAxisMinimum(0f);
-        xAxis.setAxisMaximum(xValues.size());
-//将X轴的值显示在中央
+        // xAxis.setAxisMaximum(xValues.size());
+      //将X轴的值显示在中央
         xAxis.setCenterAxisLabels(true);
         //保证Y轴从0开始，不然会上移一点
-//        leftAxis.setAxisMinimum(0f);
-//        rightAxis.setAxisMinimum(0f);
+    //        leftAxis.setAxisMinimum(0f);
+    //        rightAxis.setAxisMinimum(0f);
 
         //不绘制X Y轴线条
         xAxis.setDrawAxisLine(false);
@@ -178,10 +211,11 @@ public class GridViewAdapter extends BaseAdapter {
         legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
 
         //是否绘制在图表里面
-        legend.setDrawInside(true);
+        legend.setDrawInside(false);
     }
+
     //单条柱状图
-    private void showBarChart(final List<SleepstateBean> sleepstateBeans, String name, Context context,BarChart barChart) {
+    private void showBarChart(final List<SleepstateBean> sleepstateBeans, String name, Context context, BarChart barChart) {
         ArrayList<BarEntry> entries = new ArrayList<>();
         for (int i = 0; i < sleepstateBeans.size(); i++) {
             /**
@@ -193,12 +227,12 @@ public class GridViewAdapter extends BaseAdapter {
         }
         // 每一个BarDataSet代表一类柱状图
         MyBarDataSet barDataSet = new MyBarDataSet(entries, name);
-        initBarDataSet(barDataSet,context);
+        initBarDataSet(barDataSet, context);
         //X轴自定义值,只显示 第一个和最后一个
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return  "";
+                return "";
                 // return xValues.get((int) Math.abs(value) % xValues.size());
                 //return sleepstateBeans.get((int) value % sleepstateBeans.size()).getSleeptime();
             }
@@ -210,10 +244,12 @@ public class GridViewAdapter extends BaseAdapter {
         barChart.setData(data);
     }
 
-    private void initBarDataSet(MyBarDataSet barDataSet,Context context) {
-        int[] colors = new int[]{context.getResources().getColor(R.color.green),
+    //未检测到 5红 /醒 8黄/浅睡 10 紫/ 深睡 15绿
+    private void initBarDataSet(MyBarDataSet barDataSet, Context context) {
+        int[] colors = new int[]{context.getResources().getColor(R.color.red),
                 context.getResources().getColor(R.color.orange),
-                context.getResources().getColor(R.color.red)};
+                context.getResources().getColor(R.color.cao_green),
+                context.getResources().getColor(R.color.holo_blue_light)};
         barDataSet.setColors(colors);
 
         //    barDataSet.setColor(color);

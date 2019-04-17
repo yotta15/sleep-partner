@@ -42,7 +42,7 @@ public class SleepInfo {
     private int dreamtalk;
     private String beforesleep;
     private String noise;
-    private int score;
+    private float score;
     private List<SleepstateBean> sleepstate;
 
     public String getSleepdate() {
@@ -101,11 +101,11 @@ public class SleepInfo {
         this.noise = noise;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(float score) {
         this.score = score;
     }
 

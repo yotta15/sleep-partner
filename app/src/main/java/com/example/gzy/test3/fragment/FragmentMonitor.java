@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 
 import com.example.gzy.test3.R;
+import com.example.gzy.test3.activity.AlarmActivity;
 import com.example.gzy.test3.service.AudioRecordFunc;
 import com.example.gzy.test3.service.AudioRecorder;
 import com.example.gzy.test3.service.AudioRecorderService;
@@ -64,6 +65,7 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
         getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
         imageView=(ImageView)view.findViewById(R.id.iv_clock);
         setFlickerAnimation(imageView);
+        imageView.setOnClickListener(this);
 //        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));  //image的布局方式
 ////        imageView.setImageResource(R.drawable.alarm);  //设置imageview呈现的图片
 ////        view.addView(imageView);
@@ -123,6 +125,9 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
                 }).start();
                 //   stopTime();
                 break;
+            case R.id.iv_clock:
+//                Intent intent=new Intent(getActivity(), AlarmActivity.class);
+//                startActivity(intent);
             default:
                 break;
         }

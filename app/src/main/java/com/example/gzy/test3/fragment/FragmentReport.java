@@ -80,16 +80,6 @@ public class FragmentReport extends Fragment {
     }
 
 
-
-    private void initViews() {
-        //初始化ViewPager
-
-        //圆点指示器
-//        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
-//        indicator.setVisibility(View.VISIBLE);
-//        indicator.setViewPager(view_pager);
-    }
-
     private void initDatas() {
         if (dataList.size() > 0) {
             dataList.clear();
@@ -99,11 +89,12 @@ public class FragmentReport extends Fragment {
         }
         DataUtil dataUtil=new DataUtil();
         List<List<SleepstateBean>> allSleepstateBean= dataUtil.GetSleepList(getContext());
+        List<SleepInfo> allSleepInfo= dataUtil.GetAllSleepInfo(getContext());
         //初始化数据
         for (int i = 0; i < allSleepstateBean.size(); i++) {
             DataBean bean = new DataBean();
             bean.name = "第" + (i + 1) + "条数据";
-            bean.sleepstateBean=allSleepstateBean.get(i);
+            bean.sleepInfo=allSleepInfo.get(i);
             dataList.add(bean);
         }
         //计算viewpager一共显示几页

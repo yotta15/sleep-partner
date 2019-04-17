@@ -1,189 +1,186 @@
 {
-      "sleepdate": "2018-01-03",
-      "starttime": "22:05:30",
-      "endtime": "07:20:30",
-      "turnover": 5,
-      "dreamtalk": 2,
-      "beforesleep": "excited",
-      "noise": "25db",
-      "score": 75,
-      "sleepstate": [
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-     {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
-        },
-	{
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-       {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
-        },
-
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-       {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.08:30"
-        },
-        {
-          "fvalue": 10,
-          "sleeptime": "22:.09:30"
-        },
-
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.10:30"
-        },
-        {
-          "fvalue": 15,
-          "sleeptime": "22:.11:30"
-        }
-      ]
+  "sleepdate": "2018-01-03",
+  "starttime": "22:05:30",
+  "endtime": "07:20:30",
+  "turnover": 5,
+  "dreamtalk": 2,
+  "beforesleep": "excited",
+  "noise": "25db",
+  "score": 75,
+  "sleepstate": [
+    {
+      "fvalue": 5,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.09:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.08:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.09:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.08:30"
+    },
+    {
+      "fvalue": 8,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 8,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.09:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.08:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.09:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.08:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.09:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.08:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.09:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.09:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.08:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.09:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.08:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.09:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.08:30"
+    },
+    {
+      "fvalue": 10,
+      "sleeptime": "22:.09:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.10:30"
+    },
+    {
+      "fvalue": 12,
+      "sleeptime": "22:.11:30"
+    }
+  ]
 }
 
 
