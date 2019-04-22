@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.load.ImageHeaderParser;
 import com.example.gzy.test3.R;
 import com.example.gzy.test3.bardata.MyBarDataSet;
+import com.example.gzy.test3.fragment.FragmentReport;
 import com.example.gzy.test3.model.SleepstateBean;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
@@ -51,8 +52,8 @@ public class GridViewAdapter extends BaseAdapter {
     public GridViewAdapter(List<DataBean> datas, int page, Context context) {
         dataList = new ArrayList<>();
         //start end分别代表要显示的数组在总数据List中的开始和结束位置
-        int start = page * test.item_grid_num;
-        int end = start + test.item_grid_num;
+        int start = page * FragmentReport.item_grid_num;
+        int end = start + FragmentReport.item_grid_num;
         while ((start < datas.size()) && (start < end)) {
             dataList.add(datas.get(start));
             start++;

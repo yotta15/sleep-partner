@@ -5,9 +5,8 @@ package com.example.gzy.test3.activity;
  */
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +31,7 @@ import android.widget.TextView;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.gzy.test3.R;
+import com.example.gzy.test3.broadcastReceiver.ScreenOnOffReceiver;
 import com.example.gzy.test3.fragment.FragmentMonitor;
 import com.example.gzy.test3.fragment.FragmentPersonal;
 import com.example.gzy.test3.fragment.FragmentMusic;
@@ -67,6 +67,8 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         closeAndroidPDialog();
+        registerScreenOnOff();
+
         //第一：默认初始化
         Bmob.initialize(this, "5a5dcb5264e14c4fa9886e8511707ac0");
         //设置BmobConfig
@@ -142,7 +144,13 @@ public class ContentActivity extends AppCompatActivity implements BottomNavigati
         mBottomNavigationBar.setTabSelectedListener(this);
         setBottomNavigationItem(mBottomNavigationBar, 6, 26, 10);
     }
-
+    public void  registerScreenOnOff(){
+        IntentFilter screenStateFilter = new IntentFilter();
+        screenStateFilter.addAction(Intent.ACTION_SCREEN_ON);
+        screenStateFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        ScreenOnOffReceiver screenOnOffReceiver =new ScreenOnOffReceiver();
+        registerReceiver(screenOnOffReceiver, screenStateFilter);
+    }
     /**
      * 解决在AndroidP 版本上弹窗问题
      */

@@ -24,32 +24,7 @@ import java.util.Vector;
  * Describle;
  */
 public class DataUtil {
-    private BarChart barChart;
-    private YAxis leftAxis;             //左侧Y轴
-    private YAxis rightAxis;            //右侧Y轴
-    private XAxis xAxis;                //X轴
-    private Legend legend;              //图例
-    private LimitLine limitLine;        //限制线
 
-    List<Integer> yValues;
-    List<String> xValues;
-
-    View view;
-
-
-    public List<SleepstateBean> returnlist(Context context) {
-        SleepInfo sleepInfo = LocalJsonAnalyzeUtil.JsonToObject(context,
-                "sleep.json", SleepInfo.class);
-        List<SleepstateBean> sleepstateBeans = sleepInfo.getSleepstate();
-        xValues = new ArrayList<>();
-        yValues = new ArrayList<>();
-
-        for (SleepstateBean statebean : sleepstateBeans) {
-            xValues.add(statebean.getSleeptime());
-        }
-        Log.i("xvalue", "" + xValues.size());
-        return sleepstateBeans;
-    }
 
     // 获取当前目录下所有的json文件
     public static Vector<String> GetJsonFileName(String fileAbsolutePath) {
@@ -83,7 +58,7 @@ public class DataUtil {
                 }
             }
         }
-        Log.i("vecfile",""+vecFile.size()+vecFile.get(0));
+     //   Log.i("vecfile",""+vecFile.size()+vecFile.get(0));
         return vecFile;
     }
     //用于返回当前目录下所有的 sleepInfo 实例

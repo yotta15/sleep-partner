@@ -87,6 +87,13 @@
         <item>于秋旋</item>
     </string-array>
 
-
+    <string-array name="tips">
+        <item>计划好一天的工作，按时上床能让你获得更好睡眠</item>
+        <item>上床前伸展一下身体，有助于缓解紧张，平静思想</item>
+        <item>可以听一些睡前音乐来辅助睡眠哦！</item>
+        <item>听说牛奶和美梦更配哦！</item>
+        <item>选用舒适的床具可帮助我们更快进入梦乡！</item>
+        <item>睡觉时爱做噩梦、容易惊醒、醒得过早等睡眠现象，都叫做浅睡眠现象哦！</item>
+    </string-array>
 
 </resources>

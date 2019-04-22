@@ -3,6 +3,7 @@ package com.example.gzy.test3.fragment;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,11 +26,11 @@ import android.widget.Toast;
 
 
 import com.example.gzy.test3.R;
-import com.example.gzy.test3.activity.AlarmActivity;
 import com.example.gzy.test3.service.AudioRecordFunc;
 import com.example.gzy.test3.service.AudioRecorder;
 import com.example.gzy.test3.service.AudioRecorderService;
 import com.example.gzy.test3.service.SensorService;
+import com.example.gzy.test3.service.WriteDataUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,25 +38,38 @@ import java.util.TimerTask;
 import static android.content.Context.BIND_AUTO_CREATE;
 
 
-public class  FragmentMonitor extends Fragment implements View.OnClickListener {
+public class FragmentMonitor extends Fragment implements View.OnClickListener {
     private Timer timer;
     private TimerTask timerTask;
     private View view;
-     private CardView mcardview;
+
     private Button sleep, getup;
     private int i = 0;
     private AudioRecordFunc audioRecorder;
     private AudioRecorder maudioRecorder;
     private ImageView imageView;
-    AudioRecorderService.MyBinder mybinder;
+    AudioRecorderService.MyBinder audiobinder;
+    SensorService.MyBinder sensorbinder;
+    WriteDataUtil writeDataUtil;
 
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        audioRecorder = new AudioRecordFunc();
+        maudioRecorder = new AudioRecorder();
+        writeDataUtil=new WriteDataUtil();
 
+    }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.sleepfragment, container, false);
-        Intent intent=new Intent(getActivity(), AudioRecorderService.class);
-        MyServiceConn myServiceConn=new MyServiceConn();
-        getActivity().bindService(intent,myServiceConn, BIND_AUTO_CREATE);
+
+        Intent intent1 = new Intent(getActivity(), AudioRecorderService.class);
+        AudioServiceConn audioServiceConn = new AudioServiceConn();
+        getActivity().bindService(intent1, audioServiceConn, BIND_AUTO_CREATE);
+
+        Intent intent2 = new Intent(getActivity(), SensorService.class);
+        SensorServiceConn sensorServiceConn = new SensorServiceConn();
+        getActivity().bindService(intent2, sensorServiceConn, BIND_AUTO_CREATE);
 
         sleep = (Button) view.findViewById(R.id.sleep);
         sleep.setOnClickListener(this);
@@ -63,18 +77,16 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
         getup.setOnClickListener(this);
         getup.setClickable(false);
         getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
-        imageView=(ImageView)view.findViewById(R.id.iv_clock);
+        imageView = (ImageView) view.findViewById(R.id.iv_clock);
         setFlickerAnimation(imageView);
         imageView.setOnClickListener(this);
-//        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));  //image的布局方式
-////        imageView.setImageResource(R.drawable.alarm);  //设置imageview呈现的图片
-////        view.addView(imageView);
-        return view;
-     //   ViewGroup group = (ViewGroup) view.findViewById(R.id.viewGroup); //获取原来的布局容器
-     //   ImageView imageView = new ImageView(this);  //创建imageview
-        //添加到布局容器中，显示图片。
 
+
+        return view;
     }
+
+
+
     //实现图片闪烁效果
     private void setFlickerAnimation(ImageView iv_chat_head) {
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
@@ -85,13 +97,7 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
         iv_chat_head.setAnimation(animation);
     }
 
-    public void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        audioRecorder = new AudioRecordFunc();
-        maudioRecorder = new AudioRecorder();
-//        initview();
-    }
 
     public void onClick(View view) {
         switch (view.getId()) {
@@ -134,13 +140,41 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
 
     }
 
-    private class MyServiceConn implements ServiceConnection {
+    private class SensorServiceConn implements ServiceConnection {
+
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            sensorbinder = (SensorService.MyBinder) iBinder;
+            SensorService sensorService = sensorbinder.getService();
+
+            sensorService.setCallback(new SensorService.Callback() {
+                @Override
+                public void onDataChange(String data) {
+
+                    writeDataUtil.SensorData(data);
+
+                }
+            });
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            Log.i("conn","disconneted");
+        }
+    }
+
+    private class AudioServiceConn implements ServiceConnection {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder iBinder) {
-            Log.i("connected","succeed");
-            //iBinder为服务里面onBind()方法返回的对象，所以可以强转为自定义InterfaceMyBinder类型
-            mybinder = (AudioRecorderService.MyBinder) iBinder;
+            audiobinder = (AudioRecorderService.MyBinder) iBinder;
+            AudioRecorderService audioRecorderService = audiobinder.getservice();
+            audioRecorderService.setCallback(new AudioRecorderService.Callback() {
+                @Override
+                public void onDataChange(String data) {
+                    //记录
+                }
+            });
         }
 
         @Override
@@ -148,28 +182,26 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
 
         }
     }
+
     //TODO 改用bindservice启动，binder中内调停止service
     @SuppressLint("HandlerLeak")
     Handler myhandle = new Handler() {
 
         public void handleMessage(Message msg) {
-          //  Intent intent = new Intent(getActivity(), AudioRecorderService.class);
-            Intent intent2 = new Intent(getActivity(), SensorService.class);
-            //开启服务
 
             if (1 == msg.what) {
                 startTime();
                 sleep.setClickable(false);
                 sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
-
-             //   test.onCreate(getContext());
+                writeDataUtil.oncreate();
+                //   test.onCreate(getContext());
 
                 //bindservice 是异步操作，不能马上调用service操作
-      //      for(int i=10000000;i>0;i--){}
-            mybinder.startRecord();
+                //      for(int i=10000000;i>0;i--){}
 
-
-
+                //getActivity().startService((new Intent(getActivity() , SensorService.class)));
+               sensorbinder.startRecord();
+                audiobinder.startRecord();
                 //SaudioRecorder.startRecord();
 
                 // maudioRecorder.getNoiseLevel();
@@ -182,12 +214,14 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
                 sleep.setClickable(true);
                 sleep.setTextColor(ContextCompat.getColor(getActivity(), R.color.sleep));
                 //stoprecord
-
-                mybinder.stopRecord();
-               // getActivity().stopService(intent);
+               //  getActivity().unbindService(sensorServiceConn);
+                sensorbinder.stopitself();
+                writeDataUtil.onpause();
+            //    audiobinder.stopRecord();
+                // getActivity().stopService(intent);
 //                audioRecorder.stopRecord();
-             //   test.stop();
-          //      getActivity().stopService(intent2);
+                //   test.stop();
+                //      getActivity().stopService(intent2);
                 getup.setClickable(false);
                 getup.setTextColor(ContextCompat.getColor(getActivity(), R.color.gray));
             }
@@ -235,11 +269,4 @@ public class  FragmentMonitor extends Fragment implements View.OnClickListener {
         }
     }
 
-    public Handler getMyhandle() {
-        return myhandle;
-    }
-
-    public void setMyhandle(Handler myhandle) {
-        this.myhandle = myhandle;
-    }
 }

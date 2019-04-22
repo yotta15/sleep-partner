@@ -1,6 +1,7 @@
 package com.example.gzy.test3.service;
 
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -51,7 +52,13 @@ public class AudioRecorderService extends Service implements EventListener {
     private int current = -1;
     Handler handler = new Handler();
     Runnable runnable;
-    double highestdb=1;
+    double highestdb = 1;
+    Callback callback;
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -62,36 +69,32 @@ public class AudioRecorderService extends Service implements EventListener {
         if (enableOffline) {
             loadOfflineEngine(); // 测试离线命令词请开启, 测试 ASR_OFFLINE_ENGINE_GRAMMER_FILE_PATH 参数时开启
         }
-        //start();
-
     }
 
     //打点测试，高低性能处理,音量检测，录音向前回溯1.5s
-    public void loopRecord() {
-
+    private void loopRecord() {
         runnable = new Runnable() {
             public void run() {
                 // TODO Auto-generated method stub  
-               start();
+                start();
                 handler.postDelayed(this, 65000);
             }
         };
-        handler.postDelayed(runnable, 2000);
+       handler.postDelayed(runnable, 2000);
+    }
 
-
+    public static interface Callback {
+        void onDataChange(String data);
     }
 
     /**
      * 基于SDK集成2.2 发送开始事件
-     * 点击开始按钮
-     * 测试参数填在这里
      */
+    @SuppressLint("HandlerLeak")
     private void start() {
-        //  txtLog.setText("");
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         String event = null;
         event = SpeechConstant.ASR_START; // 替换成测试的event
-        //   isRecording = true;//正在测试
         if (enableOffline) {
             params.put(SpeechConstant.DECODER, 2);
         }
@@ -102,10 +105,8 @@ public class AudioRecorderService extends Service implements EventListener {
         // params.put(SpeechConstant.IN_FILE, "res:///com/baidu/android/voicedemo/16k_test.pcm");
         // params.put(SpeechConstant.VAD, SpeechConstant.VAD_DNN);
         // params.put(SpeechConstant.PID, 1537); // 中文输入法模型，有逗号
-
         //   params.put(SpeechConstant.ACCEPT_AUDIO_DATA, true);//需要音频数据回调
         timearray.add(String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + ":" + Calendar.getInstance().get(Calendar.MINUTE) + "_" + ++current));
-
         //  params.put(SpeechConstant.OUT_FILE, Environment.getExternalStorageDirectory().getPath() + "/AudioRecord/" + timearray.get(current) + ".pcm");
 
         // 请先使用如‘在线识别’界面测试和生成识别参数。 params同ActivityRecog类中myRecognizer.start(params);
@@ -151,8 +152,6 @@ public class AudioRecorderService extends Service implements EventListener {
     @Override
     public void onEvent(String name, String params, byte[] data, int offset, int length) {
         String logTxt = "name: " + name;
-
-
         if (params != null && !params.isEmpty()) {
             logTxt += " ;params :" + params;
         }
@@ -189,15 +188,15 @@ public class AudioRecorderService extends Service implements EventListener {
                     JSONObject jsonObject = new JSONObject(params);
                     int volume = Integer.parseInt(jsonObject.get("volume").toString());
                     //todo 计算最高值和平均值
-                    double ratio = (double)volume /3;
+                    double ratio = (double) volume / 3;
                     double db = 0;// 分贝
                     if (ratio > 1)
                         db = 20 * Math.log10(ratio);
-                    if(highestdb<db)
-                        highestdb=db;
-                    Log.d("CALLBACK_VOLUME","分贝值："+db);
+                    if (highestdb < db)
+                        highestdb = db;
+                    Log.d("CALLBACK_VOLUME", "分贝值：" + db);
 
-                //    Log.i("CALLBACK_VOLUME", jsonObject.get("volume").toString());
+                    //    Log.i("CALLBACK_VOLUME", jsonObject.get("volume").toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -211,21 +210,8 @@ public class AudioRecorderService extends Service implements EventListener {
             //  Log.i("EVENT_ASR_AUDIO","out_put");
             // Log.v()
         }
-        //   printLog(logTxt);
     }
 
-    public static void setTimeout(final int delay) {
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(delay);
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-            }
-        }.start();
-    }
 
     /**
      * enableOffline设为true时，在onCreate中调用
@@ -279,6 +265,10 @@ public class AudioRecorderService extends Service implements EventListener {
      * 创建一个内部类 提供一个方法，可以间接调用服务的方法
      */
     public class MyBinder extends Binder {
+        public AudioRecorderService getservice() {
+            return AudioRecorderService.this;
+        }
+
         public void stopRecord() {
             stop();
         }

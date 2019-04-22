@@ -38,7 +38,7 @@ import java.util.Map;
  */
 public class WriteDataService  {
     SleepInfo sleepInfo=new SleepInfo();
-    List<SleepstateBean> sleepstates=new ArrayList<>();
+    List<SleepstateBean> sleepsgtates=new ArrayList<>();
 
 
     //单例模式，没有<T>就不知道T是从何而来的
@@ -82,7 +82,8 @@ public class WriteDataService  {
                 sleepstateBean.setFvalue((Integer) value);
                 Calendar c=Calendar.getInstance();
                 sleepstateBean.setSleeptime(c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND));
-                sleepstates.add(sleepstateBean);
+                //sleepstates.add(sleepstateBean);
+                sleepInfo.getSleepstate().add(sleepstateBean);
                 break;
         }
 
@@ -91,6 +92,7 @@ public class WriteDataService  {
     //结束记录,service 销毁
     public  void endRecording(){
         //格式化，不忽略空字段
+        //todo 自动检测空字段
         Gson gson = new GsonBuilder().serializeNulls().create();
         String jsonStr = gson.toJson(sleepInfo);
         try {
