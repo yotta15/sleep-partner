@@ -87,7 +87,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".service.AudioRecorderService"
+            android:name=".service.AudioService"
             android:exported="false">
             <intent-filter android:priority="1000">
                 <action android:name="AudioRecorderService" />

@@ -18,4 +18,5 @@
     <dimen name="dp_4">4dp</dimen>
     <dimen name="dp_20">20dp</dimen>
     <dimen name="imageSelectDimen">120dp</dimen>
+    <dimen name="size90">90sp</dimen>
 </resources>

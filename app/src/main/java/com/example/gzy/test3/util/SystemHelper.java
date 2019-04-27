@@ -30,9 +30,15 @@ public class SystemHelper {
      */
     public static int batteryInfo(Context context) {
         BatteryManager batteryManager = (BatteryManager)context.getSystemService(BATTERY_SERVICE);
-        int battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+        int battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);///当前电量百分比
+        if(battery>=30){
+            int delaymills=30000;//半分钟
+            return delaymills;
+        }else{
+           int  delaymills=60000;//一分钟
+           return delaymills;
+        }
 
-        return battery;
     }
 
     /**

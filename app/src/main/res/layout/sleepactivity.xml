@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearlayout_addimageview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/linearlayout_addimageview"
-    android:background="@drawable/star">
+    android:background="@drawable/star"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/tv_showtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
         android:textColor="@color/white"
-        android:textSize="@dimen/super_text_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textSize="@dimen/super_text_size" />
 
     <TextView
         android:id="@+id/tv_showalarm"
-        android:textColor="@color/white"
-        android:textSize="@dimen/large_text_size"
-        android:layout_below="@id/tv_showtime"
-        android:layout_centerHorizontal="true"
-        android:text="闹钟未设置"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <ImageView
-        android:id="@+id/iv_edit"
-        android:layout_toEndOf="@id/tv_showalarm"
-        android:layout_below="@id/tv_showtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/edit"/>
+        android:layout_below="@id/tv_showtime"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="闹钟未设置"
+        android:textColor="@color/white"
+        android:textSize="@dimen/large_text_size" />
+
+    <ImageView
+        android:id="@+id/iv_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_showalarm"
+        android:layout_alignTop="@id/tv_showalarm"
+        android:layout_below="@id/tv_showtime"
+        android:layout_toEndOf="@id/tv_showalarm"
+        android:src="@drawable/edit" />
 
     <Button
         android:id="@+id/bt_finish"
@@ -44,13 +48,11 @@
         android:textColor="@color/white"
         android:textSize="15dp" />
 
+    <TextView
+        android:id="@+id/tv_showtip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bt_finish" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/sleep_background"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginBottom="0dp"-->
-        <!--android:layout_marginTop="0dp"-->
-        <!--android:src="@drawable/star"-->
-        <!--android:contentDescription="TODO" />-->
+
 </RelativeLayout>

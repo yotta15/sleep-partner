@@ -67,6 +67,10 @@ public class SensorService extends Service implements SensorEventListener {
         //获取系统的传感器管理服务，并注册监听加速度传感器
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         keepcpuawake();
+
+    }
+
+    private void keepcpuawake() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
@@ -84,9 +88,6 @@ public class SensorService extends Service implements SensorEventListener {
             //这里的id不能是0
             startForeground(1, notification);
         }
-    }
-
-    private void keepcpuawake() {
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "My Tag");
         wl.acquire();
@@ -99,7 +100,8 @@ public class SensorService extends Service implements SensorEventListener {
     }
 
     public void start() {
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), sensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), sensorManager.SENSOR_DELAY_UI);
 
     }
 
@@ -143,7 +145,8 @@ public class SensorService extends Service implements SensorEventListener {
         float z = values[2];
         float deltaX = x - mLastX;
         float deltaY = y - mLastY;
-        float deltaZ = z - mLastZ;
+        float deltaZ = z - mLastZ;//正值
+     //   Log.i("deltaz",deltaZ+"");
         mLastX = x;
         mLastY = y;
         mLastZ = z;
@@ -159,7 +162,7 @@ public class SensorService extends Service implements SensorEventListener {
 //        }else if(delta<5 && delta > 4){
 //            Log.i("深睡",""+delta) ;
 //        }else if(delta < 0.5){
-        Log.i("test", "" + delta);
+        //Log.i("test", "" + delta);
 //        }
         //TODO
         callback.onDataChange(String.valueOf(delta));

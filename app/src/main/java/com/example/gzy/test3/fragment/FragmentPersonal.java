@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.example.gzy.test3.R;
 
+import com.example.gzy.test3.activity.LoginActivity;
 import com.example.gzy.test3.activity.ModifyInfoActivity;
 import com.example.gzy.test3.activity.SelectPicPopupWindow;
 import com.example.gzy.test3.model.UserModel;
@@ -60,9 +61,9 @@ import static cn.bmob.v3.Bmob.getApplicationContext;
 
 //调用Bmobobject类中的setValue（key，value）方法，只需要传入key及想要更新的值即可
 public class FragmentPersonal extends Fragment implements View.OnClickListener {
-    TextView mTVname, mTVage, mTVsex, mTVweight, mTVheight, mTVemail;
+    TextView mTVname;
     TextView mTVSetinfo;
-    ImageView mIVsetingo,mIVset;
+    ImageView mIVsetingo, mIVset;
     View view;
     UserPresenterImpl userPresenter;
     CircleImageView mHeadImage;
@@ -78,25 +79,24 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
         userPresenter = new UserPresenterImpl();
 
 
-
-        mTVname=(TextView) view.findViewById(R.id.tv_name);
+        mTVname = (TextView) view.findViewById(R.id.tv_name);
         mTVname.setText(userPresenter.<String>queryData("username"));
         //TODO 查询本地,没有照片查询bmob，下载保存本地
         mHeadImage = (CircleImageView) view.findViewById(R.id.head_image);
         //  mHeadImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.info_headimage)).getBitmap());
-       //BmobFile bmobfile = (BmobFile) userPresenter.<BmobFile>queryData("User_pic");
+        //BmobFile bmobfile = (BmobFile) userPresenter.<BmobFile>queryData("User_pic");
 
-        if(userPresenter.isLogin()){
+        if (userPresenter.isLogin()) {
             UserModel user = BmobUser.getCurrentUser(UserModel.class);
             // user = BmobUser.getCurrentUser(UserModel.class);
-             bmobfile =user.getUser_pic();
-        }else{
-            Log.i("mess","未登录");
+            bmobfile = user.getUser_pic();
+        } else {
+            Log.i("mess", "未登录");
         }
         final File saveFile = new File(Environment.getExternalStorageDirectory()
-                +"/"+ getApplicationContext().getResources().getString(R.string.default_file_name), "head_image");
-        if(bmobfile!=null && !saveFile.exists()){
-         //   Log.i("bmobfile",bmobfile.getFilename());
+                + "/" + getApplicationContext().getResources().getString(R.string.default_file_name), "head_image");
+        if (bmobfile != null && !saveFile.exists()) {
+            //   Log.i("bmobfile",bmobfile.getFilename());
 
             /**耗时操作，等待下载
              * 我实在太聪明了，哈哈哈哈
@@ -105,13 +105,13 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
                 @Override
                 public void run() {
 
-                        handler.sendEmptyMessage(-1);
+                    handler.sendEmptyMessage(-1);
 
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     try {
                         mHeadImage.setImageBitmap(decodeFile(saveFile));
                     } catch (IOException e) {
@@ -122,16 +122,16 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
             }).start();
 
         }
-            if(saveFile.exists()&&userPresenter.isLogin()){
-                try {
-                    mHeadImage.setImageBitmap(decodeFile(saveFile));
+        if (saveFile.exists() && userPresenter.isLogin()) {
+            try {
+                mHeadImage.setImageBitmap(decodeFile(saveFile));
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }else {
-                mHeadImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.info_headimage)).getBitmap());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        } else {
+            mHeadImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.info_headimage)).getBitmap());
+        }
 
         //   mHeadImage.setImageURI(Uri.parse("file://"+filepath));
 
@@ -142,20 +142,21 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
         mTVSetinfo.setOnClickListener(this);
         mIVsetingo = (ImageView) view.findViewById(R.id.iv_setinfo);
         mIVsetingo.setOnClickListener(this);
-        mIVset=(ImageView) view.findViewById(R.id.iv_set);
+        mIVset = (ImageView) view.findViewById(R.id.iv_set);
         mIVset.setOnClickListener(this);
         return view;
 
     }
-  @SuppressLint("HandlerLeak")
-  Handler handler=new Handler(){
-      @Override
-      public void handleMessage(Message msg) {
-          super.handleMessage(msg);
-          userPresenter.downloadFile(bmobfile);
 
-      }
-  };
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            userPresenter.downloadFile(bmobfile);
+
+        }
+    };
 
     @Override
     public void onClick(View view) {
@@ -166,25 +167,50 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
                 startActivity(intent1);
                 break;
             case R.id.head_image:
-                Matisse.from(getActivity())
-                        .choose(MimeType.ofImage(), false) // 选择 mime 的类型
-                        .countable(true)
-                        .addFilter(new GifSizeFilter())
+                if (!userPresenter.isLogin()) {
+                    final AlertDialog.Builder alterDiaglog = new AlertDialog.Builder(getActivity());
+                    alterDiaglog.setIcon(R.drawable.zuji);//图标
+                    alterDiaglog.setTitle("提示");//文字
+                    alterDiaglog.setMessage("请先登入");//提示消息
+                    //积极的选择
+                    alterDiaglog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                        }
+                    });
+                    //消极的选择
+                    alterDiaglog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
 
-                        .maxSelectable(1) // 图片选择的最多数量
-                        .gridExpectedSize((int) getResources().getDimension(R.dimen.imageSelectDimen))
-                        .capture(true)//选择照片时，是否显示拍照
-                        .captureStrategy(new CaptureStrategy(true, "com.example.gzy.test3.fileProvider"))
-                        //参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
-                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                        .thumbnailScale(0.85f) // 缩略图的比例
-                        .imageEngine(new GlideLoadEngine()) // 使用的图片加载引擎
-                        .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码
-            break;
+                    //显示
+                    alterDiaglog.show();
+
+
+                } else {
+                    Matisse.from(getActivity())
+                            .choose(MimeType.ofImage(), false) // 选择 mime 的类型
+                            .countable(true)
+                            .addFilter(new GifSizeFilter())
+
+                            .maxSelectable(1) // 图片选择的最多数量
+                            .gridExpectedSize((int) getResources().getDimension(R.dimen.imageSelectDimen))
+                            .capture(true)//选择照片时，是否显示拍照
+                            .captureStrategy(new CaptureStrategy(true, "com.example.gzy.test3.fileProvider"))
+                            //参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
+                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                            .thumbnailScale(0.85f) // 缩略图的比例
+                            .imageEngine(new GlideLoadEngine()) // 使用的图片加载引擎
+                            .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码
+                }
+                break;
             case R.id.iv_set:
                 //TODO
-               Intent intent3=new Intent(getActivity(),SelectPicPopupWindow.class);
-               startActivity(intent3);
+                Intent intent3 = new Intent(getActivity(), SelectPicPopupWindow.class);
+                startActivity(intent3);
                 break;
         }
     }
@@ -221,10 +247,11 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
      */
     /**
      * 根据 路径 得到 file 得到 bitmap
+     *
      * @return
      * @throws IOException
      */
-    public static Bitmap decodeFile(File f) throws IOException{
+    public static Bitmap decodeFile(File f) throws IOException {
         Bitmap b = null;
         int IMAGE_MAX_SIZE = 600;
 
@@ -252,11 +279,10 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
     }
 
 
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         List<Uri> mSelected;
-        if ( resultCode == RESULT_OK && requestCode==REQUEST_CODE_CHOOSE) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CHOOSE) {
             mSelected = Matisse.obtainResult(data);
             Log.d("Matisse", "mSelected: " + mSelected.get(0).toString());
             mHeadImage.setImageURI(mSelected.get(0));

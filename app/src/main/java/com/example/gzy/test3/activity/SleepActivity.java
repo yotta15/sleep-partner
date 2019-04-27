@@ -1,29 +1,31 @@
 package com.example.gzy.test3.activity;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.example.gzy.test3.R;
-import com.example.gzy.test3.util.ScreenUtil;
+import com.example.gzy.test3.service.AudioService;
+import com.example.gzy.test3.service.SensorService;
+import com.example.gzy.test3.service.WriteDataUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,26 +37,53 @@ import java.util.Date;
  */
 public class SleepActivity extends AppCompatActivity implements View.OnClickListener,View.OnLongClickListener,Runnable{
     private ImageView imageView,medit;
-    private TextView tvTime,tvShowalarm;
+    private TextView tvTime,tvShowalarm,tvShowtip;
     TimePickerView pvTime;
     Button mbtfinish;
     Handler handler =new Handler();
     private String DEFAULT_TIME_FORMAT = "HH:mm";
+    AudioServiceConn audioServiceConn;
+    SensorServiceConn sensorServiceConn;
+
+    private AudioService.MyBinder audiobinder;
+    private SensorService.MyBinder sensorbinder;
+    private  WriteDataUtil writeDataUtil;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStatusBar();
         setContentView(R.layout.sleepactivity);
         initview();
-
+        bindservice();
         handler.post(this);
 
+
+        writeDataUtil=new WriteDataUtil();
+
+        writeDataUtil.onCreate(getApplicationContext());
+//        startRecord();
+
+        //writeDataUtil.getBatteryinfo(getApplicationContext());
 //        imageView = (ImageView) findViewById(R.id.sleep_background);
 //        imageView.setScaleType(ImageView.ScaleType. CENTER_CROP);
 
     }
 
+    public void bindservice(){
+        Intent intent1 = new Intent(this, AudioService.class);
+       audioServiceConn= new AudioServiceConn();
+        bindService(intent1, audioServiceConn, BIND_AUTO_CREATE);
+
+        Intent intent2 = new Intent(this, SensorService.class);
+         sensorServiceConn = new SensorServiceConn();
+        this.bindService(intent2, sensorServiceConn, BIND_AUTO_CREATE);
+
+
+    }
+
     public void initview() {
+
        // Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/huawen.ttf");
         Typeface tf2 = Typeface.createFromAsset(getAssets(), "fonts/youyuan.ttf");
         tvTime = (TextView) findViewById(R.id.tv_showtime);
@@ -65,6 +94,9 @@ public class SleepActivity extends AppCompatActivity implements View.OnClickList
         mbtfinish.setOnLongClickListener(this);
         medit=(ImageView)findViewById(R.id.iv_edit);
         medit.setOnClickListener(this);
+        tvShowtip=(TextView) findViewById(R.id.tv_showtip);
+        String[] tips=getApplicationContext().getResources().getStringArray(R.array.tips);
+        tvShowtip.setText(tips[(int)(Math.random()*tips.length)]);
 
         final SimpleDateFormat sdf = new SimpleDateFormat(DEFAULT_TIME_FORMAT);
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
@@ -110,7 +142,56 @@ public class SleepActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
+    private class SensorServiceConn implements ServiceConnection {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            sensorbinder = (SensorService.MyBinder) iBinder;
+            sensorbinder.startRecord();
+            SensorService sensorService = sensorbinder.getService();
 
+            sensorService.setCallback(new SensorService.Callback() {
+                @Override
+                public void onDataChange(String data) {
+
+                    writeDataUtil.SensorData(data);
+
+                }
+            });
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            Log.i("conn","disconneted");
+        }
+    }
+
+    private class AudioServiceConn implements ServiceConnection {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder iBinder) {
+            audiobinder = (AudioService.MyBinder) iBinder;
+            audiobinder.startRecord();
+            AudioService audioService = audiobinder.getservice();
+            audioService.setCallback(new AudioService.Callback() {
+                @Override
+                public void onDataChange(String data) {
+                    writeDataUtil.audioData(data);
+                    //记录
+                }
+
+                @Override
+                public void onVolumeChange(double data) {
+                    writeDataUtil.volumeData(data);
+                }
+
+            });
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    }
     @Override
     public void onClick(View view) {
         switch(view.getId()){
@@ -122,7 +203,7 @@ public class SleepActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void run() {
-        handler.postDelayed(this, 1000);
+        handler.postDelayed(this, 60000);
         SimpleDateFormat dateFormatter = new SimpleDateFormat(DEFAULT_TIME_FORMAT);
         String  time = dateFormatter.format(Calendar.getInstance().getTime());
         tvTime.setText(time);
@@ -130,6 +211,11 @@ public class SleepActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onLongClick(View view) {
+        sensorbinder.stopitself();
+        audiobinder.stopRecord();
+        writeDataUtil.ondestroy();
+        unbindService(audioServiceConn);
+        unbindService(sensorServiceConn);
         finish();
         return false;
     }
