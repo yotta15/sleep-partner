@@ -109,7 +109,8 @@ public class ConvertJsonUtil {
                 count2++;
             }
         }
-        score=(count1/sleepstates.size()+count3/sleepstates.size())*50+count2/sleepstates.size()*50;
+        float size=(float) sleepstates.size();
+        score=(count1/size+count3/size)*50f+count2/size*50f;
         return (int)score;
     }
 
@@ -121,6 +122,7 @@ public class ConvertJsonUtil {
         sleepInfo.setSleepstate(sleepstates);
         //todo  存储在云数据库
         SleepModel sleepModel = new SleepModel();
+        sleepModel.setSleepdate(sleepInfo.getSleepdate());
         sleepModel.setEndtime(sleepInfo.getEndtime());
         sleepModel.setStarttime(sleepInfo.getStarttime());
         sleepModel.setScore(countScore());
@@ -142,7 +144,7 @@ public class ConvertJsonUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");// HH:mm:ss
 //获取当前时间
         Date date = new Date(System.currentTimeMillis());
-        String filename = "data_" + simpleDateFormat.format(date) + ".json";
+        String filename = "sleepdata " + simpleDateFormat.format(date) + ".json";
         File saveFile = new File(Environment.getExternalStorageDirectory()
                 + "/" + "SleepPartner", filename);
         if (!saveFile.exists()) {

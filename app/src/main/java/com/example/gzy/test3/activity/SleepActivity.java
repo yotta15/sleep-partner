@@ -1,6 +1,7 @@
 package com.example.gzy.test3.activity;
 
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
@@ -216,7 +217,9 @@ public class SleepActivity extends AppCompatActivity implements View.OnClickList
         writeDataUtil.ondestroy();
         unbindService(audioServiceConn);
         unbindService(sensorServiceConn);
-        finish();
+        Intent intent=new Intent(this, ContentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         return false;
     }
 }

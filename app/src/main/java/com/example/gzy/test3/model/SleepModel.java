@@ -10,6 +10,16 @@ import cn.bmob.v3.BmobObject;
  */
 public class SleepModel extends BmobObject{
     private UserModel user;
+    private String sleepdate;
+
+    public String getSleepdate() {
+        return sleepdate;
+    }
+
+    public void setSleepdate(String sleepdate) {
+        this.sleepdate = sleepdate;
+    }
+
     private String starttime;
     private String endtime;
     //private String alarmTime;

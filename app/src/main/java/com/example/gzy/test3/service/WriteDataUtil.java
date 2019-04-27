@@ -35,7 +35,7 @@ public class WriteDataUtil {
     private int[] count = new int[4];
     private ConvertJsonUtil convertJsonUtil;
     private String DEFAULT_TIME_FORMAT = "HH:mm";
-    private String DEFAULT_DATE_FORMAT = "YYYY-MM-DD";
+    private String DEFAULT_DATE_FORMAT = "YYYY-MM-dd";
     int delaymills;
     SQLiteDatabase db;
     String LastUpdateTime;
