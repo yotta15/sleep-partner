@@ -3,16 +3,10 @@ package com.example.gzy.test3.pageslice;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 
-import com.example.gzy.test3.bardata.LocalJsonAnalyzeUtil;
+import com.example.gzy.test3.util.LocalJsonAnalyzeUtil;
 import com.example.gzy.test3.model.SleepInfo;
 import com.example.gzy.test3.model.SleepstateBean;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 
 import java.io.File;
 import java.util.ArrayList;

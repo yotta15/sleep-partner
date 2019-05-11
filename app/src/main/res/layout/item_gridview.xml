@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    android:descendantFocusability="blocksDescendants"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,8 +40,8 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginStart="@dimen/dp_8"
-                    android:layout_alignBottom="@id/rsv_rating"
-                    android:layout_alignTop="@id/rsv_rating"
+                    android:layout_alignBottom="@id/show_rsv_rating"
+                    android:layout_alignTop="@id/show_rsv_rating"
                     android:textColor="@color/holo_blue_light"
                     android:textSize="28sp" />
 
@@ -49,7 +49,7 @@
 
 
                 <com.idlestar.ratingstar.RatingStarView
-                    android:id="@+id/rsv_rating"
+                    android:id="@+id/show_rsv_rating"
                     android:layout_width="173dp"
                     android:layout_height="29dp"
                     android:layout_marginEnd="@dimen/dp_8"
@@ -88,20 +88,65 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                 </com.github.mikephil.charting.charts.BarChart>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:id="@+id/tv_text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="醒"
+                        android:textColor="@color/orange"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="浅睡"
+                        android:textColor="@color/cao_green"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_text3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="深睡"
+                        android:textColor="@color/holo_blue_light"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_text4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="未检测到"
+                        android:textColor="@color/red"
+                        android:textSize="14sp" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:orientation="horizontal">
 
-                    <!--<TextView-->
-                        <!--android:layout_width="10dp"-->
-                        <!--android:layout_height="10dp"-->
-                        <!--android:layout_gravity="center_vertical"-->
-                        <!--android:gravity="center"-->
-                        <!--android:background="@drawable/circle_shape"-->
-                        <!--/>-->
                     <ImageView
+                        android:layout_marginStart="@dimen/dp_10"
                         android:id="@+id/iv_starttime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

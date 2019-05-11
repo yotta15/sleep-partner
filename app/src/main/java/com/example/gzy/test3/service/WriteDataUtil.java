@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.example.gzy.test3.R;
+import com.example.gzy.test3.model.SleepInfo;
 import com.example.gzy.test3.util.SystemHelper;
 
 import java.text.SimpleDateFormat;
@@ -271,5 +272,8 @@ public class WriteDataUtil {
             deletedata("volume_info",null,null);
             db.close();
         }
+    }
+    public SleepInfo getSleepinfo(){
+        return convertJsonUtil.getSleepInfo();
     }
 }

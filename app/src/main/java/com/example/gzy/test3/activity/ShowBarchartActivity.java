@@ -1,24 +1,24 @@
-package com.example.gzy.test3.pageslice;
+package com.example.gzy.test3.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.gzy.test3.R;
-import com.example.gzy.test3.activity.ShowBarchartActivity;
 import com.example.gzy.test3.bardata.MyBarDataSet;
-import com.example.gzy.test3.fragment.FragmentReport;
+import com.example.gzy.test3.model.SleepInfo;
 import com.example.gzy.test3.model.SleepstateBean;
+import com.example.gzy.test3.util.LocalJsonAnalyzeUtil;
+import com.githang.statusbar.StatusBarCompat;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -31,117 +31,134 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.idlestar.ratingstar.RatingStarView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
- * created by gzy on 2019/4/15.
+ * created by gzy on 2019/5/8.
  * Describle;
  */
-public class GridViewAdapter extends BaseAdapter {
-    private List<DataBean> dataList;
+public class ShowBarchartActivity extends AppCompatActivity {
+    SleepInfo sleepInfo;
     private YAxis leftAxis;             //左侧Y轴
     private YAxis rightAxis;            //右侧Y轴
     private XAxis xAxis;                //X轴
     private Legend legend;              //图例
+    BarChart barChart;
+    TextView tv_score, tv_starttime, tv_endtime, tv_totaltime, tv_noise;
+    ImageView iv_starttime, iv_endtime;
+    RatingStarView rsv_rating;
+    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 
-//    List<Integer> yValues = new ArrayList<>();
-//    ;
-//    List<String> xValues = new ArrayList<>();
-//    ;
-//
-//    List<SleepstateBean> sleepstateBeans;
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.white));
+        setContentView(R.layout.activity_showbarchart);
+        Intent intent = getIntent();
 
-    public GridViewAdapter(List<DataBean> datas, int page, Context context) {
-        dataList = new ArrayList<>();
-        //start end分别代表要显示的数组在总数据List中的开始和结束位置
-        int start = page * FragmentReport.item_grid_num;
-        int end = start + FragmentReport.item_grid_num;
-        while ((start < datas.size()) && (start < end)) {
-            dataList.add(datas.get(start));
-            start++;
+        Bundle bundle = intent.getExtras();
+        assert bundle != null;
+        sleepInfo = (SleepInfo) bundle.getSerializable("sleepinfo");
+        barChart = (BarChart) findViewById(R.id.activity_barchart);
+        tv_score = (TextView) findViewById(R.id.tv_show_score);
+        LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600);
+        tvParams.gravity = Gravity.CENTER_HORIZONTAL;
+        tvParams.gravity = Gravity.CENTER_VERTICAL;
+        barChart.setLayoutParams(tvParams);
+
+        rsv_rating = (RatingStarView) findViewById(R.id.show_rsv_rating);
+        tv_starttime = (TextView) findViewById(R.id.tv_show_starttime);
+        iv_starttime = (ImageView) findViewById(R.id.iv_startStandard);
+        tv_endtime = (TextView) findViewById(R.id.tv_show_endtime);
+        iv_endtime = (ImageView) findViewById(R.id.iv_endStandard);
+
+        tv_totaltime = (TextView) findViewById(R.id.tv_show_totaltime);
+        tv_noise = (TextView) findViewById(R.id.tv_show_noise);
+
+        initBarChart(barChart);
+        showBarChart(sleepInfo.getSleepstate(), "", getApplicationContext(), barChart);
+
+        tv_score.setText(String.valueOf(sleepInfo.getScore()));
+        //百分制转化为五分制
+        rsv_rating.setRating(sleepInfo.getScore() / 20.0f);
+        String[] str1 = sleepInfo.getStarttime().split(":");
+        String[] str2 = sleepInfo.getEndtime().split(":");
+
+        tv_noise.setText(sleepInfo.getNoise());
+        tv_starttime.setText(sleepInfo.getStarttime());
+        tv_endtime.setText(sleepInfo.getEndtime());
+        tv_totaltime.setText(countTotalSleep(sleepInfo.getStarttime(), sleepInfo.getEndtime()));
+
+        String startStandard = LocalJsonAnalyzeUtil.getStandard(getApplicationContext(), "StarttimeSleep");
+        String tipStartTime = tipStandard(startStandard);
+        iv_starttime.setImageResource(tipStartTime.equals("normal") ? R.drawable.standard : tipStartTime.equals("up")
+                ? R.drawable.uparrow : R.drawable.downarrow);
+
+        String endStandard = LocalJsonAnalyzeUtil.getStandard(getApplicationContext(), "EndtimeSleep");
+        String tipsEndTime = tipStandard(endStandard);
+        iv_endtime.setImageResource(tipsEndTime.equals("normal") ? R.drawable.standard : tipsEndTime.equals("up")
+                ? R.drawable.uparrow : R.drawable.downarrow);
+        ImageView iv_return=(ImageView)findViewById(R.id.iv_show_return);
+        iv_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(), ContentActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public String tipStandard(String standard) {
+        String[] str = standard.split("-");
+        String tipStandard = "";
+        try {
+            Date date = df.parse(sleepInfo.getStarttime());
+            if (date.getTime() <= df.parse(str[1]).getTime() && date.getTime() >= df.parse(str[0]).getTime()) {
+                tipStandard = "normal";
+            } else if (date.getTime() <= df.parse(str[0]).getTime()) {
+                tipStandard = "up";
+            } else if (date.getTime() >= df.parse(str[1]).getTime()) {
+                tipStandard = "down";
+            }
+        } catch (ParseException e) {
+            tipStandard = "";
+            e.printStackTrace();
         }
-        DataUtil c = new DataUtil();
-//        sleepstateBeans = c.returnlist(context);
-//
-//        for (SleepstateBean statebean : sleepstateBeans) {
-//            xValues.add(statebean.getSleeptime());
-//        }
+        return tipStandard;
     }
 
-    @Override
-    public int getCount() {
-        return dataList.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return dataList.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View itemView, final ViewGroup viewGroup) {
-        ViewHolder mHolder;
-        if (itemView == null) {
-            mHolder = new ViewHolder();
-            itemView = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.item_gridview, viewGroup, false);
-            mHolder.barChart = (BarChart) itemView.findViewById(R.id.item_barchart);
-            LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(900, 600);
-            tvParams.gravity = Gravity.CENTER_HORIZONTAL;
-            tvParams.gravity = Gravity.CENTER_VERTICAL;
-            mHolder.barChart.setLayoutParams(tvParams);
-
-            mHolder.tv_score = (TextView) itemView.findViewById(R.id.tv_score);
-
-            mHolder.tv_text = (TextView) itemView.findViewById(R.id.tv_text);
-            mHolder.rsv_rating = (RatingStarView) itemView.findViewById(R.id.show_rsv_rating);
-            mHolder.tv_starttime=(TextView) itemView.findViewById(R.id.tv_starttime);
-            mHolder.tv_endtime=(TextView) itemView.findViewById(R.id.tv_endtime);
-            mHolder.iv_starttime=(ImageView)itemView.findViewById(R.id.iv_starttime);
-            mHolder.iv_endtime=(ImageView)itemView.findViewById(R.id.iv_endtime);
-            itemView.setTag(mHolder);
+    public String countTotalSleep(String strTime1, String strTime2) {
+        Date start = null;
+        Date end = null;
+        try {
+            start = df.parse(strTime1);
+            end = df.parse(strTime2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (start.getTime() < end.getTime()) {
+            long l = Math.abs(start.getTime() - end.getTime());       //获取时间差
+            long day = l / (24 * 60 * 60 * 1000);
+            long hour = (l / (60 * 60 * 1000) + day * 24);
+            long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
+            return hour + ":" + min;
         } else {
-            mHolder = (ViewHolder) itemView.getTag();
+            Calendar c = Calendar.getInstance();
+            c.setTime(end);
+            c.add(Calendar.DAY_OF_MONTH, 1);
+            long l = (c.getTimeInMillis() - start.getTime());       //获取时间差
+            long day = l / (24 * 60 * 60 * 1000);
+            long hour = (l / (60 * 60 * 1000) + day * 24);
+            long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
+            return hour + ":" + min;
         }
-        final DataBean bean = dataList.get(i);
 
-        if (bean != null) {
-
-            initBarChart(mHolder.barChart);
-            showBarChart(bean.sleepInfo.getSleepstate(), "", viewGroup.getContext(), mHolder.barChart);
-            mHolder.tv_text.setText(bean.sleepInfo.getSleepdate());
-            mHolder.tv_score.setText(String.valueOf(bean.sleepInfo.getScore()));
-            //百分制转化为五分制
-            mHolder.rsv_rating.setRating(bean.sleepInfo.getScore()/20.0f);
-            String[] str1=bean.sleepInfo.getStarttime().split(":");
-            String[] str2=bean.sleepInfo.getEndtime().split(":");
-
-            mHolder.iv_starttime.setImageResource((Integer.parseInt(str1[0])>19||(Integer.parseInt(str1[0])<6))?
-                    R.drawable.moon:R.drawable.sun);
-            mHolder.iv_endtime.setImageResource((Integer.parseInt(str2[0])>19||(Integer.parseInt(str2[0])<6))?
-                    R.drawable.moon:R.drawable.sun);
-            mHolder.tv_starttime.setText("睡觉时间  "+bean.sleepInfo.getStarttime());
-            mHolder.tv_endtime.setText("起床时间  "+bean.sleepInfo.getEndtime());
-
-        }
-        return itemView;
-    }
-
-    private class ViewHolder {
-        private TextView tv_score;
-        private ImageView iv_starttime;
-        private ImageView iv_endtime;
-        private BarChart barChart;
-        private TextView tv_text;
-        private RatingStarView rsv_rating;
-        private TextView tv_starttime;
-        private TextView tv_endtime;
     }
 
     /**
@@ -188,11 +205,11 @@ public class GridViewAdapter extends BaseAdapter {
 
         xAxis.setAxisMinimum(0f);
         // xAxis.setAxisMaximum(xValues.size());
-      //将X轴的值显示在中央
+        //将X轴的值显示在中央
         xAxis.setCenterAxisLabels(true);
         //保证Y轴从0开始，不然会上移一点
-    //        leftAxis.setAxisMinimum(0f);
-    //        rightAxis.setAxisMinimum(0f);
+        //        leftAxis.setAxisMinimum(0f);
+        //        rightAxis.setAxisMinimum(0f);
 
         //不绘制X Y轴线条
         xAxis.setDrawAxisLine(false);
@@ -265,5 +282,4 @@ public class GridViewAdapter extends BaseAdapter {
 //        barDataSet.setValueTextSize(10f);
 //        barDataSet.setValueTextColor(color);
     }
-
 }

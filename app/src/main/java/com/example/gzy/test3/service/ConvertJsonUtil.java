@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +29,7 @@ public class ConvertJsonUtil {
     SleepInfo sleepInfo = new SleepInfo();
     List<SleepstateBean> sleepstates = new ArrayList<>();
     SleepPresenter sleepPresenter=new SleepPresenter();
+    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 
     //单例模式，没有<T>就不知道T是从何而来的
     public <T> void praseJson(String key, T value) {
@@ -110,7 +112,7 @@ public class ConvertJsonUtil {
             }
         }
         float size=(float) sleepstates.size();
-        score=(count1/size+count3/size)*50f+count2/size*50f;
+        score=(count1/size+count3/size)*30f+count2/size*70f;
         return (int)score;
     }
 
@@ -126,6 +128,8 @@ public class ConvertJsonUtil {
         sleepModel.setEndtime(sleepInfo.getEndtime());
         sleepModel.setStarttime(sleepInfo.getStarttime());
         sleepModel.setScore(countScore());
+        sleepModel.setTotalsleep(countTotalSleep(sleepInfo.getStarttime(),sleepInfo.getEndtime()));
+
         sleepPresenter.saveSleep(sleepModel);
 
         Gson gson = new GsonBuilder().serializeNulls().create();
@@ -138,7 +142,34 @@ public class ConvertJsonUtil {
         //TODO 开启一个新线程延时中止该服务
         // getApplicationContext().stopService
     }
-
+    public String countTotalSleep(String strTime1,String strTime2){
+        Date start = null;
+        Date end=null;
+        Date oneday=null;
+        try {
+            start = df.parse(strTime1);
+            end=df.parse(strTime2);
+            oneday=df.parse("24:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(start.getTime()<end.getTime()){
+            long l= Math.abs(start.getTime()-end.getTime());       //获取时间差
+            long day=l/(24*60*60*1000);
+            long hour=(l/(60*60*1000)+day*24);
+            long min=((l/(60*1000))-day*24*60-hour*60);
+            return hour+":"+min;
+        }else {
+            Calendar c=Calendar.getInstance();
+            c.setTime(end);
+            c.add(Calendar.DAY_OF_MONTH, 1);
+            long l= (c.getTimeInMillis()-start.getTime());       //获取时间差
+            long day=l/(24*60*60*1000);
+            long hour=(l/(60*60*1000)+day*24);
+            long min=((l/(60*1000))-day*24*60-hour*60);
+            return hour+":"+min;
+        }
+    }
     public File createFile(String jsonstr) throws IOException {
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");// HH:mm:ss
@@ -156,4 +187,7 @@ public class ConvertJsonUtil {
         return saveFile;
     }
 
+    public SleepInfo getSleepInfo() {
+        return sleepInfo;
+    }
 }

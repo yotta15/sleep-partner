@@ -114,7 +114,15 @@
         <!--android:configChanges="orientation|screenSize"/>-->
         <!--<activity android:name="com.foamtrace.photopicker.PhotoPreviewActivity"-->
         <!--android:theme="@style/Theme.AppCompat.NoActionBar" />-->
-
+        <activity
+            android:name=".activity.ShowBarchartActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.ShowSleepInfoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.Test"
+            android:exported="true" />
         <activity
             android:name=".activity.ModifyInfoActivity"
             android:exported="true" />

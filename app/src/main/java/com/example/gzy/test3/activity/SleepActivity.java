@@ -217,7 +217,8 @@ public class SleepActivity extends AppCompatActivity implements View.OnClickList
         writeDataUtil.ondestroy();
         unbindService(audioServiceConn);
         unbindService(sensorServiceConn);
-        Intent intent=new Intent(this, ContentActivity.class);
+        Intent intent=new Intent(this, ShowBarchartActivity.class);
+        intent.putExtra("sleepinfo", writeDataUtil.getSleepinfo());
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         return false;

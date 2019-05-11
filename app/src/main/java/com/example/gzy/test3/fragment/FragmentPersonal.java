@@ -98,9 +98,7 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
         if (bmobfile != null && !saveFile.exists()) {
             //   Log.i("bmobfile",bmobfile.getFilename());
 
-            /**耗时操作，等待下载
-             * 我实在太聪明了，哈哈哈哈
-             */
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -122,7 +120,7 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
             }).start();
 
         }
-        if (saveFile.exists() && userPresenter.isLogin()) {
+        if (saveFile.exists() && userPresenter.isLogin() && bmobfile!=null) {
             try {
                 mHeadImage.setImageBitmap(decodeFile(saveFile));
 

@@ -1,10 +1,12 @@
 package com.example.gzy.test3.model;
 
+import java.io.Serializable;
+
 /**
  * created by gzy on 2019/4/4.
  * Describle;
  */
-public class SleepstateBean {
+public class SleepstateBean implements Serializable{
     /**
      * fvalue : 8
      * sleeptime : 22:.06:30

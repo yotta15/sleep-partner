@@ -1,5 +1,6 @@
 package com.example.gzy.test3.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
  *         sleeptime    睡眠时间
  *     }
  */
-public class SleepInfo {
+public class SleepInfo  implements Serializable{
     //todo  补充：闹钟、梦境
     /**
      * sleepdate : 2018-01-03

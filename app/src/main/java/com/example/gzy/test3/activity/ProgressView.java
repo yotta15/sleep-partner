@@ -10,6 +10,8 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.example.gzy.test3.util.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 public class ProgressView extends View {

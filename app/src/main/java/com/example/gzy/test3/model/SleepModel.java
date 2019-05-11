@@ -21,7 +21,17 @@ public class SleepModel extends BmobObject{
     }
 
     private String starttime;
+
+    public String getTotalsleep() {
+        return totalsleep;
+    }
+
+    public void setTotalsleep(String totalsleep) {
+        this.totalsleep = totalsleep;
+    }
+
     private String endtime;
+    private String totalsleep;
     //private String alarmTime;
 
     private String dreamland;
