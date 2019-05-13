@@ -29,6 +29,7 @@ import com.example.gzy.test3.R;
 import com.example.gzy.test3.activity.LoginActivity;
 import com.example.gzy.test3.activity.ModifyInfoActivity;
 import com.example.gzy.test3.activity.SelectPicPopupWindow;
+import com.example.gzy.test3.activity.ShowSleepInfoActivity;
 import com.example.gzy.test3.model.UserModel;
 import com.example.gzy.test3.presenter.UserPresenterImpl;
 import com.example.gzy.test3.bardata.GifSizeFilter;
@@ -142,8 +143,16 @@ public class FragmentPersonal extends Fragment implements View.OnClickListener {
         mIVsetingo.setOnClickListener(this);
         mIVset = (ImageView) view.findViewById(R.id.iv_set);
         mIVset.setOnClickListener(this);
-        return view;
 
+        ImageView imageView=(ImageView) view.findViewById(R.id.iv_report);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), ShowSleepInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+        return view;
     }
 
     @SuppressLint("HandlerLeak")

@@ -1,9 +1,12 @@
 package com.example.gzy.test3.activity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +22,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import cn.bmob.v3.Bmob;
+
+import static android.view.KeyEvent.KEYCODE_BACK;
 
 /**
  * created by gzy on 2019/5/11.
@@ -39,12 +44,16 @@ public class ShowSleepInfoActivity extends AppCompatActivity{
         mTvname=(TextView) findViewById(R.id.Sleepinfo_username);
         mTvname.setText(userPresenter.<String>queryData("username"));
 
+        Typeface tf2 = Typeface.createFromAsset(getAssets(), "fonts/youyuan.ttf");
         mTvweek=(TextView) findViewById(R.id.tv_weekinfo);
         mTvweek.setText("本周:"+getTimeInterval());
         mTvmonth=(TextView)findViewById(R.id.tv_monthinfo);
         mTvmonth.setText("本月:"+getTimeMonth());
         mTvyear=(TextView)findViewById(R.id.tv_yearinfo);
         mTvyear.setText("本年:"+getTimeYear());
+        mTvweek.setTypeface(tf2);
+        mTvmonth.setTypeface(tf2);
+        mTvyear.setTypeface(tf2);
         mTVshowweek=(TextView)findViewById(R.id.tv_show_weekinfo);
         mTVshowweek.setText("你一共睡了"+
                 LocalJsonAnalyzeUtil.getUserStandard(getApplicationContext(),"week-m-00000"));
@@ -63,6 +72,17 @@ public class ShowSleepInfoActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent=new Intent(this, ContentActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        Log.i("ada","dasdasda");
+        return super.onKeyDown(keyCode, event);
     }
 
     public String getTimeInterval() {

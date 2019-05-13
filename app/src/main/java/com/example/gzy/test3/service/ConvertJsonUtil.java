@@ -112,7 +112,7 @@ public class ConvertJsonUtil {
             }
         }
         float size=(float) sleepstates.size();
-        score=(count1/size+count3/size)*30f+count2/size*70f;
+        score=10f+(count1/size+count3/size)*30f+count2/size*70f;
         return (int)score;
     }
 

@@ -32,7 +32,7 @@ public class SystemHelper {
         BatteryManager batteryManager = (BatteryManager)context.getSystemService(BATTERY_SERVICE);
         int battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);///当前电量百分比
         if(battery>=40){
-            int delaymills=60000;//半分钟
+            int delaymills=45000;
             return delaymills;
         }else{
            int  delaymills=60000;//一分钟
